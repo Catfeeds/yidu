@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>个人中心</title>
+    <meta name="keywords" content="个人中心" />
+    <meta name="description" content="个人中心" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>个人中心</h2>
+	<a href="user.php?act=user_message"><div class="hinf"></div></a>
+	<div class="list"></div>
+	<div class="nav">
+	    <i class="jicon"></i>
+	   	<ul>
+	        <li><a class="clearfix" href="/mobile"><em class="em1 "></em>首页</a></li>
+	        <li ><a href="exchange.php?act=view"><em class="em2"></em>抽奖中心</a></li>
+	        <li><a href="flow.php"><em class="em3"></em>购物车</a></li>
+	        <li class="last"><a href="user.php"><em class="em4"></em>个人中心</a></li>
+	    </ul>
+	</div>
+</div>
+<div class="content">
+	<div class="user">
+		<div class="pic">
+			<img src="{$headimgurl}" onclick="$('#myHead').click();">
+		</div>
+		<form action="" id='myForm' enctype="multipart/form-data">
+		  	<div style="width:0px; height:0px; overflow:hidden;">
+		    	<input type='file' name='headimg' id='myHead' onchange="updateHead();"/>
+		  	</div>
+		</form>
+		<script type="text/javascript">
+			//更新头像
+			function updateHead(){
+				$.ajax({
+				    url: 'user.php?act=update_head',
+				    type: 'POST',
+				    cache: false,
+				    dataType: 'html',
+				    data: new FormData($('#myForm')[0]),
+				    processData: false,
+				    contentType: false,
+				    success: function(res) {
+				    	if(res=='1') location.reload();
+				    }
+				});
+
+			  	/*var fd = new FormData(document.getElementById('myForm'));
+			  	var xhr = new XMLHttpRequest();
+			  	xhr.open('post', 'user.php?act=update_head');
+			  	varxhr.send(fd);
+			  	xhr.onreadystatechange = function(){
+			  		if ( xhr.readyState == 4 && xhr.status == 200 ) {
+			  			var res = xhr.responseText;
+			  			if(res=='1') location.reload();
+			  		}
+			　 	};*/
+			}
+		</script>
+		<h2>{$info.username}</h2>
+		{if $info.is_agent eq 1 && $info.shop_id gt 0}
+			<p>股东</p>
+		{elseif $info.is_agent eq 1}
+			<p>股东</p>
+		{elseif $info.shop_id gt 0}
+			<p>店主</p>
+		{else}
+			<p>会员</p>
+		{/if}
+		{if $info.is_agent eq 1}<p>股东编号{$info.agent_code}</p>{/if}
+		<p>期权：{$stock_right}</p>
+		<div class="user_r">
+			<a class="set" href="user.php?act=profile"></a>
+			{if $info.shop_id gt 0}
+			<a class="myshop" href="user.php?act=shop_index">我的店铺</a>
+			{else}
+			<a class="myshop" href="user.php?act=openshop_index">我要开店</a>
+			{/if}
+		</div>
+	</div>
+	<ul class="us1 clearfix bgc">
+		<li>
+			<a href="user.php?act=account_manage">
+				<div class="pic"><img src="themesmobile/default/images/icon16.png" alt=""></div>
+				<p>余额</p>
+			</a>
+		</li>
+		<li>
+			<a href="user.php?act=account_raply">
+				<div class="pic"><img src="themesmobile/default/images/icon17.png" alt=""></div>
+				<p>提现</p>
+			</a>
+		</li>
+		<li>
+			<a href="user.php?act=pay_points_detail">
+				<div class="pic"><img src="themesmobile/default/images/icon18.png" alt=""></div>
+				<p>购金币</p>
+			</a>
+		</li>
+		<li>
+			<a href="user.php?act=my_bank">
+				<div class="pic"><img src="themesmobile/default/images/icon19.png" alt=""></div>
+				<p>银行卡</p>
+			</a>
+		</li>
+	</ul>
+	<div class="us2 bgc mt">
+		<div class="us2_t clearfix">
+			<span class="on">购物订单</span><span>抽奖订单</span>
+			<a href="user.php?act=order_list">查看全部订单</a>
+		</div>
+		<div class="us_b">
+			<ul class="gow clearfix on">
+				<li><a href="user.php?act=order_list&composite_status=100">
+					<div class="pic"><img src="themesmobile/default/images/icon20.png" alt=""></div>
+					<p>待付款</p>
+				</a></li>
+				<li><a href="user.php?act=order_list&composite_status=101">
+					<div class="pic"><img src="themesmobile/default/images/icon21.png" alt=""></div>
+					<p>待发货</p>
+				</a></li>
+				<li><a href="user.php?act=order_list&composite_status=105">
+					<div class="pic"><img src="themesmobile/default/images/icon22.png" alt=""></div>
+					<p>待收货</p>
+				</a></li>
+				<li><a href="user.php?act=order_list&composite_status=102">
+					<div class="pic"><img src="themesmobile/default/images/icon23.png" alt=""></div>
+					<p>待评价</p>
+				</a></li>
+				<!-- <li><a href="">
+					<div class="pic"><img src="themesmobile/default/images/icon24.png" alt=""></div>
+					<p>退款</p>
+				</a></li> -->
+			</ul>
+			<!-- wenjun start -->
+			<ul class="cou clearfix">
+				<li><a href="user.php?act=order_list&ex=1&composite_status=101">
+					<div class="pic"><img src="themesmobile/default/images/icon20.png" alt=""></div>
+					<p>进行中</p>
+				</a></li>
+				<li><a href="user.php?act=order_list&ex=1&composite_status=105">
+					<div class="pic"><img src="themesmobile/default/images/icon21.png" alt=""></div>
+					<p>已中奖</p>
+				</a></li>
+				<li><a href="user.php?act=order_list&ex=1&composite_status=103">
+					<div class="pic"><img src="themesmobile/default/images/icon22.png" alt=""></div>
+					<p>未中奖</p>
+				</a></li>
+			</ul>
+			<!-- wenjun end -->
+		</div>
+	</div>
+	<div class="us3 bgc mt">
+		<ul class="clearfix">
+			<li>
+				<a href="user.php?act=my_comment">
+					<div class="pic"><img src="themesmobile/default/images/icon25.png" alt=""></div>
+					<p>我的评价</p>
+				</a>
+			</li>
+			<li>
+				<a href="user.php?act=collection_list">
+					<div class="pic"><img src="themesmobile/default/images/icon26.png" alt=""></div>
+					<p>我的收藏</p>
+				</a>
+			</li>
+			<li>
+				<a href="user.php?act=address_list">
+					<div class="pic"><img src="themesmobile/default/images/icon27.png" alt=""></div>
+					<p>收货地址</p>
+				</a>
+			</li>
+			{if $info.is_agent eq 1 || $info.shop_id gt 0}
+			<li>
+				<a href="user.php?act=my_recommend">
+					<div class="pic"><img src="themesmobile/default/images/icon28.png" alt=""></div>
+					<p>我的推荐</p>
+				</a>
+			</li>
+			{/if}
+			{if $info.is_agent eq 1}
+			<li>
+				<a href="user.php?act=agent_index">
+					<div class="pic"><img src="themesmobile/default/images/icon29.png" alt=""></div>
+					<p>股东管理</p>
+				</a>
+			</li>
+			{/if}
+			<li>
+				<a href="user.php?act=my_bonus">
+					<div class="pic"><img src="themesmobile/default/images/icon30.png" alt=""></div>
+					<p>我的分红</p>
+				</a>
+			</li>
+			{if $info.is_agent eq 1 || $info.shop_id gt 0}
+			<li>
+				<a href="user.php?act=my_benefits">
+					<div class="pic"><img src="themesmobile/default/images/icon31.png" alt=""></div>
+					<p>我的分利</p>
+				</a>
+			</li>
+			{/if}
+			<li>
+				<a href="user.php?act=message_list">
+					<div class="pic"><img src="themesmobile/default/images/icon32.png" alt=""></div>
+					<p>留言反馈</p>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="pub"><a href="user.php?act=logout">退出登录</a></div>
+</div>
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$(function(){
+		$('.danx label').click(function(){
+			$(this).toggleClass('on')
+		})
+		$('.us2_t span').click(function(){
+			var num=$(this).index();
+			$(this).siblings().removeClass('on');
+			$(this).addClass('on');
+			$('.us_b ul').removeClass('on');
+			$('.us_b ul').eq(num).addClass('on');
+		});
+	});
+</script>

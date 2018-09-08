@@ -1,0 +1,103 @@
+{if $full_page}
+<!-- $Id: users_list.htm 17053 2010-03-15 06:50:26Z sxc_shop $ -->
+{include file="pageheader.htm"} {insert_scripts files="../js/utils.js,listtable.js,placeholder.js"}
+<div class="form-div">
+	<form action="javascript:searchStockRight()" name="searchForm">
+		<img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+		<span style="position:relative"><input type="text" name="keyword" placeholder="银行名称" /></span>
+		<input type="submit" class="button" value="{$lang.button_search}" />
+	</form>
+</div>
+<form method="POST" action="" name="listForm" onsubmit="return confirm_bath()">
+	<div class="list-div" id="listDiv">
+		{/if}
+		<!--用户列表部分-->
+		<table cellpadding="3" cellspacing="1">
+			<tr>
+				<th>
+					<input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
+					<a href="javascript:listTable.sort('bank_id', 'DESC');">编号</a>
+				</th>
+				<th>
+					<a href="javascript:listTable.sort('bank_name', 'DESC');">银行名称</a>
+				</th>
+				<th>
+					<a href="javascript:listTable.sort('icon', 'DESC');">银行图标</a>
+				</th>
+				<th>{$lang.handler}</th>
+			</tr>
+			{foreach from=$bank_list item=bank}
+			<tr>
+				<td>
+					<input type="checkbox" name="checkboxes[]" value="{$bank.bank_id}" />
+					{$bank.bank_id}
+				</td>
+				<td>
+					<span>{$bank.bank_name|escape}</span>
+				</td>
+				<td>
+					<span>{if $bank.icon}<img src="../{$bank.icon|escape}" width="20" height="20" />{/if}</span>
+				</td>
+				<td align="center">
+					<a href="bank_manage.php?act=edit&id={$bank.bank_id}" title="{$lang.edit}">
+						<img src="images/icon_edit.gif" border="0" height="16" width="16" />
+					</a>
+
+					<a href="javascript:;" onClick="if(confirm('{$lang.drop_confirm}')) location='bank_manage.php?act=remove&id={$bank.bank_id}'" title="{$lang.remove}">
+						<img src="images/icon_drop.gif" border="0" height="16" width="16" />
+					</a>
+				</td>
+			</tr>
+			{foreachelse}
+			<tr>
+				<td class="no-records" colspan="11">{$lang.no_records}</td>
+			</tr>
+			{/foreach}
+			<tr>
+				<td colspan="2">
+					<input type="hidden" name="act" value="batch_remove" />
+					<input type="submit" id="btnSubmit" value="批量删除" disabled="true" class="button" />
+				</td>
+				<td align="right" nowrap="true" colspan="11">{include file="page.htm"}</td>
+			</tr>
+		</table>
+		{if $full_page}
+	</div>
+	<!-- end users list -->
+</form>
+<script type="text/javascript" language="JavaScript">
+<!--
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+{literal}
+onload = function()
+{
+    document.forms['searchForm'].elements['keyword'].focus();
+    // 开始检查订单
+    startCheckOrder();
+}
+
+/**
+ * 搜索用户
+ */
+function searchStockRight()
+{
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+
+function confirm_bath()
+{
+  stockItems = document.getElementsByName('checkboxes[]');
+  cfm = '确认删除吗？';
+  return confirm(cfm);
+}
+//-->
+</script>
+{/literal} {include file="pagefooter.htm"} {/if}

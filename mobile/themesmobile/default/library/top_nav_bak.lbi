@@ -1,0 +1,10 @@
+<div class="list"></div>
+<div class="nav">
+    <i class="jicon"></i>
+   	<ul>
+        <li><a class="clearfix" href="/mobile"><em class="em1 "></em>首页</a></li>
+        <li ><a href="exchange.php?act=view"><em class="em2"></em>抽奖中心</a></li>
+        <li><a href="flow.php"><em class="em3"></em>购物车</a></li>
+        <li class="last"><a href="user.php"><em class="em4"></em>个人中心</a></li>
+    </ul>
+</div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>转出未安置会员</title>
+    <meta name="keywords" content="转出未安置会员" />
+    <meta name="description" content="转出未安置会员" />
+</head>
+<body data-psd-width="840" style="background: #fff;">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>转出未安置会员</h2>
+</div>
+<div class="content">
+	<div class="vip_out bgc pa3">
+		<form action="agent.php?" method="post">
+			<div class="put clearfix">
+				<span>转出会员：</span>
+				<span>{$user_info.user_name}</span>
+				<input type="hidden" name="user_id" id="user_id" value="{$user_info.user_id}">
+			</div>
+			<div class="put clearfix">
+				<span>转入店铺：</span>
+				<select name="shop_id" id="shop_id">
+					<option value="0">请选择转入店铺</option>
+					{foreach from=$shop_list item=shop}
+					<option value="{$shop.shop_id}">{$shop.shop_code}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="fbtn pa3">
+				<input type="hidden" name="act" value="rollout_submit">
+				<input value="转出" class="submit" type="submit">
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		$('.submit').click(function(event) {
+			var shop_id = $('#shop_id').val();
+			if (shop_id == 0) {
+				alert('请选择转入店铺');
+				return false;
+			}
+		});
+	});
+</script>

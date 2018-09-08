@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>添加银行卡</title>
+    <meta name="keywords" content="添加银行卡" />
+    <meta name="description" content="添加银行卡" />
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>添加银行卡</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="tur5">
+		<div class="tur5_list fpx ">
+			<form class="bgc" action="user.php?act=insert_bank" method="post">
+			 	<div class="rzen bgc mt pa3">
+			 		<p>*实名认证</p>
+			 		<select name="bank_id" id="bank_id">
+			 			<option value="0">请选择银行卡</option>
+			 			{if $bank_list}
+			 			{foreach from=$bank_list item=bank name=bank}
+			 			<option value="{$bank.bank_id}">{$bank.bank_name}</option>
+			 			{/foreach}
+			 			{/if}
+			 		</select>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*银行卡号</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="bank_num" id="bank_num">
+			 		</div>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*开户支行</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="bank_branch" id="bank_branch">
+			 		</div>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*姓名</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="bank_user" id="bank_user">
+			 		</div>
+			 	</div>
+			 	<div class="pub">
+			 		<input type="hidden" name="source_url" value="{$source_url}">
+			 		<input type="submit" class="submit" id="submit" value="提交" name="">
+			 	</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		$('#submit').click(function(event) {
+			if ($('#bank_id').val() == 0) {
+				alert('请选择银行卡');
+				return false;
+			}
+			if (!$('#bank_num').val()) {
+				alert('请填写银行卡号');
+				return false;
+			}
+			if (!$('#bank_branch').val()) {
+				alert('请填写开户支行');
+				return false;
+			}
+			if (!$('#bank_user').val()) {
+				alert('请填写姓名');
+				return false;
+			}
+		});
+	});
+</script>

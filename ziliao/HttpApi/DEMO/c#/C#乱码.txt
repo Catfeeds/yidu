@@ -1,0 +1,2 @@
+﻿要对文字进行 Server.UrlEncode 编码
+要加Server.UrlEncode 编码 utf8

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>我的商品</title>
+    <meta name="keywords" content="我的商品" />
+    <meta name="description" content="我的商品" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>我的商品</h2>
+	<div class="txt"><a href="shop.php?act=add_goods">添加</a></div>
+</div>
+<div class="content">
+	<div class="sps bgc sps3">
+		<ul class="sps_list clearfix">
+			<li><a href="shop.php?act=goods_apply_list">待审核（{$wait_sh}）</a></li>
+			<li><a href="shop.php?act=goods_apply_list&sh_type=1">审核通过（{$sh_ok}）</a></li>
+			<li class="on"><a href="shop.php?act=goods_apply_list&sh_type=2">审核不通过（{$sh_fail}）</a></li>
+		</ul>
+	</div>
+	<div class="commodity">
+		<ul class=" on">
+			{if $goods_apply_list}
+			{foreach from=$goods_apply_list item=apply name=apply}
+			<li class="clearfix">
+				<div class="commodity_l">
+					<div class="clearfix commodity_t">
+						<span>商品图片：</span>
+						<div class="pic">
+							{if $apply.goods_img}
+								<img style="height: 100%" src="{$apply.goods_img}">
+							{/if}
+						</div>
+					</div>
+					<p><span>商品价格：</span>{$apply.goods_price}</p>
+					<p><span>商品类别：</span>{$apply.goods_type}</p>
+					<p><span>商品介绍：</span>{$apply.goods_desc}</p>
+					<p><span>不通过原因：</span>{$apply.unpass_reason}</p>
+				</div>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+	{if $goods_apply_list}
+	<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	{else}
+	<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+	{/if}
+</div >
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

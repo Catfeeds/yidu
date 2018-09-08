@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="themesmobile/default/css/iosSelect.css">
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>退款申请</title>
+    <meta name="keywords" content="退款申请" />
+    <meta name="description" content="退款申请" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>提交完成</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="complete">
+		<div class="pic"><img src="themesmobile/default/images/img14.png"></div>
+		<p>退款申请成功，退款成功后款项会退到余额！</p>
+	</div>
+	<div class="pub"><a href="user.php?act=order_list">返回订单列表</a></div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/zepto.js"></script>
+<script src="themesmobile/default/js/iscroll.js"></script>
+<script src="themesmobile/default/js/areaData_v2.js"></script>
+<script src="themesmobile/default/js/iosSelect.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$(function(){
+	})
+</script>

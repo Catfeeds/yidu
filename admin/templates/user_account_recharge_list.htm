@@ -1,0 +1,119 @@
+{if $full_page}
+<!-- $Id: user_account_list.htm 17030 2010-02-08 09:39:33Z sxc_shop $ -->
+{include file="pageheader.htm"}
+<script type="text/javascript" src="../js/calendar.php?lang={$cfg_lang}"></script>
+<link href="../js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="form-div">
+  <form action="javascript:searchUser()" name="searchForm">
+    <img src="images/icon_search.gif" width="25" height="22" border="0" alt="SEARCH" />
+      会员名称 <input type="text" name="keyword" size="10" />
+      <select name="process_type" style="display:none;">
+        <option value="-1">{$lang.process_type}</option>
+        <option value="0" {$process_type_0}>{$lang.surplus_type_0}</option>
+        <option value="1" {$process_type_1}>{$lang.surplus_type_1}</option>
+      </select>
+      <select name="payment" style="display:none;">
+      <option value="">{$lang.pay_mothed}</option>
+      {html_options options=$payment_list}
+      </select>
+      <select name="is_paid">
+        <option value="-1">到账状态</option>
+        <option value="0" {$is_paid_0}>未完成</option>
+        <option value="1" {$is_paid_1}>已完成</option>
+        <option value="2">取消</option>
+      </select>
+
+      开始日期&nbsp;
+      <input name="start_date" type="text" id="start_date" size="15" value='{$start_date}' readonly="readonly" /><input name="selbtn1" type="button" id="selbtn1" onclick="return showCalendar('start_date', '%Y-%m-%d', false, false, 'selbtn1');" value="{$lang.btn_select}" class="button"/>&nbsp;&nbsp;
+      结束日期&nbsp;
+      <input name="end_date" type="text" id="end_date" size="15" value='{$end_date}' readonly="readonly" /><input name="selbtn2" type="button" id="selbtn2" onclick="return showCalendar('end_date', '%Y-%m-%d', false, false, 'selbtn2');" value="{$lang.btn_select}" class="button"/>&nbsp;&nbsp;
+
+      <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div>
+
+<form method="POST" action="" name="listForm">
+<!-- start user_deposit list -->
+<div class="list-div" id="listDiv">
+{/if}
+<table cellpadding="3" cellspacing="1">
+  <tr>
+    <th><a href="javascript:listTable.sort('user_name', 'DESC'); ">会员名称</a>{$sort_user_name}</th>
+    <th><a href="javascript:listTable.sort('add_time', 'DESC'); ">操作时间</a>{$sort_add_time}</th>
+    <th><a href="javascript:listTable.sort('process_type', 'DESC'); ">类型</a>{$sort_process_type}</th>
+    <th><a href="javascript:listTable.sort('amount', 'DESC'); ">购物币</a>{$sort_amount}</th>
+    <th><a href="javascript:listTable.sort('is_paid', 'DESC'); ">到款状态</a>{$sort_is_paid}</th>
+    <th>操作员</th>
+    <th>{$lang.handler}</th>
+  </tr>
+  {foreach from=$list item=item}
+  <tr>
+    <td>{if $item.user_name}{$item.user_name}{else}{$lang.no_user}{/if}</td>
+    <td align="center">{$item.add_date}</td>
+    <td align="center">{$item.process_type_name}</td>
+    <td align="right">{if $item.process_type_name eq '充值'}{$item.amount}{else}{$item.surplus_amount}{/if}</td>
+    <td style="display:none;">{if $item.payment}{$item.payment}{else}N/A{/if}</td>
+    <td align="center">{if $item.is_paid}已完成{else}未完成{/if}</td>
+    <td align="center">{$item.admin_user}</td>
+    <td align="center">
+    {if $item.is_paid}
+    <a href="javascript:;" onclick="listTable.remove({$item.id}, '{$lang.drop_confirm}', 'remove')" title="{$lang.drop}" ><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    {else}
+    <a href="user_recharge.php?act=check&id={$item.id}" title="{$lang.check}"><img src="images/icon_view.gif" border="0" height="16" width="16" /></a>
+    <a href="javascript:;" onclick="listTable.remove({$item.id}, '{$lang.drop_confirm}', 'remove')" title="{$lang.drop}" ><img src="images/icon_drop.gif" border="0" height="16" width="16" /></a>
+    {/if}
+    </td>
+  </tr>
+  {foreachelse}
+  <tr>
+    <td class="no-records" colspan="8">{$lang.no_records}</td>
+  </tr>
+  {/foreach}
+</table>
+<table id="page-table" cellspacing="0">
+<tr>
+  <td>&nbsp;</td>
+  <td align="right" nowrap="true">
+  {include file="page.htm"}
+  </td>
+</tr>
+</table>
+{if $full_page}
+</div>
+<!-- end user_deposit list -->
+</form>
+
+<script type="text/javascript" language="JavaScript">
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+{literal}
+<!--
+
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+/**
+ * 搜索用户
+ */
+function searchUser()
+{
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['process_type'] = document.forms['searchForm'].elements['process_type'].value;
+    listTable.filter['payment'] = Utils.trim(document.forms['searchForm'].elements['payment'].value);
+    listTable.filter['is_paid'] = document.forms['searchForm'].elements['is_paid'].value;
+    listTable.filter['start_date'] = Utils.trim(document.forms['searchForm'].elements['start_date'].value);
+    listTable.filter['end_date'] = Utils.trim(document.forms['searchForm'].elements['end_date'].value);
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}
+{/if}

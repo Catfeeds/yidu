@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="themesmobile/default/css/iosSelect.css">
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>申请业主</title>
+    <meta name="keywords" content="申请业主" />
+    <meta name="description" content="申请业主" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>资料填写</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<form action="user.php?act=agent_apply" method="post" id="fpForm" name="fpForm" class="c-form" enctype="multipart/form-data">
+		<div class="data bgc mt pa3">
+			<div class="put clearfix">
+				<span>申请人</span>
+				<input type="text" name="name" id="name">
+			</div>
+			<div class="put clearfix">
+				<span style="width: 21%;">推荐人编号</span>
+				<input style="width: 77%;" type="text" name="parent_agent_code" id="parent_agent_code">
+			</div>
+			<div class="put clearfix">
+				<span>联系电话</span>
+				<input type="text" name="phone" id="phone">
+			</div>
+			<div class="put clearfix">
+				<span>所在地区</span>
+				<div class="gr fr clearfix">
+			 		<div class="form-item item-line fr row_r" id="select_contact">
+						<div class="pc-box">
+						    <input type="hidden" name="contact_province_code" data-id="" id="contact_province_code" value="" data-province-name="">
+						    <input type="hidden" name="contact_city_code" placeholder="" id="contact_city_code" value="" data-city-name=""><span data-city-code="" data-province-code="" data-district-code="510105" id="show_contact">选择省市区</span>
+						</div>
+					</div>
+			 	</div>
+			</div>
+			<div class="put clearfix">
+				<span>详细地址</span>
+				<textarea name="address" id="address"></textarea>
+			</div>
+		</div>
+		<div class="rzen bgc mt pa3">
+			<p>实名认证</p>
+			<!-- <select>
+				<option>身份证</option>
+				<option>驾驶证</option>
+			</select> -->
+			<div class="put">
+				<input type="text" placeholder="请填写身份证号码" name="card" id="card">
+			</div>
+		</div>
+		<div class="chuan bgc mt ">
+			<div class="zheng">
+				<div class="tran"><input type="file" name="face_card" class="preview_zheng" id="face_card" onchange="imgPreview(this, 'preview_zheng')"></div>
+				<p>上传身份证正面</p>
+				<img id="preview_zheng" src="" style="display:none; height: 2.94rem;" />
+			</div>
+			<div class="fan">
+				<div class="tran"><input type="file" name="back_card" class="preview_fan" id="back_card" onchange="imgPreview(this, 'preview_fan')"></div>
+				<p>上传身份证背面</p>
+				<img id="preview_fan" src="" style="display:none; height: 2.94rem;" />
+			</div>
+			<div class="cond">
+				<h2>身份证照片要求：</h2>
+				<p>申请人持有的本人<span>有效</span>二代身份证；</p>
+				<p>拍摄时确保身份证 <span>边框完整，</span> <span>字体清晰</span>，<span>亮度均匀</span>；</p>
+				<div class="pic"><img src="themesmobile/default/images/img13.png"></div>
+			</div>
+			<input type="hidden" name="agent_type" value="{$agent_type}">
+			<input type="hidden" name="province" id="province" value="">
+			<input type="hidden" name="city" id="city" value="">
+			<input type="hidden" name="district" id="district" value="">
+			<input type="submit" class="submit" value="提交资料" name="">
+		</div>
+	</form>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<!-- <script src="themesmobile/default/js/fastclick.js"></script> -->
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<!-- <script src="themesmobile/default/js/zepto.js"></script> -->
+<script src="themesmobile/default/js/iscroll.js"></script>
+<script src="themesmobile/default/js/areaData_v2.js"></script>
+<script src="themesmobile/default/js/iosSelect.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$(function(){
+		var selectContactDom = $('#select_contact');
+	    var showContactDom = $('#show_contact');
+	    var contactProvinceCodeDom = $('#contact_province_code');
+	    var contactCityCodeDom = $('#contact_city_code');
+	    selectContactDom.bind('click', function () {
+	        var sccode = showContactDom.attr('data-city-code');
+	        var scname = showContactDom.attr('data-city-name');
+
+	        var oneLevelId = showContactDom.attr('data-province-code');
+	        var twoLevelId = showContactDom.attr('data-city-code');
+	        var threeLevelId = showContactDom.attr('data-district-code');
+	        var iosSelect = new IosSelect(3,
+	            [iosProvinces, iosCitys, iosCountys],
+	            {
+	                title: '地址选择',
+	                itemHeight: 35,
+	                relation: [1, 1, 0, 0],
+	                oneLevelId: oneLevelId,
+	                twoLevelId: twoLevelId,
+	                threeLevelId: threeLevelId,
+	                callback: function (selectOneObj, selectTwoObj, selectThreeObj) {
+	                	if (!selectOneObj.value || !selectTwoObj.value || !selectThreeObj.value) {
+	                		alert('请选择省市区');
+	                		return false;
+	                	}
+	                	$("input[name='province']").val(selectOneObj.value);
+	                	$("input[name='city']").val(selectTwoObj.value);
+	                	$("input[name='district']").val(selectThreeObj.value);
+
+	                    contactProvinceCodeDom.val(selectOneObj.id);
+	                    contactProvinceCodeDom.attr('data-province-name', selectOneObj.value);
+	                    contactCityCodeDom.val(selectTwoObj.id);
+	                    contactCityCodeDom.attr('data-city-name', selectTwoObj.value);
+
+	                    showContactDom.attr('data-province-code', selectOneObj.id);
+	                    showContactDom.attr('data-city-code', selectTwoObj.id);
+	                    showContactDom.attr('data-district-code', selectThreeObj.id);
+	                    showContactDom.html(selectOneObj.value + ' ' + selectTwoObj.value + ' ' + selectThreeObj.value);
+	                }
+	        });
+	    });
+
+	    $('#parent_agent_code').blur(function(event) {
+	    	var parent_agent_code = $(this).val();
+	    	if (parent_agent_code) {
+	    		$.ajax({
+	    			url: 'user.php?act=check_agent_code',
+	    			type: 'POST',
+	    			dataType: 'json',
+	    			data: {parent_agent_code: parent_agent_code},
+	    			success: function(response){
+	    				if (response.code == 500) {
+	    					alert('推荐业主不存在');
+	    				}
+	    			},
+	    		});
+	    	}
+	    });
+
+	    $("input[type='submit']").click(function(event) {
+	    	if (!$('#name').val()) {
+	    		alert('请填写申请人');
+	    		return false;
+	    	}
+	    	if (!$('#phone').val()) {
+	    		alert('请填写联系电话');
+	    		return false;
+	    	}
+	    	if (!$("#phone").val().match(/^(\d{11})$/)) {
+	    		alert("手机号码格式不正确");
+	    		return false;
+	    	}
+	    	if (!$('#province').val() || !$('#city').val() || !$('#district').val()) {
+	    		alert('请选择省市区');
+	    		return false;
+	    	}
+	    	if (!$('#address').val()) {
+	    		alert('请填写详细地址');
+	    		return false;
+	    	}
+	    	if (!$('#card').val()) {
+	    		alert('请填写身份证号码');
+	    		return false;
+	    	}
+	    	if (!$('#face_card').val()) {
+	    		alert('请上传身份证正面照');
+	    		return false;
+	    	}
+	    	if (!$('#back_card').val()) {
+	    		alert('请上传身份证反面照');
+	    		return false;
+	    	}
+	    });
+	});
+
+	function imgPreview(fileDom, preview){
+		var self = $(fileDom);
+	    //判断是否支持FileReader
+	    if (window.FileReader) {
+	        var reader = new FileReader();
+	    } else {
+	        alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+	    }
+
+	    //获取文件
+	    var file = fileDom.files[0];
+	    var imageType = /^image\//;
+	    //是否是图片
+	    if (!imageType.test(file.type)) {
+	        alert("请选择图片！");
+	        return;
+	    }
+	    //读取完成
+	    reader.onload = function(e) {
+	        //获取图片dom
+	        var img = $('#'+preview);
+	        //图片路径设置为读取的图片
+	        img.attr('src', e.target.result).show();
+	        self.parent('.tran').hide()
+	        self.parent('.tran').siblings('p').hide();
+	        self.parent('.tran').parent('div').css('padding-top', 0);
+	        $('#'+preview).attr("onclick","wj('"+preview+"');");
+
+	    };
+	    reader.readAsDataURL(file);
+	}
+
+	function wj(id) {
+
+		$('.'+id).click();
+	}
+</script>

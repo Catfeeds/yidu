@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>添加商品</title>
+    <meta name="keywords" content="添加商品" />
+    <meta name="description" content="添加商品" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>添加商品</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="tur5">
+		<div class="tur5_list fpx ">
+			 <form class="bgc" action="shop.php?act=add_goods_submit" method="post" enctype="multipart/form-data">
+			 	<div class="item clearfix item3">
+			 		<span >*商品名称</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="goods_name" id="goods_name">
+			 		</div>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*商品类别</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="goods_type" id="goods_type">
+			 		</div>
+			 	</div>
+			 	<div class="brief">
+			 		<h2>*商品介绍</h2>
+			 		<textarea name="goods_desc" id="goods_desc"></textarea>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*商品价格</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="goods_price" id="goods_price">
+			 		</div>
+			 	</div>
+			 	<div class="picture_box pa3">
+			 		<h2>*商品图片</h2>
+	 				<div class="adb24">
+						<div class="wocao clearfix">
+			            	<div class="obm fl">
+			                    <input type="file" id="wocaobut" name="goods_img[]" id="goods_img" />
+			                    <input type="button" class="button" />
+			                </div>
+			            </div>
+					</div>
+			 	</div>
+				<div class="fbtn pa3">
+					<input type="hidden" name="shop_id" value="{$shop_id}">
+					<input type="submit" value="提交" class="submit" name="">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	FastClick.attach(document.body);
+    $('#wocaobut').bind('change',function(){
+		var self = $(this);
+		var files = this.files, file;
+		if (files && files.length > 0) {
+			// 获取目前上传的文件
+			file = files[0];
+			//读取图片信息
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function(e){
+			   	$('.wocao .obm').before('<div class="li fl"><img src="'+ this.result +'"/><em class="guan"> </em></div>');
+			}
+		}
+		if($('.wocao .li').length == 0){ //限制个数
+			self.hide()
+			$('.button').hide()
+		}
+		$('.wocao .li .guan').live('click',function(){
+			$(this).parents('.li').remove();
+			self.show();
+			$('.button').show();
+
+		});
+	    $('.wocao .li').live('click',function(){
+	    	$('.fd').show();
+	    	var src2=$(this).children('img').attr('src');
+	    	console.log(src2);
+	    	$('.fd .pic').children('img').attr('src',src2);
+	    });
+	});
+
+	$(function(){
+		$("input[type='submit']").click(function(event) {
+			if (!$('#goods_name').val()) {
+				alert('请填写商品名称');
+				return false;
+			}
+			if (!$('#goods_type').val()) {
+				alert('请填写商品类别');
+				return false;
+			}
+			if (!$('#goods_desc').val()) {
+				alert('请填写商品介绍');
+				return false;
+			}
+		});
+	});
+</script>

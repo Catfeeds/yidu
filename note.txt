@@ -1,0 +1,12 @@
+代理商租出店铺时，shop_id = supplier_id
+普通会员申请开通时，审核前shop_id != supplier_id，审核通过后才相等
+
+关闭过期店铺：
+如果店铺到期，修改店铺状态
+agent_shop.chuzu_status = 3到期
+supplier.status = 0
+supplier_street.is_show = 0
+supplier_street.status = 0
+
+普通会员我要开店页面说明文字需要修改
+店主续租页面说明文字需要修改

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>退款申请</title>
+    <meta name="keywords" content="退款申请" />
+    <meta name="description" content="退款申请" />
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2 >退款申请</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<form action="user.php?act=back_order_act" method="post" enctype="multipart/form-data">
+		<div class="tksq">
+			<h2 class="pa3">退款类型*</h2>
+			<ul class="bgc pa3">
+				<li class="clearfix on">我要退款（无需退货）</li>
+				<input type="hidden" name="back_type" value="4">
+				<!-- <li class="clearfix">我要退货</li> -->
+			</ul>
+		</div>
+		<!-- <div class="tksq">
+			<h2 class="pa3">收货状态*</h2>
+			<ul class="bgc pa3">
+				<li class="clearfix">未收到</li>
+				<li class="clearfix">已收到</li>
+			</ul>
+		</div> -->
+		<div class="tksq2">
+			<!-- <h2>退款原因*</h2>
+			<div class="bgc mytk" ><a href="###">请选择退款原因</a></div> -->
+			<h2>退款金额*</h2>
+			<input style="color: #dc2e1d;" type="text" value="{if $order_info.money_paid neq 0}￥{$order_info.money_paid}{else}￥{$order_info.surplus}{/if}" name="" readonly="true">
+			<h2>退款说明*</h2>
+			<input type="text" value="" name="back_reason" id="back_reason">
+		</div>
+		<!-- <div class="tkly_box">
+			<div class="tkly">
+				<h2>退款原因</h2>
+				<ul>
+					<li class="clearfix">尺码买错/不喜欢/效果差</li>
+					<li class="clearfix">尺码买错/不喜欢/效果差</li>
+					<li class="clearfix">尺码买错/不喜欢/效果差</li>
+					<li class="clearfix">尺码买错/不喜欢/效果差</li>
+				</ul>
+				<button>关闭</button>
+			</div>
+		</div> -->
+	 	<div class="picture_box pa3" style="margin-bottom:.5rem">
+	 		<h2>*商品图片</h2>
+	 		<div class="adb24">
+				<div class="wocao clearfix">
+	            	<div class="obm fl">
+	                    <input type="file" id="wocaobut" name="imgs[]" id="imgs[]" />
+	                    <input type="button" class="button" />
+	                </div>
+	            </div>
+	 		</div>
+	 	</div>
+		<div class="fbtn pa3" style="position:static">
+			<input type="hidden" name="back_pay" value="2">
+			{if $order_info}
+			<input type="hidden" name="order_all" value="1">
+			<input type="hidden" name="order_id" value="{$order_info.order_id}">
+			{else}
+			<input type="hidden" name="order_id" value="{$back_goods.order_id}">
+			<input type="hidden" name="order_sn" value="{$back_goods.order_sn}">
+			<input type="hidden" name="goods_id" value="{$back_goods.goods_id}">
+			<input type="hidden" name="goods_name" value="{$back_goods.goods_name}">
+			<input type="hidden" name="goods_sn" value="{$back_goods.goods_sn}">
+			{/if}
+			<input type="submit" value="提交" class="submit">
+		</div>
+	</form>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	FastClick.attach(document.body);
+    $('#wocaobut').bind('change',function(){
+		var self = $(this);
+		var files = this.files, file;
+		if (files && files.length > 0) {
+			// 获取目前上传的文件
+			file = files[0];
+			//读取图片信息
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function(e){
+			   	$('.wocao .obm').before('<div class="li fl"><img src="'+ this.result +'"/><em class="guan"> </em></div>');
+			}
+		}
+		if($('.wocao .li').length == 0){ //限制个数
+			self.hide()
+			$('.button').hide()
+		}
+		$('.wocao .li .guan').live('click',function(){
+			$(this).parents('.li').remove();
+			self.show();
+			$('.button').show();
+
+		});
+	    $('.wocao .li').live('click',function(){
+	    	$('.fd').show();
+	    	var src2=$(this).children('img').attr('src');
+	    	console.log(src2);
+	    	$('.fd .pic').children('img').attr('src',src2);
+	    });
+	});
+
+	$('.tksq ul li,.tkly li').click(function(){
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+	})
+	$('.mytk').click(function(){
+		$('.tkly_box').show();
+	})
+	$('.tkly_box button ').click(function(){
+		$('.tkly_box').hide();
+	});
+
+	$(function() {
+		$('.submit').click(function(event) {
+			var back_reason = $('.back_reason').val();
+			if ($('#back_reason').val().length == 0) {
+				alert('请填写退款说明');
+				return false;
+			}
+		});
+	});
+</script>

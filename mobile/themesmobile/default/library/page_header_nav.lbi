@@ -1,0 +1,17 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="rt bgc" >
+    <div class="layout">
+         <div class="rts swiper-container swiper-container-horizontal" id="swiper-container2">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide active-nav">
+                     <a href="/" class="">首页</a>
+                </div>
+                <!--{foreach from=$categories item=cat name=name}-->
+                <div class="swiper-slide">
+                    <a href="{$cat.url}">{$cat.name|escape:html|truncate:2:false}</a>
+                </div>
+                <!--{/foreach}-->
+            </div>
+        </div>
+    </div>
+</div>

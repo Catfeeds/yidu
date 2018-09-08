@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>店铺未安置会员管理</title>
+    <meta name="keywords" content="店铺未安置会员管理" />
+    <meta name="description" content="店铺未安置会员管理" />
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>店铺未安置会员管理</h2>
+	<div class="search"><a href="agent.php?act=weianzhi_search"></a></div>
+	<div class="txt"><a href="javascript:void(0)">编辑</a></div>
+</div>
+<div class="content">
+	<div class="nplace">
+		<form action="agent.php?act=weianzhi_del" method="post" id="del_form">
+			<ul class="nplace_list on">
+				{foreach from=$weianzhi_list item=user}
+				<li>
+					<div class="clearfix recom_t">会员名：{$user.user_name}<span>注册时间：{$user.reg_time}</span></div>
+					<div class="recom_b">
+						<p>手机： <span>{$user.mobile_phone}</span>	</p>
+						<p>原所属店铺： <span>{$user.shop_code}	</span> （{$user.end_time}回收） </p>
+					</div>
+					<div class="zout clearfix">
+						<label>
+							<input type="checkbox" class="checkbox-item s-item" name="user_id[]" value="{$user.user_id}">
+							<i class="icon"></i>
+						</label>
+						<a href="agent.php?act=rollout_user&user_id={$user.user_id}">转出</a>
+					</div>
+				</li>
+				{/foreach}
+			</ul>
+			<div class="bottom-bar">
+	            <label><input type="checkbox" class="checkbox-item" id="selectAll"><i class="icon"></i>全选</label>
+	            <!-- <input type="submit" class="btn btn-delete" name="删除"> -->
+	            <a href="javascript:void(0)" class="btn btn-delete">删除</a>
+	        </div>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+$(function(){
+	$('.header .txt').click(function(){
+		$('.nplace_list li label').fadeIn();
+		$('.bottom-bar').fadeIn();
+	});
+	//选中效果
+    $(".checkbox-item:checked").parents("label").addClass("selected");
+    $(".checkbox-item").change(function(){
+        $(this).prop("checked") ? $(this).parents("label").addClass("selected") : $(this).parents("label").removeClass("selected");
+    });
+    //点击全选
+    $("#selectAll").change(function() {
+        if($(this).prop("checked")){
+            $(".s-item").prop("checked",true);
+            $(".s-item").parents("label").addClass("selected");
+            $(".del_user_id").val();
+        }else{
+            $(".s-item").prop("checked",false);
+            $(".s-item").parents("label").removeClass("selected");
+        }
+        $("#b-number").text($(".s-item:checked").length);
+
+    });
+    //选中一项或取消选中一项
+    $(".s-item").change(function(){
+        if(!$(this).prop("checked")){
+            $("#selectAll").prop("checked",false);
+            $("#selectAll").parents("label").removeClass("selected");
+        }
+        //用n记录当前有多少项被选中
+        var n = 0;
+        $(".s-item").each(function(){
+            if($(this).prop("checked")){
+                n+=1;
+            }
+        })
+        if(n==$(".s-item").length){
+            $("#selectAll").prop("checked",true);
+            $("#selectAll").parents("label").addClass("selected");
+        }
+        $("#b-number").text($(".s-item:checked").length);
+    });
+
+    $('.btn-delete').click(function(event) {
+    	var temp = [];
+    	$('.s-item:checked').each(function(index, el) {
+    		if ($(this).val()) {
+    			temp.push(index);
+    		}
+    	});
+    	if (temp.length == 0) {
+    		alert('请选择要删除的选项');
+    		return false;
+    	}
+    	if (confirm('确定删除吗？')) {
+    		$('#del_form').submit();
+    	}
+    });
+});
+</script>

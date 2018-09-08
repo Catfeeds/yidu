@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>厂家引荐</title>
+    <meta name="keywords" content="厂家引荐" />
+    <meta name="description" content="厂家引荐" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>厂家引荐</h2>
+	<div class="txt"><a href="agent.php?act=add_factory">添加</a></div>
+</div>
+<div class="content">
+	<div class="sps bgc sps3">
+		<ul class="sps_list clearfix">
+			<li><a href="agent.php?act=factory_apply_list">待审核（{$wait_pass}）</a></li>
+			<li><a href="agent.php?act=factory_apply_list&pass_status=1">审核通过（{$pass}）</a></li>
+			<li class="on"><a href="agent.php?act=factory_apply_list&pass_status=2">审核不通过（{$unpass}）</a></li>
+		</ul>
+	</div>
+	<div class="commodity">
+		<ul class="on">
+			{if $factory_list}
+			{foreach from=$factory_list item=factory name=factory}
+			<li class="clearfix">
+				<div class="commodity_l">
+					<p><span>厂家名称：</span>{$factory.factory_name}</p>
+					<p><span>厂家类别：</span>{$factory.factory_type}</p>
+					<p><span>厂家联系人：</span>{$factory.contacts_name}</p>
+					<p><span>厂家联系电话：</span>{$factory.contacts_phone}</p>
+				</div>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+	{if $factory_list}
+	<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	{else}
+	<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+	{/if}
+</div >
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

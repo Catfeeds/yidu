@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>我的银行卡</title>
+    <meta name="keywords" content="我的银行卡" />
+    <meta name="description" content="我的银行卡" />
+</head>
+<body data-psd-width="840" style="background: #fff;">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>我的银行卡</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="account pa3">
+		<ul>
+			{if $bank_list}
+			{foreach from=$bank_list item=bank name=bank}
+			<li class="gs">
+				<div class="clearfix ac_t">
+					<div class="clearfix kk">
+						<div class="pic"><img src="./../{$bank.icon}"></div>
+						<h2>{$bank.bank_name}</h2>
+					</div>
+				</div>
+				<div class="clearfix ac_b" >
+					<div class="pic"><img src="themesmobile/default/images/icon54.png"></div>
+					<p>{$bank.bank_num}</p>
+				</div>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+		<div class="add_bank"><a href="user.php?act=add_bank"><em></em>添加银行卡</a></div>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

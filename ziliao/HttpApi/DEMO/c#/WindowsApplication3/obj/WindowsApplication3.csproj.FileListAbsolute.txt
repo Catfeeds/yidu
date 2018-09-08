@@ -1,0 +1,8 @@
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\bin\Debug\WindowsApplication3.exe
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\bin\Debug\WindowsApplication3.pdb
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\obj\Debug\WindowsApplication3.Form1.resources
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\obj\Debug\WindowsApplication3.Properties.Resources.resources
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\obj\Debug\WindowsApplication3.csproj.GenerateResource.Cache
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\obj\Debug\WindowsApplication3.exe
+C:\Documents and Settings\Administrator.HA0X2NT8F0EVD4C\My Documents\Visual Studio 2005\Projects\WindowsApplication3\WindowsApplication3\obj\Debug\WindowsApplication3.pdb

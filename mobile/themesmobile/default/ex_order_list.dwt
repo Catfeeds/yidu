@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="themesmobile/default/js/jquery.js"></script>
+	 <script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+    <title>用户中心-抽奖订单</title>
+</head>
+<style type="text/css">
+	 .more_loader_spinner{
+      text-align: center;
+      margin-top: 2%;
+    }
+    .more_loader_spinner img{
+      width: 25px
+    }
+</style>
+<body data-psd-width="840">	
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>抽奖订单</h2>
+	<div class="list"></div>
+	<div class="nav ">
+        <i class="jicon"></i>
+       	<ul>
+             <li><a class="clearfix" href="/mobile"><em class="em1 "></em>首页</a></li>
+	        <li ><a href="exchange.php"><em class="em2"></em>抽奖中心</a></li>
+	        <li><a href="flow.php"><em class="em3"></em>购物车</a></li>
+	        <li class="last"><a href="user.php"><em class="em4"></em>个人中心</a></li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+	<div class="sps bgc sps4">
+		<ul class="sps_list clearfix">
+			<li {if $composite_status eq -1}class="on"{/if} ><a href="user.php?act=order_list&ex=1">全部</a></li>
+			<li {if $composite_status eq 101}class="on"{/if} ><a href="user.php?act=order_list&ex=1&composite_status=101">进行中</a></li>
+			<li {if $composite_status eq 105}class="on"{/if} ><a href="user.php?act=order_list&ex=1&composite_status=105">已中奖</a></li>
+			<li {if $composite_status eq 103}class="on"{/if} ><a href="user.php?act=order_list&ex=1&composite_status=103">未中奖</a></li>
+		</ul>
+	</div>
+
+<script type="text/javascript">
+	var url = 'user.php?act=ajax_order_list';
+	$(function(){
+		$('#J_ItemList').more({
+	        'address': url,
+	        'data':{'composite_status':'{$composite_status}','ex':'{$ex}'},
+	});
+	});
+	</script> 
+
+	    <div id="J_ItemList" class="lu_order">
+	      <ul style="display: block;" class="single_item info lus">
+	      </ul>
+	      <a href="javascript:;" class="get_more" style="text-align:center; display:block;"> </a> 
+	    </div>
+	      
+	    
+	<script type="text/javascript">
+	{foreach from=$lang.merge_order_js item=item key=key}
+	var {$key} = "{$item}";
+	{/foreach}
+</script>
+ 
+</body>
+</html>
+
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$('.danx label').click(function(){
+		$(this).toggleClass('on')
+	})
+	$('.sps_list li').click(function(){
+		var num=$(this).index();
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+		$('.lu_order .lus').removeClass('on');
+		$('.lu_order .lus').eq(num).addClass('on');
+	})
+</script>

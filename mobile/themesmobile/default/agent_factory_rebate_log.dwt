@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>引荐厂家销售返利记录</title>
+    <meta name="keywords" content="引荐厂家销售返利记录" />
+    <meta name="description" content="引荐厂家销售返利记录" />
+</head>
+<body data-psd-width="840" >
+<div class="rebate">
+	<div class="header">
+		<div class="back" onclick="history.go(-1)"></div>
+		<h2>引荐厂家销售返利记录</h2>
+		<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+	</div>
+	<div class="rebate_num">
+		<p>购物返利金额累计（元）</p>
+		<h1>{$reward_total}</h1>
+	</div>
+</div>
+<div class="content">
+	<div class="recom_con">
+		<ul class="recom_list">
+			{if $reward_log}
+			{foreach from=$reward_log item=reward name=reward}
+			<li>
+				<div class="clearfix recom_t">引荐供货商：{$reward.factory_name}<span>返利时间：{$reward.add_time}</span></div>
+				<div class="recom_b">
+					<p>订单编号：<span>{$reward.order_sn}</span></p>
+					<p>商品金额（元）： <span>{$reward.goods_price}</span></p>
+				</div>
+				<h2>返利金额（元）：<span>{$reward.money}</span></h2>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+</div>
+{if $reward_log}
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+{else}
+<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+{/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

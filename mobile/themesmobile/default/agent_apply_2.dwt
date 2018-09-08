@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>申请业主</title>
+    <meta name="keywords" content="申请业主" />
+    <meta name="description" content="申请业主" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>申请级别</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="jibe bgc">
+		<table>
+			<tr>
+				<th>级别</th>
+				<th style="width: 2rem;">店数</th>
+				<th>投入终身业主金额</th>
+			</tr>
+			<tr>
+				<td>创业型业主</td>
+				<td>{$agent_shop_num_c}个</td>
+				<td>{$agent_zs_cost_c}元/季</td>
+			</tr>
+			<tr>
+				<td>小型业主</td>
+				<td>{$agent_shop_num_x}个</td>
+				<td>{$agent_zs_cost_x}元/季</td>
+			</tr>
+			<tr>
+				<td>中型业主</td>
+				<td>{$agent_shop_num_z}个</td>
+				<td>{$agent_zs_cost_z}元/季</td>
+			</tr>
+			<tr>
+				<td>大型业主</td>
+				<td>{$agent_shop_num_d}个</td>
+				<td>{$agent_zs_cost_d}元/季</td>
+			</tr>
+			<tr>
+				<td>VIP业主</td>
+				<td>{$agent_shop_num_v}个</td>
+				<td>{$agent_zs_cost_v}元/季</td>
+			</tr>
+		</table>
+	</div>
+	<div class="level pa3">
+		<ul>
+			<li><a href="user.php?act=agent_apply_three&agent_type=5">申请创业型业主</a></li>
+			<li><a href="user.php?act=agent_apply_three&agent_type=1">申请小型业主</a></li>
+			<li><a href="user.php?act=agent_apply_three&agent_type=2">申请中型业主</a></li>
+			<li><a href="user.php?act=agent_apply_three&agent_type=3">申请大型业主</a></li>
+			<li><a href="user.php?act=agent_apply_three&agent_type=4">申请vip型业主</a></li>
+		</ul>
+	</div>
+</div>
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$('.danx label').click(function(){
+		$(this).toggleClass('on')
+	})
+	$('.us2_t span').click(function(){
+		var num=$(this).index();
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+		$('.us_b ul').removeClass('on');
+		$('.us_b ul').eq(num).addClass('on');
+	})
+</script>

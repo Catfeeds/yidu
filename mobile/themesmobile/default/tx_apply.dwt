@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>提现申请</title>
+    <meta name="keywords" content="提现申请" />
+    <meta name="description" content="提现申请" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>提现</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+ 	<form action="user.php" method="post">
+		<div class="bank">
+			<ul>
+				<li>
+					{if $bank_card.bank_name}
+					<a class="clearfix" href="user.php?act=select_bank">
+						<div class="pic"><img src="./../{$bank_card.icon}"></div>
+						<div class="tit">
+							<h2>{$bank_card.bank_name}</h2>
+							<p>尾号<span>{$bank_card.bank_num}</span>储蓄卡</p>
+						</div>
+					</a>
+					<input type="hidden" name="bank_card_id" id="bank_card_id" value="{$bank_card.id}">
+					{else}
+					<a class="clearfix" href="user.php?act=add_bank">添加银行卡</a>
+					{/if}
+				</li>
+			</ul>
+		</div>
+		<div class="amount bgc">
+			<h3>提现金额</h3>
+			<div class="amount_tx">
+				<em></em>
+				<input type="text" name="amount" id="amount">
+			</div>
+			<p>可用余额<span>{$user_info.user_money}</span>元</p>
+		</div>
+		<div class="fbtn pa3">
+			<input type="hidden" name="surplus_type" value="1">
+			<input type="hidden" name="act" value="act_account" />
+			<input type="submit" value="立即提现"  class="submit">
+		</div>
+	</form>
+</div>
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		$('.submit').click(function(event) {
+			var amount = $('#amount').val();
+			if (amount.length == 0 || amount <= 0) {
+				alert('请填写提现金额');
+				return false;
+			}
+
+			if ($('#bank_card_id').val().length == 0) {
+				alert('请选择提现银行卡');
+				return false;
+			}
+		});
+	});
+</script>

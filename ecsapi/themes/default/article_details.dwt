@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <meta name="author" content="网站建设：互诺科技 - http://www.hunuo.com" />
+
+<title>筋斗云</title>
+</head>
+
+<body>
+<div align='left'>
+{if $info}
+    <p><img src="/{$info.file_url}"></p>
+    <p>{$info.title}</p>
+    <p>{$info.add_time}</p>
+    {$info.content}<br/>
+{else}
+    错误地址<br/>
+{/if}
+
+</div>
+</body>
+</html>

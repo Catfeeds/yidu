@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>转出店铺</title>
+    <meta name="keywords" content="转出店铺" />
+    <meta name="description" content="转出店铺" />
+</head>
+<body data-psd-width="840" style="background: #fff;">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>转出店铺</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="apply">
+		<!-- <div class="remind">温馨提示：本店装重新装修,停业3天，敬请期待！</div> -->
+		<form action="user.php?act=shop_chuzu" method="post">
+			<h4>店铺编号：{$shop_code}</h4>
+			<h4>转出日期：{$chuzu_time}</h4>
+			<p>*店铺名称：</p>
+			<input type="text" placeholder="请输入店铺名称" name="shop_name">
+			<p>*店主姓名：</p>
+			<input type="text" placeholder="请输入店主身份证姓名" name="name">
+			<p>*店主手机：</p>
+			<input type="text" placeholder="请输入店主手机号" name="phone">
+			<p>*初始密码：</p>
+			<input type="password" placeholder="请填写店主初始登录密码" name="password">
+			<p>*确认密码：</p>
+			<input type="password" placeholder="请再次填写店主初始登录密码" name="confirm_password">
+
+			<input type="hidden" name="shop_id" value="{$shop_id}">
+			<input type="hidden" name="shop_code" value="{$shop_code}">
+			<input type="hidden" name="agent_id" value="{$user_id}">
+			<input type="submit" class="submit" value="马上转出" name="">
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		$("input[type='submit']").click(function(event) {
+			var shop_name = $("input[name='shop_name']").val();
+			if (!shop_name) {
+				alert('请输入店铺名称');
+				return false;
+			}
+
+			var name = $("input[name='name']").val();
+			if (!name) {
+				alert('请输入姓名');
+				return false;
+			}
+
+			var phone = $("input[name='phone']").val();
+			if (!phone) {
+				alert('请输入手机号');
+				return false;
+			}
+
+			if (!phone.match(/^(\d{11})$/)) {
+				alert("手机号码格式不正确");
+				return false;
+			}
+
+			var password = $("input[name='password']").val();
+			if (!password) {
+				alert('请输入密码');
+				return false;
+			}
+
+			var confirm_password = $("input[name='confirm_password']").val();
+			if (!confirm_password) {
+				alert('请输入确认密码');
+				return false;
+			}
+		});
+	});
+</script>

@@ -1,0 +1,14 @@
+
+
+{if $goods.goods_id}
+<li>
+
+    <em class="hot">{$goods.exchange_number}/28</em>
+    <div class="pic"><a href="goods.php?id={$goods.goods_id}&ex=1"><img src="{$goods.goods_thumb}"></a></div>
+    <p>{$goods.goods_style_name|truncate:10}</p>
+    <div class="clearfix cj"> <span>￥{$goods.exchange_integral}</span> <a onclick="dd({$goods.goods_id})">立即参加</a></div>
+
+</li>
+{/if}
+
+

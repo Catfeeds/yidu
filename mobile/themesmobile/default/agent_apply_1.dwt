@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>申请业主</title>
+    <meta name="keywords" content="申请业主" />
+    <meta name="description" content="申请业主" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>申请业主</h2>
+    <!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="agent3">
+		<h1>业主收益</h1>
+		<ul class="clearfix">
+			<li><a href="">
+				租送网店收租金
+			</a></li>
+			<li><a href="">
+				分店销售有奖金
+			</a></li>
+			<li><a href="">
+				分店易乐拿提成
+			</a></li>
+			<li><a href="">
+				网店增值享获利
+			</a></li>
+		</ul>
+	</div>
+	<div class="rent bgc mt">
+		<h1>租送网店收租金</h1>
+		<div class="rent_con pa3">
+			<p>店主租用店铺统一由平台设定价格，暂为450元/季/店，平台根据运营情况可修改价格。</p>
+			<table>
+				<tr>
+					<th>资格</th>
+					<th>终身经营成本</th>
+					<th>管理费直接利润</th>
+				</tr>
+				<tr>
+					<td>创业型业主</td>
+					<td>{$agent_shop_cost_c}元/季/店</td>
+					<td>{$agent_lr_c}元/季</td>
+				</tr>
+				<tr>
+					<td>小型业主</td>
+					<td>{$agent_shop_cost_x}元/季/店</td>
+					<td>{$agent_lr_x}元/季</td>
+				</tr>
+				<tr>
+					<td>中型业主</td>
+					<td>{$agent_shop_cost_z}元/季/店</td>
+					<td>{$agent_lr_z}元/季</td>
+				</tr>
+				<tr>
+					<td>大型业主</td>
+					<td>{$agent_shop_cost_d}元/季/店</td>
+					<td>{$agent_lr_d}元/季</td>
+				</tr>
+				<tr>
+					<td>VIP业主</td>
+					<td>{$agent_shop_cost_v}元/季/店</td>
+					<td>{$agent_lr_v}元/季</td>
+				</tr>
+			</table>
+			<span>1、业主租送出的易度店，次季度开始缴交 管理费,差额永远归业主；</span> <br>
+			<span>2.如不续租用此店,此店回归原业主所有；</span> <br>
+			<span> 3.未送租的易度店为未开通状态，不收季管理费</span>
+		</div>
+	</div>
+	<div class="branch bgc mt">
+		<h1>分店销售有奖金</h1>
+		<div class="pa3">
+			<ul >
+				<li class="clearfix">
+					<div class="pic">5%</div>
+					<p>店主推广销售产品,购物会员完成产品成交，平台按此商品的利润值的5%奖励给予业主。</p>
+				</li>
+				<li class="clearfix last">
+					<div class="pic">10%</div>
+					<p>业主下属店主上传产品到推荐区（公共区），并且产生购买，按平台设定的产品利润值的10%奖励给业主</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="branch bgc mt">
+		<h1>分店易乐拿提成</h1>
+		<div class="pa3">
+			<ul >
+				<li class="clearfix last">
+					<div class="pic">10%</div>
+					<p>参与抽奖的产品价格的5% X N/28给予业主。N为已被店主成功推广绑定关系的会员。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="branch  bgc mt">
+		<h1>分店易乐拿提成</h1>
+		<div class="pa3">
+			<ul >
+				<li class="clearfix last">
+					<div class="pic zsj">管理费 <br> （终身价）</div>
+					<p>参与抽奖的产品价格的5% X N/28给予业主。N为已被店主成功推广绑定关系的会员。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="daili">
+		<h2>引进厂家收益</h2>
+		<p>业主介绍厂家商品进驻商城公共区，有该商品销售EV值的10%获利</p>
+	</div>
+	<div class="daili">
+		<h2>旧业主介绍新业主</h2>
+		<p>下属业主的网店销售商品提拨EV值的5%， 计算你的整组收益（三级分佣）。</p>
+	</div>
+	<div class="rent bgc mt">
+		<div class="rent_con pa3">
+			<h2 class="clearfix"><i></i> 业主的级别</h2>
+			<table>
+				<tr>
+					<th>级别</th>
+					<th style="width: 2rem;">店数</th>
+					<th>投入终身业主金额</th>
+				</tr>
+				<tr>
+					<td>创业型业主</td>
+					<td>{$agent_shop_num_c}个</td>
+					<td>{$agent_zs_cost_c}元/季</td>
+				</tr>
+				<tr>
+					<td>小型业主</td>
+					<td>{$agent_shop_num_x}个</td>
+					<td>{$agent_zs_cost_x}元/季</td>
+				</tr>
+				<tr>
+					<td>中型业主</td>
+					<td>{$agent_shop_num_z}个</td>
+					<td>{$agent_zs_cost_z}元/季</td>
+				</tr>
+				<tr>
+					<td>大型业主</td>
+					<td>{$agent_shop_num_d}个</td>
+					<td>{$agent_zs_cost_d}元/季</td>
+				</tr>
+				<tr>
+					<td>VIP业主</td>
+					<td>{$agent_shop_num_v}个</td>
+					<td>{$agent_zs_cost_v}元/季</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="pub"><a href="user.php?act=agent_apply_two">立即申请</a></div>
+</div>
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$('.danx label').click(function(){
+		$(this).toggleClass('on')
+	})
+	$('.us2_t span').click(function(){
+		var num=$(this).index();
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+		$('.us_b ul').removeClass('on');
+		$('.us_b ul').eq(num).addClass('on');
+	})
+</script>

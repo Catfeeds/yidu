@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <style type="text/css">
+      @charset "utf-8";
+      html{font-size:100px;}
+      body{font-size:0.14rem;line-height:1;}
+      html,body{-webkit-font-smoothing:antialiased;}
+      body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+      li{list-style: none;}
+      .properties ul{padding:0px .2rem;width:90%;}
+      .properties li{line-height: .3rem;}
+    </style>
+</head>
+<body>
+<div class="properties">
+  <ul>
+    <li style="float:left;width:50%"><span style="width:.8rem;float:left;text-align:right;">商品编号：</span><span style="color:#6B6969">{$goods.goods_sn}</span></li>
+    <li style="float:left;width:50%"><span style="width:.8rem;float:left;text-align:right;">商品名称：</span><span style="color:#6B6969">{$goods.goods_name}</span></li>
+    <li style="float:left;width:50%"><span style="width:.8rem;float:left;text-align:right;">通用名称：</span><span style="color:#6B6969">{$goods.currency_name}</span></li>
+    <li style="float:left;width:50%"><span style="width:.8rem;float:left;text-align:right;">品牌：</span><span style="color:#6B6969">{$goods.goods_brand}</span></li>
+  <!--{foreach from=$properties item=property_group}-->
+    <!-- {foreach from=$property_group item=property name=cats} -->
+    {if $smarty.foreach.cats.index < 2}
+    <li style="float:left;width:50%">
+      <span style="width:.8rem;float:left;text-align:right;">{$property.name}：</span><span style="color:#6B6969">{$property.value}</span>
+    </li>
+    {else}
+    <li>
+      <span style="width:.8rem;float:left;text-align:right;">{$property.name}：</span><span style="color:#6B6969">{$property.value}</span>
+    </li>
+    {/if}
+    <!-- {/foreach}--> 
+  <!--{/foreach}-->
+  </ul>
+</div>
+</body>
+</html>

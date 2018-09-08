@@ -1,0 +1,224 @@
+[20-Jun-2016 11:03:45 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:45 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:45 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\index.php:0
+[20-Jun-2016 11:03:45 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\index.php:205
+[20-Jun-2016 03:03:46 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 03:03:46 UTC] PHP Stack trace:
+[20-Jun-2016 03:03:46 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:0
+[20-Jun-2016 03:03:46 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:17
+[20-Jun-2016 11:03:50 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:50 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:50 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pro_search.php:0
+[20-Jun-2016 11:03:50 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pro_search.php:93
+[20-Jun-2016 11:03:50 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:50 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:50 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pro_search.php:0
+[20-Jun-2016 11:03:50 PRC] PHP   2. cls_template->display() D:\wamp\www\xiaojingdong\www_all\pro_search.php:605
+[20-Jun-2016 11:03:50 PRC] PHP   3. cls_template->insert_mod() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:115
+[20-Jun-2016 11:03:50 PRC] PHP   4. insert_member_info() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:1148
+[20-Jun-2016 11:03:50 PRC] PHP   5. gd_version() D:\wamp\www\xiaojingdong\www_all\includes\lib_insert.php:394
+[20-Jun-2016 03:03:51 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 03:03:51 UTC] PHP Stack trace:
+[20-Jun-2016 03:03:51 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:0
+[20-Jun-2016 03:03:51 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:17
+[20-Jun-2016 11:03:51 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:51 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:51 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 11:03:51 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 11:03:54 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:54 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:54 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\goods.php:0
+[20-Jun-2016 11:03:54 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\goods.php:702
+[20-Jun-2016 11:03:55 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:55 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:55 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\goods.php:0
+[20-Jun-2016 11:03:55 PRC] PHP   2. cls_template->display() D:\wamp\www\xiaojingdong\www_all\goods.php:708
+[20-Jun-2016 11:03:55 PRC] PHP   3. cls_template->insert_mod() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:115
+[20-Jun-2016 11:03:55 PRC] PHP   4. insert_member_info() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:1148
+[20-Jun-2016 11:03:55 PRC] PHP   5. gd_version() D:\wamp\www\xiaojingdong\www_all\includes\lib_insert.php:394
+[20-Jun-2016 03:03:55 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 03:03:55 UTC] PHP Stack trace:
+[20-Jun-2016 03:03:55 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:0
+[20-Jun-2016 03:03:55 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:17
+[20-Jun-2016 11:03:55 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 11:03:55 PRC] PHP Stack trace:
+[20-Jun-2016 11:03:55 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 11:03:55 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 15:46:21 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:46:21 PRC] PHP Stack trace:
+[20-Jun-2016 15:46:21 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\index.php:0
+[20-Jun-2016 15:46:21 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\index.php:205
+[20-Jun-2016 07:46:22 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 07:46:22 UTC] PHP Stack trace:
+[20-Jun-2016 07:46:22 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:0
+[20-Jun-2016 07:46:22 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:17
+[20-Jun-2016 07:46:24 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 07:46:24 UTC] PHP Stack trace:
+[20-Jun-2016 07:46:24 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\user.php:0
+[20-Jun-2016 07:46:24 UTC] PHP   2. call_user_func() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[20-Jun-2016 07:46:24 UTC] PHP   3. action_login() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[20-Jun-2016 07:46:24 UTC] PHP   4. gd_version() D:\wamp\www\xiaojingdong\www_all\user.php:874
+[20-Jun-2016 15:46:27 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:46:27 PRC] PHP Stack trace:
+[20-Jun-2016 15:46:27 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 15:46:27 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 07:46:36 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 07:46:36 UTC] PHP Stack trace:
+[20-Jun-2016 07:46:36 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\user.php:0
+[20-Jun-2016 07:46:36 UTC] PHP   2. call_user_func() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[20-Jun-2016 07:46:36 UTC] PHP   3. action_act_login() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[20-Jun-2016 07:46:36 UTC] PHP   4. gd_version() D:\wamp\www\xiaojingdong\www_all\user.php:964
+[20-Jun-2016 15:46:36 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:46:36 PRC] PHP Stack trace:
+[20-Jun-2016 15:46:36 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\index.php:0
+[20-Jun-2016 15:46:36 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\index.php:205
+[20-Jun-2016 15:46:39 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:46:39 PRC] PHP Stack trace:
+[20-Jun-2016 15:46:39 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 15:46:39 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 15:46:42 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:46:42 PRC] PHP Stack trace:
+[20-Jun-2016 15:46:42 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 15:46:42 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 15:47:30 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:47:30 PRC] PHP Stack trace:
+[20-Jun-2016 15:47:30 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 15:47:30 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 15:56:22 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 15:56:22 PRC] PHP Stack trace:
+[20-Jun-2016 15:56:22 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 15:56:22 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 16:11:16 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 16:11:16 PRC] PHP Stack trace:
+[20-Jun-2016 16:11:16 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 16:11:16 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 16:11:16 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 16:11:16 PRC] PHP Stack trace:
+[20-Jun-2016 16:11:16 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 16:11:16 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 16:11:22 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 16:11:22 PRC] PHP Stack trace:
+[20-Jun-2016 16:11:22 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 16:11:22 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[20-Jun-2016 16:11:31 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[20-Jun-2016 16:11:31 PRC] PHP Stack trace:
+[20-Jun-2016 16:11:31 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[20-Jun-2016 16:11:31 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 16:19:58 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:19:58 PRC] PHP Stack trace:
+[24-Jun-2016 16:19:58 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\index.php:0
+[24-Jun-2016 16:19:58 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\index.php:205
+[24-Jun-2016 08:19:59 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 08:19:59 UTC] PHP Stack trace:
+[24-Jun-2016 08:19:59 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:0
+[24-Jun-2016 08:19:59 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:17
+[24-Jun-2016 16:20:01 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:01 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:01 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\category.php:0
+[24-Jun-2016 16:20:01 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\category.php:775
+[24-Jun-2016 16:20:02 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:02 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:02 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\category.php:0
+[24-Jun-2016 16:20:02 PRC] PHP   2. cls_template->display() D:\wamp\www\xiaojingdong\www_all\category.php:781
+[24-Jun-2016 16:20:02 PRC] PHP   3. cls_template->insert_mod() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:115
+[24-Jun-2016 16:20:02 PRC] PHP   4. insert_member_info() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:1148
+[24-Jun-2016 16:20:02 PRC] PHP   5. gd_version() D:\wamp\www\xiaojingdong\www_all\includes\lib_insert.php:394
+[24-Jun-2016 08:20:02 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 08:20:02 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:02 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:0
+[24-Jun-2016 08:20:02 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\login_act_ajax.php:17
+[24-Jun-2016 16:20:02 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:02 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:02 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:02 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 08:20:03 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 08:20:03 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:03 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\user.php:0
+[24-Jun-2016 08:20:03 UTC] PHP   2. call_user_func() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[24-Jun-2016 08:20:03 UTC] PHP   3. action_login() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[24-Jun-2016 08:20:03 UTC] PHP   4. gd_version() D:\wamp\www\xiaojingdong\www_all\user.php:874
+[24-Jun-2016 16:20:03 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:03 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:03 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:03 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 08:20:09 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 08:20:09 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:09 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\user.php:0
+[24-Jun-2016 08:20:09 UTC] PHP   2. call_user_func() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[24-Jun-2016 08:20:09 UTC] PHP   3. action_act_login() D:\wamp\www\xiaojingdong\www_all\user.php:158
+[24-Jun-2016 08:20:09 UTC] PHP   4. gd_version() D:\wamp\www\xiaojingdong\www_all\user.php:964
+[24-Jun-2016 16:20:09 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:09 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:09 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\category.php:0
+[24-Jun-2016 16:20:09 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\category.php:775
+[24-Jun-2016 16:20:10 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:10 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:10 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\category.php:0
+[24-Jun-2016 16:20:10 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\category.php:775
+[24-Jun-2016 16:20:15 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:15 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:15 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:15 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 16:20:28 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:28 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:28 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:28 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 16:20:32 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:32 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:32 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:32 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 16:20:37 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:37 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:37 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\category.php:0
+[24-Jun-2016 16:20:37 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\category.php:775
+[24-Jun-2016 16:20:37 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:37 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:37 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\category.php:0
+[24-Jun-2016 16:20:37 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\category.php:775
+[24-Jun-2016 16:20:37 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:37 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:37 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:37 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 16:20:39 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:39 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:39 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\goods.php:0
+[24-Jun-2016 16:20:39 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\goods.php:702
+[24-Jun-2016 16:20:40 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:40 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:40 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\goods.php:0
+[24-Jun-2016 16:20:40 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\goods.php:702
+[24-Jun-2016 16:20:40 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:40 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:40 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:40 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[24-Jun-2016 08:20:43 UTC] PHP Fatal error:  Cannot redeclare get_consignee_list() (previously declared in D:\wamp\www\xiaojingdong\www_all\flow.php:346) in D:\wamp\www\xiaojingdong\www_all\includes\lib_transaction.php on line 221
+[24-Jun-2016 08:20:43 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:43 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\flow.php:0
+[24-Jun-2016 08:20:46 UTC] PHP Fatal error:  Cannot redeclare get_consignee_list() (previously declared in D:\wamp\www\xiaojingdong\www_all\flow.php:346) in D:\wamp\www\xiaojingdong\www_all\includes\lib_transaction.php on line 221
+[24-Jun-2016 08:20:46 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:46 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\flow.php:0
+[24-Jun-2016 08:20:46 UTC] PHP Fatal error:  Cannot redeclare get_consignee_list() (previously declared in D:\wamp\www\xiaojingdong\www_all\flow.php:346) in D:\wamp\www\xiaojingdong\www_all\includes\lib_transaction.php on line 221
+[24-Jun-2016 08:20:46 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:46 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\flow.php:0
+[24-Jun-2016 08:20:46 UTC] PHP Fatal error:  Cannot redeclare get_consignee_list() (previously declared in D:\wamp\www\xiaojingdong\www_all\flow.php:346) in D:\wamp\www\xiaojingdong\www_all\includes\lib_transaction.php on line 221
+[24-Jun-2016 08:20:46 UTC] PHP Stack trace:
+[24-Jun-2016 08:20:46 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\flow.php:0
+[24-Jun-2016 16:20:51 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[24-Jun-2016 16:20:51 PRC] PHP Stack trace:
+[24-Jun-2016 16:20:51 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[24-Jun-2016 16:20:51 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35
+[08-Aug-2016 12:17:05 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[08-Aug-2016 12:17:05 UTC] PHP Stack trace:
+[08-Aug-2016 12:17:05 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\apply_index.php:0
+[08-Aug-2016 12:17:05 UTC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\apply_index.php:68
+[08-Aug-2016 12:17:05 UTC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[08-Aug-2016 12:17:05 UTC] PHP Stack trace:
+[08-Aug-2016 12:17:05 UTC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\apply_index.php:0
+[08-Aug-2016 12:17:05 UTC] PHP   2. cls_template->display() D:\wamp\www\xiaojingdong\www_all\apply_index.php:73
+[08-Aug-2016 12:17:05 UTC] PHP   3. cls_template->insert_mod() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:115
+[08-Aug-2016 12:17:05 UTC] PHP   4. insert_member_info1() D:\wamp\www\xiaojingdong\www_all\includes\cls_template.php:1148
+[08-Aug-2016 12:17:05 UTC] PHP   5. gd_version() D:\wamp\www\xiaojingdong\www_all\includes\lib_insert.php:428
+[08-Aug-2016 20:17:06 PRC] PHP Strict standards:  Non-static method cls_image::gd_version() should not be called statically in D:\wamp\www\xiaojingdong\www_all\includes\lib_base.php on line 346
+[08-Aug-2016 20:17:06 PRC] PHP Stack trace:
+[08-Aug-2016 20:17:06 PRC] PHP   1. {main}() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:0
+[08-Aug-2016 20:17:06 PRC] PHP   2. gd_version() D:\wamp\www\xiaojingdong\www_all\pre_sale.php:35

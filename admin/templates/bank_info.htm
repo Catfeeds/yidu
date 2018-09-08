@@ -1,0 +1,52 @@
+<!-- $Id: user_info.htm 16854 2009-12-07 06:20:09Z sxc_shop $ -->
+{include file="pageheader.htm"}
+{insert_scripts files="../js/transport.org.js,../js/region.js"}
+<div class="main-div">
+
+  <form method="post" action="bank_manage.php" name="theForm" enctype="multipart/form-data">
+    <table width="100%" id="general-table">
+      <tr>
+        <td class="label">银行名称：</td>
+        <td>
+          <input type="text" name="bank_name" maxlength="60" value="{$bank_info.bank_name}" />
+          <span class="require-field">*</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">银行图标</td>
+        <td>
+            <input type="file" name="icon"/><br />
+            <div style="padding:10px 0px">
+                {if $bank_info.icon neq ''}<img src="../{$bank_info.icon}" width="100" height="100" />{else}暂无{/if}
+            </div>
+        </td>
+      </tr>
+    </table>
+    <div class="button-div">
+      <input type="submit" value="{$lang.button_submit}" class="button" />
+      <input type="reset" value="{$lang.button_reset}" class="button" />
+      <input type="hidden" name="act" value="{$form_action}" />
+      <input type="hidden" name="bank_id" value="{$bank_info.bank_id}" />
+    </div>
+  </form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js,tab.js"}
+{literal}
+<script language="JavaScript">
+region.isAdmin = true;
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+$(function(){
+  $("input[type='submit']").click(function(event) {
+    if ($.trim($("input[name='bank_name']").val()).length == 0) {
+      alert('请填写银行名称！');
+      return false;
+    }
+  });
+});
+</script>
+{/literal}
+{include file="pagefooter.htm"}

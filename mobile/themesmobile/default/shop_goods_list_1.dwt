@@ -1,0 +1,97 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="Keywords" content="商品管理" />
+    <meta name="Description" content="商品管理" />
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>商品管理</title>
+    <link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="themesmobile/default/css/shop_list.css">
+</head>
+<body style=" background:#e5e5e5">
+    <div class="header">
+        <div class="h-left">
+            <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+        </div>
+        <div class="h-mid">商品管理</div>
+        <div class="h-right">
+            <aside class="top_bar">
+                <div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                    <a href="javascript:;"></a>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script type="text/javascript" src="themesmobile/default/js/mobile.js" ></script>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+    <ul class="Navigation">
+        <li class="bian_r on">
+            <a href="shop.php?act=goods_list&goods_type=1">
+                <span>普通商品</span>
+            </a>
+        </li>
+        <li class="bian_r">
+            <a href="supplier.php?go=activity&suppId={$supplier_id}&keywords=">
+                <span>优惠活动</span>
+            </a>
+        </li>
+    </ul>
+
+    <div id="scrollimg" class="scrollimg"></div>
+
+    <div class="product_value">
+        <ul>
+            {if $goods_list}
+            {foreach from=$goods_list item=goods}
+            <li>
+                <a href="{$goods.url}">
+                    <span>
+                        <img src="{$goods.goods_thumb}" />
+                    </span>
+                </a>
+                <a href="goods.php?id=298"><span class="p_info">{$goods.goods_name}</span></a>
+                <span class="price">{$goods.shop_price}</span>
+                <span class="sale_control" data-id="{$goods.goods_id}" data-sale="{if $goods.is_on_sale eq 1}0{else}1{/if}" href="shop.php?act=xiajia" style="float: right;width: 3.5rem;height: 1.5rem;line-height: 1.5rem;font-size: .75rem;color: #fff;background: #a4a4a4;border-radius: .05rem;text-align: center;padding-bottom: 0;margin-top: -20px;">
+                    {if $goods.is_on_sale eq 1}
+                    商品下架
+                    {else}
+                    商品上架
+                    {/if}
+                </span>
+            </li>
+            {/foreach}
+            {/if}
+        </ul>
+    </div>
+    {if $goods_list}
+    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+    {else}
+    <p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+    {/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+$(function(){
+    $('.sale_control').click(function(event) {
+        var goods_id = $(this).attr('data-id');
+        var is_on_sale = $(this).attr('data-sale');
+        $.ajax({
+            url: 'shop.php?act=sale_control',
+            type: 'POST',
+            dataType: 'json',
+            data: {goods_id: goods_id, is_on_sale: is_on_sale},
+            success: function(response) {
+                alert(response.msg);
+                location.reload();
+            }
+        });
+    });
+});
+</script>

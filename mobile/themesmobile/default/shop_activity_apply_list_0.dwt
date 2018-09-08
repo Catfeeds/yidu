@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>优惠活动申请</title>
+    <meta name="keywords" content="优惠活动申请" />
+    <meta name="description" content="优惠活动申请" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>优惠活动申请</h2>
+	<div class="txt"><a href="shop.php?act=add_activity">添加</a></div>
+</div>
+<div class="content">
+	<div class="sps bgc sps3">
+		<ul class="sps_list clearfix">
+			<li class="on"><a href="shop.php?act=shop_activity">待审核（{$wait_pass}）</a></li>
+			<li><a href="shop.php?act=shop_activity&pass_status=1">审核通过（{$pass}）</a></li>
+			<li><a href="shop.php?act=shop_activity&pass_status=2">审核不通过（{$unpass}）</a></li>
+		</ul>
+	</div>
+	<div class="commodity">
+		<ul class="on">
+			{if $activity_list}
+			{foreach from=$activity_list item=activity name=activity}
+			<li class="clearfix">
+				<div class="commodity_l">
+					<p><span>活动名称：</span>{$activity.activity_name}</p>
+					<p><span>优惠介绍：</span>{$activity.activity_desc}</p>
+					<p><span>优惠商品：</span>{$activity.goods_list}</p>
+					<p><span>开始时间：</span>{$activity.start_time}</p>
+					<p><span>结束时间：</span>{$activity.end_time}</p>
+					<p><span>优惠下限：</span>{$activity.min_amount}</p>
+					<p><span>优惠上限：</span>{$activity.max_amount}</p>
+					<p><span>优惠数值：</span>{$activity.act_type_ext}</p>
+				</div>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+	{if $activity_list}
+	<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+	{else}
+	<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+	{/if}
+</div >
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

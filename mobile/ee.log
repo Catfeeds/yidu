@@ -1,0 +1,80 @@
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 0
+)

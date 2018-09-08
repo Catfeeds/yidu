@@ -1,0 +1,1399 @@
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT code, value FROM `yidu_51itmap_co`.`hunuo_shop_config` WHERE parent_id > 0
+
+SELECT cus_no FROM `yidu_51itmap_co`.`hunuo_chat_third_customer` WHERE is_master = 1 AND cus_type = 0 AND supplier_id = 0
+
+SELECT cus_no FROM `yidu_51itmap_co`.`hunuo_chat_third_customer` WHERE is_master = 1 AND cus_type = 1 AND supplier_id = 0
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413066
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536414737' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536414737 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536414917', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536414917;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536414917, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536414917;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536414917', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413117
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413278
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413278
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413279
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413280
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413280
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413281
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413288
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413292
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413292
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413293
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536414917' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536414917 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536415097', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415097;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536415097, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415097;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536415097', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413297
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413348
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536415097' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536415097 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536415277', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415277;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536415277, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415277;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536415277', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413478
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413478
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413479
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413479
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413480
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413522
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413524
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413526
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413532
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413532
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413532
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413532
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413612
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413612
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413613
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413613
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413652
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413652
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536415277' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536415277 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536415457', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415457;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536415457, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415457;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536415457', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413732
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536413732
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536415457' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536415457 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536415637', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415637;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536415637, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415637;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536415637', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536413837
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536415637' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536415637 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536415817', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415817;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536415817, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536415817;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536415817', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414060
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT nav_list FROM `yidu_51itmap_co`.`hunuo_admin_user` WHERE user_id = '12'
+
+SELECT COUNT(order_id) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id = 0 AND extension_code <> 'virtual_good'
+
+ SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id = 0 AND is_real = 1 AND is_delete = 0 AND is_alone_sale = 1
+
+SELECT COUNT(comment_id) FROM `yidu_51itmap_co`.`hunuo_comment` WHERE parent_id = 0
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414060
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT message_id, sender_id, receiver_id, sent_time, readed, deleted, title, message, user_name FROM `yidu_51itmap_co`.`hunuo_admin_message` AS a, `yidu_51itmap_co`.`hunuo_admin_user` AS b WHERE a.sender_id = b.user_id AND a.receiver_id = '12' AND a.readed = 0 AND deleted = 0 ORDER BY a.sent_time DESC
+
+SELECT pay_id, is_cod FROM `yidu_51itmap_co`.`hunuo_payment` WHERE enabled = 1
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT  SUM(money_paid) AS sales FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE `confirm_time` BETWEEN 1536364800 AND 1536451199  AND supplier_id=0   AND order_status  IN ('1','5')  AND shipping_status  IN ('1','2')  AND pay_status  IN ('2','1')  
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE `confirm_time` BETWEEN 1536364800 AND 1536451199 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_users` WHERE `reg_time` BETWEEN 1536364800 AND 1536451199
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE status=1 AND add_time BETWEEN 1536364800 AND 1536451199
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE status=1
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_status=0 AND is_delete=0 AND is_real=1 AND supplier_id<>0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_user_account` WHERE `process_type`=0 AND `is_paid`=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_user_account` WHERE `process_type`=1 AND `is_paid`=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE applynum = 3 AND status in ('0', '-1')
+
+SELECT
+	COUNT(count)
+FROM
+	(
+		SELECT
+			COUNT(f.msg_id) AS count
+		FROM
+			`yidu_51itmap_co`.`hunuo_feedback` AS f
+		LEFT JOIN `yidu_51itmap_co`.`hunuo_feedback` AS r ON r.parent_id = f.msg_id
+		WHERE
+			f.parent_id = 0
+		AND f.msg_status = 0
+		GROUP BY
+			f.msg_id
+		HAVING
+			COUNT(r.msg_id) = 0
+	) AS a
+
+SELECT count(*) FROM `yidu_51itmap_co`.`hunuo_comment` WHERE parent_id = 0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_shaidan` AS a LEFT JOIN `yidu_51itmap_co`.`hunuo_users` AS u ON u.user_id = a.user_id LEFT JOIN `yidu_51itmap_co`.`hunuo_order_goods` AS og ON og.rec_id = a.rec_id 
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods_tag` WHERE `state`=0;
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_alone_sale = 1 AND is_real = 1
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_alone_sale = 1 AND is_real=0 AND extension_code='virtual_card'
+
+ SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id = 0 AND is_real=1 AND is_delete=0 AND is_alone_sale = 1
+
+ SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id != 0 AND is_real=1 AND is_delete=0 AND is_alone_sale = 1
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE goods_number <= warn_number  AND is_delete=0 AND is_real=1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE goods_number <= warn_number AND is_delete=0 AND is_real=1 AND supplier_id=0 AND extension_code='virtual_card'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_new = 1 AND is_real = 1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_new = 1 AND is_real=0 AND supplier_id=0 AND extension_code='virtual_card'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_best = 1 AND is_real = 1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_best = 1 AND is_real=0 AND supplier_id=0 AND extension_code='virtual_card'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_hot = 1 AND is_real = 1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_hot = 1 AND is_real=0 AND supplier_id=0 AND extension_code='virtual_card'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND promote_price>0 AND promote_start_date <= '1536415861' AND promote_end_date >= '1536415861' AND is_real = 1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND promote_price>0 AND promote_start_date <= '1536415861' AND promote_end_date >= '1536415861' AND is_real=0 AND supplier_id=0 AND extension_code='virtual_card'
+
+ SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_on_sale = 0 AND is_real=1 AND is_delete=0 AND is_alone_sale = 1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id=0
+
+SELECT pay_id FROM `yidu_51itmap_co`.`hunuo_payment` WHERE is_cod = 1
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id=0 AND extension_code != 'virtual_good'  AND is_lucky =0 AND  order_status  IN ('1','5','6')  AND   shipping_status  IN ('0','3','5')  AND ( pay_status  IN ('2','1')  OR pay_id  IN ('6') ) 
+
+SELECT pay_id FROM `yidu_51itmap_co`.`hunuo_payment` WHERE is_cod = 0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id=0 AND extension_code != 'virtual_good'  AND   order_status  IN ('1','5')  AND   pay_status = '0' AND ( shipping_status  IN ('1','2')  OR pay_id  IN ('1','2','3','8','4','5','7') ) 
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id=0  AND order_status = '0' 
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id=0 AND shipping_status=4
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_back_order` WHERE status_back < 6 AND status_back != 3 AND back_type = 4 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_back_order` WHERE status_back < 6 AND status_back != 3 AND back_type = 1 AND supplier_id=0
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_booking_goods` AS bg, `yidu_51itmap_co`.`hunuo_goods` AS g WHERE bg.goods_id = g.goods_id
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE supplier_id=0 AND extension_code != 'virtual_good' AND order_status  IN ('1','5')  AND shipping_status  IN ('1','2')  AND pay_status  IN ('2','1')  
+
+SELECT `froms`, count(*) AS `count` FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE `confirm_time` BETWEEN 1535760000 AND 1538351999 AND supplier_id=0 GROUP BY `froms` ORDER BY `count` DESC
+
+SELECT DATE_FORMAT(FROM_UNIXTIME(`confirm_time`),"%d") AS day,COUNT(*) AS count,SUM(money_paid) AS money FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE `confirm_time` BETWEEN 1535760000 AND 1538351999 AND supplier_id=0 GROUP BY day ORDER BY day ASC 
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) AS oCount, IFNULL(SUM(order_amount), 0) AS oAmount FROM `yidu_51itmap_co`.`hunuo_order_info`
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_goods` WHERE is_delete = 0 AND is_alone_sale = 1 AND is_real = 1
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_users`
+
+SELECT value FROM `yidu_51itmap_co`.`hunuo_shop_config` WHERE code = 'template'
+
+SELECT value FROM `yidu_51itmap_co`.`hunuo_shop_config` WHERE code = 'stylename'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414062
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414062
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414150
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414150
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status = '1' 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status = '1' 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=691 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=692 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=693 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=744 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=795 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=830 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=865 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=866 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=869 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=870 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=871 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=873 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=900 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=935 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414157
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status = '1'  AND supplier_name LIKE '%hao%'
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status = '1'  AND supplier_name LIKE '%hao%'
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4565 and code='shop_closed'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414163
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_admin_user` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_article` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_category` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_cat_recommend` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_goods_cat` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_guanzhu` WHERE supplierid = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_money_log` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_nav` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_shop_config` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_street` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_tag_map` WHERE supplier_id = 4565
+
+select goods_thumb,goods_img,original_img from `yidu_51itmap_co`.`hunuo_goods` where supplier_id=4565
+
+select gg.img_url,gg.thumb_url,gg.img_original from `yidu_51itmap_co`.`hunuo_goods_gallery` as gg,`yidu_51itmap_co`.`hunuo_goods` as g where g.supplier_id=4565 and g.goods_id=gg.goods_id
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_activity` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_attr` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_cat` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_gallery` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_tag` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_products` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+update `yidu_51itmap_co`.`hunuo_users` set shop_id = 0 WHERE shop_id = 4565
+
+update `yidu_51itmap_co`.`hunuo_agent_shop` set user_id = 0, chuzu_status = 0, chuzu_time = 0, jh_time = 0 WHERE shop_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = 4565
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status = '1' 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status = '1' 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=691 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=692 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=693 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=744 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=795 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=830 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=865 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=866 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=869 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=870 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=871 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=873 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=900 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=935 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414169
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=319136 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414176
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=319136 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414177
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = '319136'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '0' AND parent_id = '0'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '1' AND parent_id = '1'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '2' AND parent_id = '2'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '3' AND parent_id = '52'
+
+select rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` where rank_id = 0
+
+select str_name from `yidu_51itmap_co`.`hunuo_street_category` where str_id = 0
+
+SELECT rank_id, rank_name FROM `yidu_51itmap_co`.`hunuo_supplier_rank` ORDER BY sort_order
+
+SELECT a.shop_id, a.shop_code, a.agent_id, b.user_id, b.user_name FROM `yidu_51itmap_co`.`hunuo_agent_shop` a LEFT JOIN `yidu_51itmap_co`.`hunuo_users` b ON a.agent_id = b.user_id WHERE a.chuzu_status = 0 AND b.user_id > 0 ORDER BY add_time DESC
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414178
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+select s.supplier_id,s.add_time,s.status as supplier_status,s.supplier_name,u.* from `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id=u.user_id where s.supplier_id=319136
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_agent_shop` WHERE shop_id = 4565
+
+UPDATE `yidu_51itmap_co`.`hunuo_users` SET `status`='1', `shop_id`=4565 WHERE `user_id`='67'
+
+UPDATE `yidu_51itmap_co`.`hunuo_agent_shop` SET `user_id`= 67, `chuzu_status` = 2, `chuzu_time` = '1536415985', `jh_time` = '1536415985', `end_time` = '1544249585' WHERE `shop_id`= 4565
+
+SELECT count(id) FROM `yidu_51itmap_co`.`hunuo_supplier_shop_config` WHERE supplier_id=4565
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_supplier_shop_config` (`id`, `parent_id`, `code`, `type`, `store_range`, `store_dir`, `value`, `sort_order`, `supplier_id`) VALUES
+                (1, 0, 'shop_info', 'group', '', '', '', 1, 4565),
+                (2, 0, 'hidden', 'hidden', '', '', '', 1, 4565),
+                (8, 0, 'sms', 'group', '', '', '', 1, 4565),
+                (101, 1, 'shop_name', 'text', '', '', '商家店铺名称', 1, 4565),
+                (102, 1, 'shop_title', 'text', '', '', '商家店铺标题', 1, 4565),
+                (103, 1, 'shop_desc', 'hidden', '', '', '商家店铺描述', 1, 4565),
+                (104, 1, 'shop_keywords', 'text', '', '', '商家店铺关键字', 1, 4565),
+                (105, 1, 'shop_country', 'manual', '', '', '1', 1, 4565),
+                (106, 1, 'shop_province', 'manual', '', '', '0', 1, 4565),
+                (107, 1, 'shop_city', 'manual', '', '', '0', 1, 4565),
+                (108, 1, 'shop_address', 'text', '', '', '', 1, 4565),
+                (109, 1, 'qq', 'text', '', '', '', 1, 4565),
+                (110, 1, 'ww', 'text', '', '', '', 1, 4565),
+                (111, 1, 'skype', 'hidden', '', '', '', 1, 4565),
+                (112, 1, 'ym', 'hidden', '', '', '', 1, 4565),
+                (113, 1, 'msn', 'hidden', '', '', '', 1, 4565),
+                (114, 1, 'service_email', 'text', '', '', '', 1, 4565),
+                (115, 1, 'service_phone', 'text', '', '', '', 1, 4565),
+                (116, 1, 'shop_closed', 'select', '0,1', '', '0', 1, 4565),
+                (117, 1, 'close_comment', 'textarea', '', '', '该店铺正在装修', 1, 4565),
+                (118, 1, 'shop_logo', 'file', '', '../themes/{$template}/images/', '', 1, 4565),
+                (119, 1, 'licensed', 'hidden', '0,1', '', '1', 1, 4565),
+                (120, 1, 'user_notice', 'hidden', '', '', '用户中心公告！', 1, 4565),
+                (121, 1, 'shop_notice', 'textarea', '', '', '商家店铺介绍:欢迎光临手机网,我们的宗旨：诚信经营、服务客户！
+<MARQUEE onmouseover=this.stop() onmouseout=this.start() 
+scrollAmount=3><U><FONT color=red>
+<P>咨询电话010-10124444  010-21252454 8465544</P></FONT></U></MARQUEE>', 1, 4565),
+                (122, 1, 'shop_reg_closed', 'hidden', '1,0', '', '0', 1, 4565),
+                (123, 1, 'shop_index_num', 'textarea', '', '', '8
+6
+4', 1, 4565),
+                (124, 1, 'shop_search_price', 'textarea', '', '', '0-1000元
+1000-2000元
+2000-4000元', 1, 4565),
+                (201, 2, 'shop_header_color', 'hidden', '', '', '#E4368F', 1, 4565),
+                (202, 2, 'shop_header_text', 'hidden', '', '', '请上传logo和banner', 1, 4565),
+                (203, 2, 'template', 'hidden', '', '', 'dianpu1', 1, 4565),
+                (204, 2, 'stylename', 'hidden', '', '', '', 1, 4565),
+                (205, 2, 'flash_theme', 'hidden', '', '', '4565', 1, 4565),
+                (801, 8, 'sms_shop_mobile', 'text', '', '', '', 1, 4565),
+                (802, 8, 'sms_order_placed', 'select', '1,0', '', '0', 0, 4565),
+                (803, 8, 'sms_order_payed', 'select', '1,0', '', '0', 1, 4565),
+                (804, 8, 'sms_order_shipped', 'select', '1,0', '', '0', 1, 4565);
+
+UPDATE `yidu_51itmap_co`.`hunuo_supplier_shop_config` SET `value` = 'hao' WHERE code = 'shop_name' and `supplier_id` = 4565
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_supplier_street` (supplier_id,supplier_type,supplier_name,supplier_title,supplier_desc,supplier_tags,add_time,is_show,status)VALUES (4565,0,'hao','hao','hao','','1536415985',1,1)
+
+DESC `yidu_51itmap_co`.`hunuo_supplier`
+
+UPDATE `yidu_51itmap_co`.`hunuo_supplier` SET rank_id = '3', country = '1', province = '2', city = '52', district = '501', address = '123', email = '', system_fee = '', supplier_bond = '0.00', supplier_rebate = '10', supplier_rebate_paytime = '0', supplier_remark = '', status = '1', add_time = '1536415985', bank_account_name = '', bank_account_number = '', bank_name = '', bank_code = '', settlement_bank_account_name = '', settlement_bank_account_number = '', settlement_bank_name = '', settlement_bank_code = '', id_card_no = '123', agent_id = '1403', shop_code = 'X1069037', shop_id = '4565' WHERE supplier_id = '319136'
+
+UPDATE `yidu_51itmap_co`.`hunuo_supplier` SET `supplier_id` = '4565' WHERE `supplier_id` = 319136
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_admin_user` where supplier_id=319136
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_supplier_admin_user` (`uid`, `user_name`, `email`, `password`, `add_time`, `last_login`, `last_ip`, `action_list`, `nav_list`, `lang_type`, `agency_id`, `supplier_id`,`pwd`,`todolist`, `role_id`, `checked`) VALUES(67, 'hao1', 'meilop@qq.com', 'e10adc3949ba59abbe56e057f20f883e', 1536415973, 1536415973, '127.0.0.1', 'all', '', '', 0, 4565, 123456, NULL, NULL, 1)
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+select s.supplier_id,s.add_time,s.status as supplier_status,s.supplier_name,u.* from `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id=u.user_id where s.supplier_id=319136
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414210
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status = '1'  AND supplier_name LIKE '%hao%'
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status = '1'  AND supplier_name LIKE '%hao%'
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4565 and code='shop_closed'
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status = '1'  AND supplier_name LIKE '%hao%'
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status = '1'  AND supplier_name LIKE '%hao%'
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4565 and code='shop_closed'
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414215
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536415817' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536415817 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536416017', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536416017;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536416017, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536416017;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536416017', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_admin_user` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_article` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_category` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_cat_recommend` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_goods_cat` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_guanzhu` WHERE supplierid = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_money_log` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_nav` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_shop_config` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_street` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier_tag_map` WHERE supplier_id = 4565
+
+select goods_thumb,goods_img,original_img from `yidu_51itmap_co`.`hunuo_goods` where supplier_id=4565
+
+select gg.img_url,gg.thumb_url,gg.img_original from `yidu_51itmap_co`.`hunuo_goods_gallery` as gg,`yidu_51itmap_co`.`hunuo_goods` as g where g.supplier_id=4565 and g.goods_id=gg.goods_id
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_activity` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_attr` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_cat` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_gallery` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods_tag` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+delete FROM `yidu_51itmap_co`.`hunuo_products` WHERE goods_id in (SELECT goods_id FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id =4565)
+
+update `yidu_51itmap_co`.`hunuo_users` set shop_id = 0 WHERE shop_id = 4565
+
+update `yidu_51itmap_co`.`hunuo_agent_shop` set user_id = 0, chuzu_status = 0, chuzu_time = 0, jh_time = 0 WHERE shop_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_goods` WHERE supplier_id = 4565
+
+delete FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = 4565
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414217
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = '319136'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '0' AND parent_id = '0'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '1' AND parent_id = '1'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '2' AND parent_id = ''
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '3' AND parent_id = ''
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414219
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = '319136'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '0' AND parent_id = '0'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '1' AND parent_id = '1'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '2' AND parent_id = ''
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '3' AND parent_id = ''
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414220
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414220
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status = '1' 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status = '1' 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=691 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=692 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=693 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=744 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=795 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=830 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=865 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=866 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=869 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=870 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=871 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=873 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=900 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=935 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414222
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414222
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_supplier` as s WHERE applynum = 3  AND s.status in('0','-1') 
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_rank`
+
+SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  s.status FROM `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id = u.user_id left join `yidu_51itmap_co`.`hunuo_supplier_admin_user` as sau on s.supplier_id = sau.supplier_id
+                WHERE applynum = 3  AND s.status in('0','-1') 
+                ORDER BY supplier_id ASC
+                LIMIT 0, 15 
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=743 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=867 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=872 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1180 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=1356 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=4223 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=134537 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=401868 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=821995 and code='shop_closed'
+
+select value from `yidu_51itmap_co`.`hunuo_supplier_shop_config` where supplier_id=907902 and code='shop_closed'
+
+select rank_id,rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` order by sort_order
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536414381
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_supplier` WHERE supplier_id = '821995'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '0' AND parent_id = '0'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '1' AND parent_id = '1'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '2' AND parent_id = '3'
+
+SELECT region_id, region_name FROM `yidu_51itmap_co`.`hunuo_region` WHERE region_type = '3' AND parent_id = '36'
+
+select rank_name from `yidu_51itmap_co`.`hunuo_supplier_rank` where rank_id = 0
+
+select str_name from `yidu_51itmap_co`.`hunuo_street_category` where str_id = 0
+
+SELECT rank_id, rank_name FROM `yidu_51itmap_co`.`hunuo_supplier_rank` ORDER BY sort_order
+
+SELECT a.shop_id, a.shop_code, a.agent_id, b.user_id, b.user_name FROM `yidu_51itmap_co`.`hunuo_agent_shop` a LEFT JOIN `yidu_51itmap_co`.`hunuo_users` b ON a.agent_id = b.user_id WHERE a.chuzu_status = 0 AND b.user_id > 0 ORDER BY add_time DESC
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536414384
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536416017' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536416017 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536416203', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536416203;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536416203, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536416203;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536416203', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+select s.supplier_id,s.add_time,s.status as supplier_status,s.supplier_name,s.tel,u.* from `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id=u.user_id where s.supplier_id=821995
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+select s.supplier_id,s.add_time,s.status as supplier_status,s.supplier_name,s.tel,u.* from `yidu_51itmap_co`.`hunuo_supplier` as s left join `yidu_51itmap_co`.`hunuo_users` as u on s.user_id=u.user_id where s.supplier_id=821995
+
+SELECT * FROM `yidu_51itmap_co`.`hunuo_agent_shop` WHERE shop_id = 4566
+
+UPDATE `yidu_51itmap_co`.`hunuo_users` SET `status`='1', `shop_id`=4566 WHERE `user_id`='67'
+
+UPDATE `yidu_51itmap_co`.`hunuo_agent_shop` SET `user_id`= 67, `chuzu_status` = 2, `chuzu_time` = '1536416253', `jh_time` = '1536416253', `end_time` = '1544249853' WHERE `shop_id`= 4566
+
+SELECT count(id) FROM `yidu_51itmap_co`.`hunuo_supplier_shop_config` WHERE supplier_id=4566
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_supplier_shop_config` (`id`, `parent_id`, `code`, `type`, `store_range`, `store_dir`, `value`, `sort_order`, `supplier_id`) VALUES
+                (1, 0, 'shop_info', 'group', '', '', '', 1, 4566),
+                (2, 0, 'hidden', 'hidden', '', '', '', 1, 4566),
+                (8, 0, 'sms', 'group', '', '', '', 1, 4566),
+                (101, 1, 'shop_name', 'text', '', '', '商家店铺名称', 1, 4566),
+                (102, 1, 'shop_title', 'text', '', '', '商家店铺标题', 1, 4566),
+                (103, 1, 'shop_desc', 'hidden', '', '', '商家店铺描述', 1, 4566),
+                (104, 1, 'shop_keywords', 'text', '', '', '商家店铺关键字', 1, 4566),
+                (105, 1, 'shop_country', 'manual', '', '', '1', 1, 4566),
+                (106, 1, 'shop_province', 'manual', '', '', '0', 1, 4566),
+                (107, 1, 'shop_city', 'manual', '', '', '0', 1, 4566),
+                (108, 1, 'shop_address', 'text', '', '', '', 1, 4566),
+                (109, 1, 'qq', 'text', '', '', '', 1, 4566),
+                (110, 1, 'ww', 'text', '', '', '', 1, 4566),
+                (111, 1, 'skype', 'hidden', '', '', '', 1, 4566),
+                (112, 1, 'ym', 'hidden', '', '', '', 1, 4566),
+                (113, 1, 'msn', 'hidden', '', '', '', 1, 4566),
+                (114, 1, 'service_email', 'text', '', '', '', 1, 4566),
+                (115, 1, 'service_phone', 'text', '', '', '', 1, 4566),
+                (116, 1, 'shop_closed', 'select', '0,1', '', '0', 1, 4566),
+                (117, 1, 'close_comment', 'textarea', '', '', '该店铺正在装修', 1, 4566),
+                (118, 1, 'shop_logo', 'file', '', '../themes/{$template}/images/', '', 1, 4566),
+                (119, 1, 'licensed', 'hidden', '0,1', '', '1', 1, 4566),
+                (120, 1, 'user_notice', 'hidden', '', '', '用户中心公告！', 1, 4566),
+                (121, 1, 'shop_notice', 'textarea', '', '', '商家店铺介绍:欢迎光临手机网,我们的宗旨：诚信经营、服务客户！
+<MARQUEE onmouseover=this.stop() onmouseout=this.start() 
+scrollAmount=3><U><FONT color=red>
+<P>咨询电话010-10124444  010-21252454 8465544</P></FONT></U></MARQUEE>', 1, 4566),
+                (122, 1, 'shop_reg_closed', 'hidden', '1,0', '', '0', 1, 4566),
+                (123, 1, 'shop_index_num', 'textarea', '', '', '8
+6
+4', 1, 4566),
+                (124, 1, 'shop_search_price', 'textarea', '', '', '0-1000元
+1000-2000元
+2000-4000元', 1, 4566),
+                (201, 2, 'shop_header_color', 'hidden', '', '', '#E4368F', 1, 4566),
+                (202, 2, 'shop_header_text', 'hidden', '', '', '请上传logo和banner', 1, 4566),
+                (203, 2, 'template', 'hidden', '', '', 'dianpu1', 1, 4566),
+                (204, 2, 'stylename', 'hidden', '', '', '', 1, 4566),
+                (205, 2, 'flash_theme', 'hidden', '', '', '4566', 1, 4566),
+                (801, 8, 'sms_shop_mobile', 'text', '', '', '', 1, 4566),
+                (802, 8, 'sms_order_placed', 'select', '1,0', '', '0', 0, 4566),
+                (803, 8, 'sms_order_payed', 'select', '1,0', '', '0', 1, 4566),
+                (804, 8, 'sms_order_shipped', 'select', '1,0', '', '0', 1, 4566);
+
+UPDATE `yidu_51itmap_co`.`hunuo_supplier_shop_config` SET `value` = '123' WHERE code = 'shop_name' and `supplier_id` = 4566
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_supplier_street` (supplier_id,supplier_type,supplier_name,supplier_title,supplier_desc,supplier_tags,add_time,is_show,status)VALUES (4566,0,'123','123','123','','1536416253',1,1)
+
+DESC `yidu_51itmap_co`.`hunuo_supplier`
+
+UPDATE `yidu_51itmap_co`.`hunuo_supplier` SET rank_id = '3', country = '1', province = '3', city = '36', district = '398', address = '123', email = '', system_fee = '', supplier_bond = '0.00', supplier_rebate = '10', supplier_rebate_paytime = '0', supplier_remark = '', status = '1', add_time = '1536416253', bank_account_name = '', bank_account_number = '', bank_name = '', bank_code = '', settlement_bank_account_name = '', settlement_bank_account_number = '', settlement_bank_name = '', settlement_bank_code = '', id_card_no = '123', agent_id = '1403', shop_code = 'X1069038', shop_id = '4566' WHERE supplier_id = '821995'
+
+UPDATE `yidu_51itmap_co`.`hunuo_supplier` SET `supplier_id` = '4566' WHERE `supplier_id` = 821995
+
+select * from `yidu_51itmap_co`.`hunuo_supplier_admin_user` where supplier_id=821995
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_supplier_admin_user` (`uid`, `user_name`, `email`, `password`, `add_time`, `last_login`, `last_ip`, `action_list`, `nav_list`, `lang_type`, `agency_id`, `supplier_id`,`pwd`,`todolist`, `role_id`, `checked`) VALUES(67, 'hao1', 'meilop@qq.com', 'e10adc3949ba59abbe56e057f20f883e', 1536416177, 1536416177, '127.0.0.1', 'all', '', '', 0, 4566, 123456, NULL, NULL, 1)
+
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536416203' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536416203 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('1cc995d6e67fb811b372b397b65ff2dd', '1536416383', 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536416383;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536416383, data = 'a:5:{s:12:\"captcha_word\";s:16:\"Y2FhMjhkOTlhMQ==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536416383;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536416383', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = '1cc995d6e67fb811b372b397b65ff2dd' LIMIT 1
+
