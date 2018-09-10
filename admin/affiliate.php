@@ -28,6 +28,9 @@ if ($_REQUEST['act'] == 'list')
     {
         $smarty->assign('full_page', 1);
     }
+    
+    // $config['item'][2] = array('level_point'=>"10%", 'level_money'=>"10%");
+    // put_affiliate($config);
 
     $smarty->assign('ur_here', $_LANG['affiliate']);
     $smarty->assign('config', $config);
