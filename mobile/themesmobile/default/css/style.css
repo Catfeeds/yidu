@@ -157,7 +157,8 @@ footer .footer-inner>a.selected .f4{background-image: url(../images/f4on.png);}
 .us_b .gow li{width: 25%;}
 .us_b .cou li{width: 33.33%;}
 .us_b ul li{float: left;text-align: center;}
-.us_b ul li .pic{display: inline-block; width: .52rem;height:.75rem;}
+.us_b ul li .pic{display: inline-block; width: .52rem;height:.75rem;position: relative;}
+.us_b ul li .count{position: absolute;background-color: #E71F19;width: .3rem;height: .3rem;line-height: .3rem;color: #fff;font-size: .2rem;text-align: center;right: -.15rem;top: -.15rem;border-radius: .3rem;}
 .us_b ul li p{color: #666;}
 .us_b ul{display: none;}
 .us_b ul.on{display: block;}

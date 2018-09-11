@@ -620,7 +620,7 @@ function suppliers_list()
         $filter['page_count']     = $filter['record_count'] > 0 ? ceil($filter['record_count'] / $filter['page_size']) : 1;
 
         /* 查询 */
-        $sql = "SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark,  ".
+        $sql = "SELECT s.supplier_id, u.user_name, sau.user_name as supplier_user_name, sau.pwd, s.rank_id, s.supplier_name, s.tel, s.system_fee, s.supplier_bond, s.supplier_rebate, s.supplier_remark, s.add_time,  ".
             "s.status ".
             "FROM " . $GLOBALS['ecs']->table("supplier") . " as s left join " . $GLOBALS['ecs']->table("users") . " as u on s.user_id = u.user_id left join " . $GLOBALS['ecs']->table("supplier_admin_user") . " as sau on s.supplier_id = sau.supplier_id
                 $where
@@ -647,6 +647,7 @@ function suppliers_list()
     $res = $GLOBALS['db']->query($sql);
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
+        $row['add_time'] =  local_date("Y-m-d H:i:s",$row['add_time']);
         $row['rank_name'] = $rankname_list[$row['rank_id']];
         $row['status_name'] = $row['status']=='1' ? '通过' : ($row['status']=='0' ? "未审核" : "未通过");
         $open = $GLOBALS['db']->getRow("select value from ".$GLOBALS['ecs']->table("supplier_shop_config")." where supplier_id=".$row['supplier_id']." and code='shop_closed'");

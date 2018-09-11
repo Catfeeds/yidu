@@ -122,19 +122,20 @@
 		<div class="us_b">
 			<ul class="gow clearfix on">
 				<li><a href="user.php?act=order_list&composite_status=100">
-					<div class="pic"><img src="themesmobile/default/images/icon20.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon20.png" alt=""><span class="count">{$order_count.await_pay}</span></div>
 					<p>待付款</p>
+					
 				</a></li>
 				<li><a href="user.php?act=order_list&composite_status=101">
-					<div class="pic"><img src="themesmobile/default/images/icon21.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon21.png" alt=""><span class="count">{$order_count.await_ship}</span></div>
 					<p>待发货</p>
 				</a></li>
 				<li><a href="user.php?act=order_list&composite_status=105">
-					<div class="pic"><img src="themesmobile/default/images/icon22.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon22.png" alt=""><span class="count">{$order_count.await_receipt}</span></div>
 					<p>待收货</p>
 				</a></li>
 				<li><a href="user.php?act=order_list&composite_status=102">
-					<div class="pic"><img src="themesmobile/default/images/icon23.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon23.png" alt=""><span class="count">{$order_count.finished}</span></div>
 					<p>待评价</p>
 				</a></li>
 				<!-- <li><a href="">

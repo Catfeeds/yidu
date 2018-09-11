@@ -3846,7 +3846,10 @@ elseif ($_REQUEST['act'] == 'query')
 
     $tpl = $is_delete ? 'goods_trash.htm' : 'goods_list.htm';
 
-
+    //hao2018增加修复ajax无店内精品，热销
+    if (isset($_CFG['supplier_addbest'])){
+        $smarty->assign('is_addbest', $_CFG['supplier_addbest']);
+    }
 
     make_json_result($smarty->fetch($tpl), '',
 

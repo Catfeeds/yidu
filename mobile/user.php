@@ -19,8 +19,9 @@ require (dirname(__FILE__) . '/includes/init.php');
 /* 载入语言文件 */
 require_once (ROOT_PATH . 'languages/' . $_CFG['lang'] . '/user.php');
 
+/*hao2018登陆重复*/
 /*新版微信改动*/
-if(isset($_GET['wxid']) && !isset($_GET['is_update']))
+/*if(isset($_GET['wxid']) && !isset($_GET['is_update']))
 {
 	$sql = "SELECT ecuid FROM " .
 			$GLOBALS['ecs']->table('weixin_user') .
@@ -35,6 +36,7 @@ if(isset($_GET['wxid']) && !isset($_GET['is_update']))
 		 exit;
 	}
 }
+
 if(isset($_GET['wxid']))
 {
 	$_SESSION['wxid'] = $_GET['wxid'];
@@ -60,7 +62,8 @@ else
 			header("Location:$url");exit;	//上线后取消注释
 		}
 	}
-}
+}*/
+
 /*end*/
 $user_id = isset($_SESSION['user_id'])?$_SESSION['user_id']:0;
 // print_r($user_id);exit;
@@ -417,7 +420,7 @@ function action_default()
         /* 待收货的订单　*/
 	$order_count['await_receipt'] = $db->GetOne("SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE 1 $ex_where " . order_query_sql('await_receipt'));
 	$status['await_receipt'] = CS_AWAIT_RECEIPT;
-
+	
 	/* “未确认”的订单 */
 	$order_count['unconfirmed'] = $db->GetOne('SELECT COUNT(*) FROM ' . $ecs->table('order_info') . " WHERE 1 $ex_where " . order_query_sql('unconfirmed'));
 	$status['unconfirmed'] = OS_UNCONFIRMED;
@@ -1216,7 +1219,8 @@ function action_act_login()
 		update_user_info();
 		recalculate_price();
 		//绑定微信
-		if(isset($_SESSION['wxid']))
+		//hao2018--此处造成微信表绑定的id更换成手机的
+		/*if(isset($_SESSION['wxid']))
 		{
 			$sql = "UPDATE " . $GLOBALS['ecs']->table('weixin_user') .
 				   " SET ecuid = 0 WHERE ecuid = '" . $_SESSION['user_id'] . "'";
@@ -1225,7 +1229,7 @@ function action_act_login()
 				   " SET ecuid = '" . $_SESSION['user_id'] . "'" .
 				   " WHERE fake_id = '" . $_SESSION['wxid'] . "'";
 			$num = $GLOBALS['db']->query($sql);
-		}
+		}*/
 
 		process_transfer('user.php',$back_act);
 
@@ -1334,7 +1338,7 @@ function action_logout()
 	show_message($_LANG['logout'] . $ucdata, array(
 		$_LANG['back_home_lnk']
 	), array(
-		'http://www.ed163.cn/mobile/index.php'
+		'index.php'
 	), 'info');
 }
 

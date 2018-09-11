@@ -67,6 +67,7 @@ if ($_REQUEST['act'] == 'login')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'signin')
 {
+    // var_dump((intval($_CFG['captcha']) & CAPTCHA_ADMIN));exit;
     if (!empty($_SESSION['captcha_word']) && (intval($_CFG['captcha']) & CAPTCHA_ADMIN))
     {
         include_once(ROOT_PATH . 'includes/cls_captcha.php');
