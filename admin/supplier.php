@@ -272,7 +272,7 @@ elseif ($_REQUEST['act']=='update')
                 $supplier['agent_id'] = $shop_info['agent_id'];   //代理商ID
 
                 // 更新用户店铺ID，并设置该用户为审核通过
-                $sql = "UPDATE " . $ecs->table('users') . " SET `status`='1', `shop_id`=" . $shop_id . ", `parent_id`=" . $shop_info['1417'] . " WHERE `user_id`='" . $supplier_old['user_id'] . "'";
+                $sql = "UPDATE " . $ecs->table('users') . " SET `status`='1', `shop_id`=" . $shop_id . ", `parent_id`=" . $shop_info['agent_id'] . " WHERE `user_id`='" . $supplier_old['user_id'] . "'";
                 $db->query($sql);
 
                 // 设置店铺为已转出已激活状态

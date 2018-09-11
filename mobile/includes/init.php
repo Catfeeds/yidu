@@ -42,7 +42,7 @@ if (!file_exists(ROOT_PATH . '../data/install.lock') && !file_exists(ROOT_PATH .
 @ini_set('session.use_trans_sid', 0);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-@ini_set('display_errors',        0);
+@ini_set('display_errors',        0);//报错提示开启hao2018
 
 if (DIRECTORY_SEPARATOR == '\\')
 {
@@ -109,6 +109,8 @@ require(ROOT_PATH . 'includes/cls_mysql.php');
 $db = new cls_mysql($db_host, $db_user, $db_pass, $db_name);
 $db->set_disable_cache_tables(array($ecs->table('sessions'), $ecs->table('sessions_data'), $ecs->table('cart')));
 $db_host = $db_user = $db_pass = $db_name = NULL;
+
+
 
 /* 创建错误处理对象 */
 $err = new ecs_error('message.dwt');
@@ -278,6 +280,13 @@ if (!defined('INIT_NO_SMARTY'))
     /* 创建 Smarty 对象。*/
     require(ROOT_PATH . 'includes/cls_template.php');
     $smarty = new cls_template;
+
+
+    /*分享*/
+    require_once(ROOT_PATH.'includes/jssdk.php');
+    $jssdk = new JSSDK();
+    $signPackage = $jssdk->GetSignPackage();
+    $smarty->assign('signPackage',$signPackage);//微信分享
 
     $smarty->cache_lifetime = $_CFG['cache_time'];
     $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
