@@ -2970,6 +2970,7 @@ elseif ($_REQUEST['step'] == 'done')
 	        //分成功能关闭
 	        $parent_id = 0;
 	    }
+        
 	    $order['parent_id'] = $parent_id;
 
 		/*  自提功能

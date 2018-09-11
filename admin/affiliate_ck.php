@@ -124,6 +124,7 @@ elseif ($_REQUEST['act'] == 'separate')
             " WHERE order_id = '$oid' AND extension_code <> 'exchange_goods' AND u2.shop_id > 0");
 
 //代码增加--cb--推荐分成
+
 	if($separate_by==0)
 	{
 		$pid = $row['parent_id'];
@@ -132,6 +133,7 @@ elseif ($_REQUEST['act'] == 'separate')
 	{
 		$pid = $db->getOne("SELECT parent_id FROM " . $GLOBALS['ecs']->table('order_info')." WHERE order_id = '$oid'");
 	}
+
 	$row1=$db->getAll("SELECT order_id,goods_number,goods_price,cost_price,promote_price FROM " . $GLOBALS['ecs']->table('order_goods')." WHERE order_id = '$oid'");
 
 	$f_rank = $db->getOne("SELECT is_recomm FROM " . $GLOBALS['ecs']->table('user_rank') . " r" .
@@ -139,7 +141,7 @@ elseif ($_REQUEST['act'] == 'separate')
                         " WHERE u.user_id = '$pid'");
 	$user_rank_point = $db->getOne("SELECT rank_points FROM " . $ecs->table('users') . " WHERE user_id = '$pid'");
 
-    $sql = "SELECT is_recomm FROM " . $ecs->table('user_rank') . " WHERE min_points < '$user_rank_point' AND max_points > '$user_rank_point' ORDER BY min_points ASC LIMIT 1";
+    $sql = "SELECT is_recomm FROM " . $ecs->table('user_rank') . " WHERE min_points <= '$user_rank_point' AND max_points > '$user_rank_point' ORDER BY min_points ASC LIMIT 1";
 
 	$rt  = $db->getOne($sql);
 
@@ -166,6 +168,7 @@ elseif ($_REQUEST['act'] == 'separate')
         {
             $affiliate['config']['level_money_all'] /= 100;
         }
+
 		//代码增加--cb--推荐分成-start
 		if($affiliate['config']['level_money_all']==1)
 		{
@@ -186,6 +189,7 @@ elseif ($_REQUEST['act'] == 'separate')
 		{
 			$money = round($affiliate['config']['level_money_all'] * $row['goods_amount'],2);
 		}
+        
 		//代码增加--cb--推荐分成-end
         $integral = integral_to_give(array('order_id' => $oid, 'extension_code' => ''));
         $point = round($affiliate['config']['level_point_all'] * intval($integral['rank_points']), 0);
@@ -194,6 +198,7 @@ elseif ($_REQUEST['act'] == 'separate')
         {
             //推荐注册分成
             $num = count($affiliate['item']);
+
             for ($i=0; $i < $num; $i++)
             {
                 $affiliate['item'][$i]['level_point'] = (float)$affiliate['item'][$i]['level_point'];
@@ -208,17 +213,22 @@ elseif ($_REQUEST['act'] == 'separate')
                 }
                 $setmoney = round($money * $affiliate['item'][$i]['level_money'], 2);
                 $setpoint = round($point * $affiliate['item'][$i]['level_point'], 0);
-                $row = $db->getRow("SELECT o.parent_id as user_id,u.user_name FROM " . $GLOBALS['ecs']->table('users') . " o" .
+                /*hao2018修改分销从会员自身开始*/
+                $row = $db->getRow("SELECT o.user_id,o.user_name,o.parent_id FROM " . $GLOBALS['ecs']->table('users') . " o" .
                         " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.parent_id = u.user_id".
                         " WHERE o.user_id = '$row[user_id]'"
                     );
+                // $row = $db->getRow("SELECT o.parent_id as user_id,u.user_name FROM " . $GLOBALS['ecs']->table('users') . " o" .
+                //         " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.parent_id = u.user_id".
+                //         " WHERE o.user_id = '$row[user_id]'"
+                //     );
 				//代码增加--cb--推荐分成-start
                 $up_uid = $row['user_id'];
 
                 $user_rank_point = $db->getOne("SELECT rank_points FROM " . $ecs->table('users') . " WHERE user_id = '$up_uid'");
 
 
-                $sql = "SELECT is_recomm FROM " . $ecs->table('user_rank') . " WHERE min_points < '$user_rank_point' AND max_points > '$user_rank_point' ORDER BY min_points ASC LIMIT 1";
+                $sql = "SELECT is_recomm FROM " . $ecs->table('user_rank') . " WHERE min_points <= '$user_rank_point' AND max_points > '$user_rank_point' ORDER BY min_points ASC LIMIT 1";
 
                 $f_rank  = $db->getOne($sql);
 
@@ -237,7 +247,13 @@ elseif ($_REQUEST['act'] == 'separate')
 						write_affiliate_log($oid, $up_uid, $row['user_name'], $setmoney, $setpoint, $separate_by);
 					}
 				}
-					//代码增加--cb--推荐分成-end
+                //代码增加--cb--推荐分成-end.
+                /*hao2018--修改分销从会员自身开始*/
+                if($row['parent_id']>0){
+                    $row['user_id'] = $row['parent_id'];
+                }else{
+                    $row['user_id'] = 0;
+                }
 			}
         }
         else
