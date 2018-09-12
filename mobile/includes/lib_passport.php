@@ -215,6 +215,7 @@ function _register ($username, $password, $email_or_mobile, $other = array(), $r
 
 		/* 推荐处理 */
 		$affiliate = unserialize($GLOBALS['_CFG']['affiliate']);
+
 		if(isset($affiliate['on']) && $affiliate['on'] == 1)
 		{
 			// 推荐开关开启
@@ -222,28 +223,39 @@ function _register ($username, $password, $email_or_mobile, $other = array(), $r
 			empty($affiliate) && $affiliate = array();
 			$affiliate['config']['level_register_all'] = intval($affiliate['config']['level_register_all']);
 			$affiliate['config']['level_register_up'] = intval($affiliate['config']['level_register_up']);
+
+            
+
 			if($up_uid)
 			{
-				if(! empty($affiliate['config']['level_register_all']))
-				{
-					if(! empty($affiliate['config']['level_register_up']))
-					{
-						$rank_points = $GLOBALS['db']->getOne("SELECT rank_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'");
-						if($rank_points + $affiliate['config']['level_register_all'] <= $affiliate['config']['level_register_up'])
-						{
-							log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, sprintf($GLOBALS['_LANG']['register_affiliate'], $_SESSION['user_id'], $username));
-						}
-					}
-					else
-					{
-						log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, $GLOBALS['_LANG']['register_affiliate']);
-					}
-				}
+                /*hao2018增加判断，上级为店长才可进行分销绑定*/
+                $sql = "SELECT shop_id FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'";
+                $h_user = $GLOBALS['db']->getRow($sql);
+                
+                if($h_user['shop_id']>0){
 
-				// 设置推荐人
-				$sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
+    				if(! empty($affiliate['config']['level_register_all']))
+    				{
+    					if(! empty($affiliate['config']['level_register_up']))
+    					{
+    						$rank_points = $GLOBALS['db']->getOne("SELECT rank_points FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'");
+    						if($rank_points + $affiliate['config']['level_register_all'] <= $affiliate['config']['level_register_up'])
+    						{
+    							log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, sprintf($GLOBALS['_LANG']['register_affiliate'], $_SESSION['user_id'], $username));
+    						}
+    					}
+    					else
+    					{
+    						log_account_change($up_uid, 0, 0, $affiliate['config']['level_register_all'], 0, $GLOBALS['_LANG']['register_affiliate']);
+    					}
+    				}
 
-				$GLOBALS['db']->query($sql);
+    				// 设置推荐人
+    				$sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
+
+    				$GLOBALS['db']->query($sql);
+
+                }
 			}
 		}
 

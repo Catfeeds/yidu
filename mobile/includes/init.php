@@ -287,6 +287,18 @@ if (!defined('INIT_NO_SMARTY'))
     $jssdk = new JSSDK();
     $signPackage = $jssdk->GetSignPackage();
     $smarty->assign('signPackage',$signPackage);//微信分享
+    $smarty->assign('ecs_url_name',"http://".$_SERVER['SERVER_NAME']);//域名链接
+    $h_user_id = isset($_SESSION['user_id'])?$_SESSION['user_id']:0;
+    if(strstr($_SERVER['REQUEST_URI'],'?')){
+        $h_url = $_SERVER['REQUEST_URI'];
+        $h_url = preg_replace('/u=(\d+)/','u='.$h_user_id, $h_url);
+        $ecs_url_fenxian = "http://".$_SERVER['SERVER_NAME'].$h_url;
+    }else{
+        $ecs_url_fenxian = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'?u='.$h_user_id;
+    }
+    $smarty->assign('ecs_url_fenxian',$ecs_url_fenxian);//分享链接
+    
+
 
     $smarty->cache_lifetime = $_CFG['cache_time'];
     $ua = strtolower($_SERVER['HTTP_USER_AGENT']);

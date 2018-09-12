@@ -1,7 +1,7 @@
 {if isset($wx_imgUrl) && !empty($wx_imgUrl)}
 <meta name="wx_img" content="{$wx_imgUrl}"/>
 {else}
-<meta name="wx_img" content="/mobile/themesmobile/default/images/logo.png"/>
+<meta name="wx_img" content="{$ecs_url_name}/mobile/themesmobile/default/images/logo.png"/>
 {/if}
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
@@ -37,6 +37,7 @@ wx.ready(function () {
     title: $("title").html(),
     desc: $('meta[name="Description"]').attr('content'),
     imgUrl: $('meta[name="wx_img"]').attr('content'),
+    link: '{$ecs_url_fenxian}',
     success: function () { 
    
     },

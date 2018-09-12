@@ -29,7 +29,7 @@
 <div class="tishi1">
 <dl>
 <dt>绑定成功</dt>
-<a style="display: block;margin-top: 5px;" href="http://www.ed163.cn/mobile/user.php">即刻“返回”，体验{$shop_name}微信的快捷服务</a>
+<a style="display: block;margin-top: 5px;" href="user.php">即刻“返回”，体验{$shop_name}微信的快捷服务</a>
 </dl>
 </div>
 {/if}

@@ -2680,3 +2680,25 @@ DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536689036
 
 OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
 
+SELECT userid, adminid, user_name, user_rank, discount, email, data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE sesskey = 'cf0cbbbab9d3c404a25bcaa03667d5c6'
+
+SELECT data, expiry FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE sesskey = 'cf0cbbbab9d3c404a25bcaa03667d5c6'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE add_time >= '1536690836' AND supplier_id = '0'
+
+SELECT COUNT(*) FROM `yidu_51itmap_co`.`hunuo_order_info` WHERE pay_time >= 1536690836 AND supplier_id = '0'
+
+DESC `yidu_51itmap_co`.`hunuo_sessions_data`
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions_data` (sesskey, expiry, data) VALUES ('cf0cbbbab9d3c404a25bcaa03667d5c6', '1536691016', 'a:5:{s:12:\"captcha_word\";s:16:\"YjQzYTViYWI0Yw==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536691016;s:12:\"suppliers_id\";s:1:\"0\";}')ON DUPLICATE KEY UPDATE expiry = expiry + 1536691016, data = 'a:5:{s:12:\"captcha_word\";s:16:\"YjQzYTViYWI0Yw==\";s:10:\"admin_name\";s:9:\"黄明鹏\";s:11:\"action_list\";s:1416:\"goods_manage,remove_back,cat_manage,cat_drop,attr_manage,brand_manage,comment_priv,tag_manage,goods_type,goods_auto,picture_batch,goods_export,goods_batch,gen_goods_script,question_manage,shaidan_manage,scan_store,order_comment_priv,shop_goods_apply_list,article_cat,article_manage,shopinfo_manage,shophelp_manage,vote_priv,article_auto,feedback_priv,integrate_users,sync_users,users_manage,users_drop,user_rank,surplus_manage,account_manage,mail_list,template_manage,agency_manage,suppliers_manage,role_manage,shop_config,ship_manage,payment,shiparea_manage,area_manage,friendlink,flash_manage,navigator,cron,affiliate,affiliate_ck,sitemap,file_priv,file_check,reg_fields,shop_authorized,webcollect_manage,ex_affiliate_ck,order_os_edit,order_ps_edit,order_ss_edit,order_edit,order_view,order_view_finished,repay_manage,booking,sale_order_stats,client_flow_stats,delivery_view,back_view,invoice_manage,topic_manage,gift_manage,bonus_manage,auction,favourable,whole_sale,package_manage,exchange_goods,takegoods_list,takegoods_order,attention_list,email_list,magazine_list,view_sendlist,send_mail,sms_send,mad_position,mad_list,supplier_manage,supplier_rank,supplier_rebate,supplier_tag,activity_apply_list,weixin_config,weixin_addconfig,weixin_menu,weixin_notice,weixin_keywords,weixin_fans,weixin_news,weixin_addqcode,weixin_qcode,weixin_reg,pickup_point_manage,pickup_point_batch,agent_apply_list,factory_apply_list\";s:10:\"last_check\";i:1536691016;s:12:\"suppliers_id\";s:1:\"0\";}'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1536691016', ip = '127.0.0.1', userid = '0', adminid = '12', user_name='黄明鹏', user_rank='0', discount='0', email='0', data = '' WHERE sesskey = 'cf0cbbbab9d3c404a25bcaa03667d5c6' LIMIT 1
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions_data` WHERE expiry < 1536689216
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+
+DELETE FROM `yidu_51itmap_co`.`hunuo_sessions` WHERE expiry < 1536689216
+
+OPTIMIZE TABLE `yidu_51itmap_co`.`hunuo_sessions`
+

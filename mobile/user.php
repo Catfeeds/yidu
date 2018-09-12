@@ -1230,7 +1230,21 @@ function action_act_login()
 				   " WHERE fake_id = '" . $_SESSION['wxid'] . "'";
 			$num = $GLOBALS['db']->query($sql);
 		}*/
-
+		/*hao2018分销登陆时如果没有对应关系并且上级是店长时绑定*/
+		$affiliate = unserialize($GLOBALS['_CFG']['affiliate']);
+		if(isset($affiliate['on']) && $affiliate['on'] == 1){
+			$up_uid = get_affiliate();
+			if($up_uid){
+				$sql = "SELECT shop_id FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'";
+                $h_user = $GLOBALS['db']->getRow($sql);
+                if($h_user['shop_id']>0){
+                	// 设置推荐人
+                	$sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $_SESSION['user_id'];
+                	$GLOBALS['db']->query($sql);
+                }
+			}
+		}
+		
 		process_transfer('user.php',$back_act);
 
 		/*$ucdata = isset($user->ucdata) ? $user->ucdata : '';
