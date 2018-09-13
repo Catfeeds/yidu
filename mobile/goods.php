@@ -762,7 +762,7 @@ if (!$smarty->is_cached('goods.dwt', $cache_id))
         $smarty->assign('volume_price_list',$volume_price_list);    // 商品优惠价格区间
     }
 }
-
+ 
 /* 记录浏览历史 */
 if (!empty($_COOKIE['ECS']['history']))
 {
@@ -792,34 +792,35 @@ $db->query('UPDATE ' . $ecs->table('goods') . " SET click_count = click_count + 
 $smarty->assign('now_time',  gmtime());           // 当前系统时间
 
 // 微信分享
-require_once "wxjs/jssdk.php";
-$ret = $GLOBALS['db']->getRow("SELECT  *  FROM " . $GLOBALS['ecs']->table('weixin_config'));
-$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
-$signPackage = $jssdk->GetSignPackage();
-$smarty->assign('signPackage', $signPackage);
+// require_once "wxjs/jssdk.php";
+// $ret = $GLOBALS['db']->getRow("SELECT  *  FROM " . $GLOBALS['ecs']->table('weixin_config'));
+// $jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+// $signPackage = $jssdk->GetSignPackage();
+// $smarty->assign('signPackage', $signPackage);
 
-$domain = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+// $domain = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
 
-if ($ex) {
-    $share_data = array(
-        'Title' => $goods['goods_name'],
-        'Description' => $goods['goods_name'],
-        // 'PicUrl' => $domain . "/mobile/images/wx_share.jpg",
-        'PicUrl' => $domain . '/' . ltrim($goods['goods_thumb'], './..'),
-        'Url' => $domain . "/mobile/goods.php?id=$goods_id&u=".$_SESSION['user_id']."&ex=1"
-    );
-}else{
-    $share_data = array(
-        'Title' => $goods['goods_name'],
-        'Description' => $goods['goods_name'],
-        // 'PicUrl' => $domain . "/mobile/images/wx_share.jpg",
-        'PicUrl' => $domain . '/' . ltrim($goods['goods_thumb'], './..'),
-        'Url' => $domain . "/mobile/goods.php?id=$goods_id&u=".$_SESSION['user_id']
-    );
-}
+// if ($ex) {
+//     $share_data = array(
+//         'Title' => $goods['goods_name'],
+//         'Description' => $goods['goods_name'],
+//         // 'PicUrl' => $domain . "/mobile/images/wx_share.jpg",
+//         'PicUrl' => $domain . '/' . ltrim($goods['goods_thumb'], './..'),
+//         'Url' => $domain . "/mobile/goods.php?id=$goods_id&u=".$_SESSION['user_id']."&ex=1"
+//     );
+// }else{
+//     $share_data = array(
+//         'Title' => $goods['goods_name'],
+//         'Description' => $goods['goods_name'],
+//         // 'PicUrl' => $domain . "/mobile/images/wx_share.jpg",
+//         'PicUrl' => $domain . '/' . ltrim($goods['goods_thumb'], './..'),
+//         'Url' => $domain . "/mobile/goods.php?id=$goods_id&u=".$_SESSION['user_id']
+//     );
+// }
 
 $smarty->assign('share_data', $share_data);
-
+$smarty->assign('wx_imgUrl', $ecs_url_name."/".ltrim($goods['goods_thumb'], './..'));
+   
 $smarty->display('goods.dwt',      $cache_id);
 
 /*------------------------------------------------------ */

@@ -1,3 +1,4 @@
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
 {if isset($wx_imgUrl) && !empty($wx_imgUrl)}
 <meta name="wx_img" content="{$wx_imgUrl}"/>
 {else}

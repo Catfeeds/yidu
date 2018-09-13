@@ -256,6 +256,8 @@ elseif ($_REQUEST['act'] == 'view')
         
     }
 
+    $smarty->assign('wx_imgUrl',$url_name.'/mobile/themesmobile/default/images/img6.png');//微信分享图片
+
     $smarty->display('exchange_goods.dwt',      $cache_id);
 }
 

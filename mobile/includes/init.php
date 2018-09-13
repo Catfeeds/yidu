@@ -286,15 +286,16 @@ if (!defined('INIT_NO_SMARTY'))
     require_once(ROOT_PATH.'includes/jssdk.php');
     $jssdk = new JSSDK();
     $signPackage = $jssdk->GetSignPackage();
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     $smarty->assign('signPackage',$signPackage);//微信分享
-    $smarty->assign('ecs_url_name',"http://".$_SERVER['SERVER_NAME']);//域名链接
+    $smarty->assign('ecs_url_name',$protocol.$_SERVER['SERVER_NAME']);//域名链接
     $h_user_id = isset($_SESSION['user_id'])?$_SESSION['user_id']:0;
     if(strstr($_SERVER['REQUEST_URI'],'?')){
         $h_url = $_SERVER['REQUEST_URI'];
         $h_url = preg_replace('/u=(\d+)/','u='.$h_user_id, $h_url);
-        $ecs_url_fenxian = "http://".$_SERVER['SERVER_NAME'].$h_url;
+        $ecs_url_fenxian = $protocol.$_SERVER['SERVER_NAME'].$h_url;
     }else{
-        $ecs_url_fenxian = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'?u='.$h_user_id;
+        $ecs_url_fenxian = $protocol.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'?u='.$h_user_id;
     }
     $smarty->assign('ecs_url_fenxian',$ecs_url_fenxian);//分享链接
     
