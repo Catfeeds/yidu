@@ -17,7 +17,26 @@
     <td>{if $form_action eq "update"}{$user.user_name}<input type="hidden" name="username" value="{$user.user_name}" />{else}<input type="text" name="username" maxlength="60" value="{$user.user_name}" />{$lang.require_field}{/if}</td>
 
   </tr>
-
+  {if $user.is_agent == 0 && $user.shop_id == 0}
+  <tr>
+    <td class="label">上级店主:</td>
+    <td>
+      <select name="parent_id" id="parent_id">
+        <option value="0">平台</option>
+        {if $shop_user_list}
+        {foreach from=$shop_user_list item=item}
+        <option value="{$item.user_id}" {if $item.user_id eq $user.parent_id} selected="selected" {/if}>{$item.user_name}</option>
+        {/foreach}
+        {/if}
+      </select>
+      <script>
+      // $(function(){
+      //   $('#parent_id').searchableSelect();
+      // });
+      </script>
+    </td>
+  </tr>
+  {/if}
   {if $user.is_agent eq 1}
 
   <tr>

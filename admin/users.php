@@ -150,6 +150,7 @@ function action_add ()
 	$smarty->assign('district_list', $district_list);
 
 	assign_query_info();
+	$smarty->assign('shop_user_list', shop_user());
 	$smarty->display('user_info.htm');
 }
 
@@ -188,6 +189,7 @@ function action_insert ()
 	$district = $_POST['district'];
 	$address = empty($_POST['address']) ? '' : trim($_POST['address']);
 	$status = $_POST['status'];
+	$parent_id = intval($_POST['parent_id']);
 	$users = & init_users();
 
 	if(! $users->add_user($username, $password, $email))
@@ -285,7 +287,7 @@ function action_insert ()
 		}
 	}
 
-	$sql = "update " . $ecs->table('users') . " set  mobile_phone='$mobile_phone' , `real_name`='$real_name',`card`='$card',`country`='$country',`province`='$province',`city`='$city',`district`='$district',`address`='$address',`status`='$status' where user_name = '" . $username . "'";
+	$sql = "update " . $ecs->table('users') . " set  mobile_phone='$mobile_phone' , `real_name`='$real_name',`card`='$card',`parent_id`='$parent_id',`country`='$country',`province`='$province',`city`='$city',`district`='$district',`address`='$address',`status`='$status' where user_name = '" . $username . "'";
 	$db->query($sql);
 
 	if($face_card != '')
@@ -305,6 +307,8 @@ function action_insert ()
 	$link[] = array(
 		'text' => $_LANG['go_back'],'href' => 'users.php?act=list'
 	);
+
+
 	sys_msg(sprintf($_LANG['add_success'], htmlspecialchars(stripslashes($_POST['username']))), 0, $link);
 }
 
@@ -325,14 +329,14 @@ function action_edit ()
 	/* 检查权限 */
 	admin_priv('users_manage');
 
-	$sql = "SELECT u.user_name, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn, u.office_phone, u.home_phone, u.mobile_phone" . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
+	$sql = "SELECT u.user_name, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u2.user_name as parent_username, u.qq, u.msn, u.office_phone, u.home_phone, u.mobile_phone, u.shop_id" . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
 
 	$row = $db->GetRow($sql);
 	$row['user_name'] = addslashes($row['user_name']);
 	$users = & init_users();
 	$user = $users->get_user_info($row['user_name']);
 	$sql = "SELECT u.user_id, u.sex, u.birthday, u.pay_points, u.rank_points, u.user_rank , u.user_money, u.frozen_money, u.credit_line, u.parent_id, u.is_agent, u.agent_code, u2.user_name as parent_username, u.qq, u.msn,
-    u.office_phone, u.home_phone, u.mobile_phone,u.real_name,u.card,u.face_card,u.back_card,u.country,u.province,u.city,u.district,u.address,u.status " . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
+    u.office_phone, u.home_phone, u.mobile_phone,u.real_name,u.card,u.face_card,u.back_card,u.country,u.province,u.city,u.district,u.address,u.status,u.shop_id " . " FROM " . $ecs->table('users') . " u LEFT JOIN " . $ecs->table('users') . " u2 ON u.parent_id = u2.user_id WHERE u.user_id='$_GET[id]'";
 
 	$row = $db->GetRow($sql);
 
@@ -368,6 +372,7 @@ function action_edit ()
 		$user['status'] = $row['status'];
 		$user['is_agent'] = $row['is_agent'];
 		$user['agent_code'] = $row['agent_code'];
+		$user['shop_id'] = $row['shop_id'];
 	}
 	else
 	{
@@ -436,7 +441,7 @@ function action_edit ()
 		$affdb = array();
 		$num = count($affiliate['item']);
 		$up_uid = "'$_GET[id]'";
-		for($i = 1; $i <= $num; $i ++)
+		for($i = 1; $i <= $num-1; $i ++)
 		{
 			$count = 0;
 			if($up_uid)
@@ -475,6 +480,11 @@ function action_edit ()
 	));
 	$smarty->assign('user', $user);
 	$smarty->assign('form_action', 'update');
+
+	
+
+	$smarty->assign('shop_user_list', shop_user());
+
 	$smarty->assign('special_ranks', get_rank_list(true));
 	$smarty->display('user_info.htm');
 }
@@ -515,6 +525,7 @@ function action_update ()
 	$status = $_POST['status'];
 	$is_agent = $_POST['is_agent'];
 	$agent_code = $_POST['agent_code'];
+
 
 	$users = & init_users();
 
@@ -567,6 +578,11 @@ function action_update ()
 	if(! empty($password))
 	{
 		$sql = "UPDATE " . $ecs->table('users') . "SET `ec_salt`='0' WHERE user_name= '" . $username . "'";
+		$db->query($sql);
+	}
+	if(isset($_POST['parent_id']))
+	{
+		$sql = "UPDATE " . $ecs->table('users') . "SET `parent_id`=".$_POST['parent_id']." WHERE user_name= '" . $username . "'";
 		$db->query($sql);
 	}
 	if(isset($_FILES['face_card']) && $_FILES['face_card']['tmp_name'] != '')
@@ -1169,4 +1185,13 @@ function user_list ()
 	return $arr;
 }
 
+/**
+ * 获取店长会员列表
+ * @return [type] [description]
+ */
+function shop_user(){
+	$sql = "SELECT user_id,user_name FROM " . $GLOBALS['ecs']->table('users') . " where shop_id>0 ORDER BY user_id DESC";
+	$shop_user_list = $GLOBALS['db']->getAll($sql);
+	return $shop_user_list;
+}
 ?>
