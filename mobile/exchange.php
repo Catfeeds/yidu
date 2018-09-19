@@ -471,7 +471,7 @@ elseif ($_REQUEST['act'] == 'vv')
     $str1 = '<div class="pic"><img src="'.$goods['goods_img'].'"></div>
           <div class="tit">
             <h2>￥<em id="price">'.$goods['exchange_integral'].'</em></h2>
-            <p>剩余单位：<em>'.$goods['exchange_number'].'</em>件</p>';
+            ';
     if ($properties['spe']) {
         $str1.='<span>已选：<span id="xuan"></span></span>';
     }
@@ -508,7 +508,7 @@ elseif ($_REQUEST['act'] == 'vv')
 
     $str3 = '
    <div class="gou clearfix">
-      <h2>购买数量 <span>（最多可购买'.$goods['exchange_number'].'个单位）</span></h2>
+      <h2>购买数量 <span></span></h2>
       <div class="asub clearfix">
         <span onclick="goods_cut();" class="low"></span>
         <input value="1" type="number" id="number" name="number" onblur="uu(this.value)">

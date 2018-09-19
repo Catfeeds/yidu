@@ -401,7 +401,7 @@ function action_default()
 	$db = $GLOBALS['db'];
 	$ecs = $GLOBALS['ecs'];
 	$user_id = $_SESSION['user_id'];
-        $ex_where = " and user_id=$user_id and extension_code <> 'virtual_good'" ;
+        $ex_where = " and user_id=$user_id and extension_code <> 'virtual_good' AND extension_code <> 'exchange_goods'" ;
         include_once (ROOT_PATH . 'includes/lib_order.php');
 	/* 全部订单*/
         $order_count['all'] = $db->GetOne('SELECT COUNT(*) FROM ' . $ecs->table('order_info') . " WHERE 1 $ex_where");
@@ -2376,7 +2376,7 @@ function action_order_list()
 	// wenjun end
 	/* 全部订单*/
         $order_count['all'] = $db->GetOne('SELECT COUNT(*) FROM ' . $ecs->table('order_info') . " WHERE 1 $ex_where");
-
+        
 	/* 已发货的订单 */
 	$order_count['shipped'] = $db->GetOne("SELECT COUNT(*) FROM " . $ecs->table('order_info') . " WHERE 1 $ex_where " . order_query_sql('shipped'));
 	$status['shipped'] = SS_SHIPPED;
