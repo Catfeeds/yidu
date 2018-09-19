@@ -11,7 +11,7 @@
 	<script src="themesmobile/default/js/jquery.js"></script>
 	 <script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
     <title>用户中心-抽奖订单</title>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <style type="text/css">
 	 .more_loader_spinner{
       text-align: center;
