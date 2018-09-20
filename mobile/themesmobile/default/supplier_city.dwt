@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>同城的店铺</title>
@@ -39,7 +39,7 @@
         .shop-list .shop-thumb {max-height: 80px; }
         .shop-info{ height: 80px;}
     </style>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body style="font-family:'微软雅黑';">
     <header id="header" class='header'>
         <h1>城市经销商</h1>

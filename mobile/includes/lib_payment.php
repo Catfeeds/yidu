@@ -174,13 +174,15 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
     
     /* 取得支付编号 */
     $log_id = intval($log_id);
+
     if ($log_id > 0)
     {
         /* 取得要修改的支付记录信息 */
         $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('pay_log') .
             " WHERE log_id = '$log_id'";
         $pay_log = $GLOBALS['db']->getRow($sql);
-        if ($pay_log && $pay_log['is_paid'] == 0)
+        if (1)
+        // if ($pay_log && $pay_log['is_paid'] == 0)
         {
              error_log(print_r($pay_log,1), 3, "ee.log");
             /* 修改此次支付操作的状态为已付款 */
@@ -189,14 +191,17 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
             $GLOBALS['db']->query($sql);
 
             /* 根据记录类型做相应处理 */
-            if ($pay_log['order_type'] == PAY_ORDER)
+            if (1)
+            // if ($pay_log['order_type'] == PAY_ORDER)
             {
                 /* 取得订单信息 */
                 // wenjun start     查询sql 中添加了extension_num这个字段       // wenjun end
-                $sql = 'SELECT order_id, user_id,supplier_id, order_sn, consignee, address, tel, shipping_id, extension_code, extension_id, goods_amount,extension_num ' .
-                    'FROM ' . $GLOBALS['ecs']->table('order_info') .
+                $sql = 'SELECT o.order_id, o.user_id,o.supplier_id, o.order_sn, o.consignee, o.address, o.tel, o.shipping_id, o.extension_code, o.extension_id, o.goods_amount,o.extension_num,g.goods_number ' .
+                    'FROM ' . $GLOBALS['ecs']->table('order_info') ." as o ".
+                    " LEFT JOIN " .$GLOBALS['ecs']->table('order_goods') . 'as g '." ON o.order_id=g.order_id ".
                     " WHERE order_id = '$pay_log[order_id]' OR parent_order_id = '$pay_log[order_id]' ";
                 $orderinfo    = $GLOBALS['db']->getAll($sql);
+
                 foreach($orderinfo as $key => $order)
                 {
                     $order_id = $order['order_id'];
@@ -214,7 +219,10 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                         " order_amount = 0 ".
                         "WHERE order_id = '$order_id'";
                     $GLOBALS['db']->query($sql);
+                    //分单
+                    if($order['extension_code'] == 'exchange_goods'&&$order['goods_number']>1){
 
+                    }
                     /* 记录订单操作记录 */
                     order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
 
@@ -228,7 +236,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                             " LEFT JOIN " .$GLOBALS['ecs']->table('order_goods') . 'as g '.
                             " ON o.order_id=g.order_id ".
                             " WHERE o.extension_id = ".$orderinfo[0]['extension_id']." and o.is_lucky = 0 and o.pay_time>0 order by o.pay_time asc ";
-                        $nnn = $GLOBALS['db']->getAll($sql);
+                        
+                        var_dump($nnn);exit;
                         $total=0;
                         foreach ($nnn as $k => $v) {
                             $total += $v['goods_number']*1;

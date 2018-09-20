@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <title>{$page_title}</title>
@@ -162,7 +162,7 @@ function submit_surplus_form(){
 </script>
 {/if}
 
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body class="body_bj">
 {if $action eq 'account_security' || $action eq 'order_detail'}
 <!--弹窗start-->

@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>店铺</title>
@@ -21,7 +21,7 @@
 .cart-checkbox { display: block;float:left; width:25px; height:25px; margin: 0 auto; background:url(themesmobile/default/images/v-shop/kong.png); background-size:100% 100%; }
 </style>
 <script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body style=" background:#F5F5F5">
 <!--header-->
 <div class="Earnings">

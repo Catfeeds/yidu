@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>同城的店铺</title>
@@ -17,7 +17,7 @@
         .content{ width: 100%; height: 100px; min-height: 350px; position: relative; background-color: #FFF;}
         #allmap { width: 98%; height: 100%; margin: 0 auto;}
     </style>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body  style="font-family:'微软雅黑';">
     <header id="header" class='header'>
         <h1>经销商地图</h1>

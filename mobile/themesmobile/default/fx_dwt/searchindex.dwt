@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>{$page_title}</title>

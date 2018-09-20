@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>在线客服</title>
@@ -77,7 +77,7 @@ function leave(){
 	return confirm('是否终止聊天');
 }
 </script>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <!--  onbeforeunload="return '是否终止聊天'" -->
 <body onbeforeunload="return '是否终止聊天'" style=" background:#eeeeee">
 <header class="header">

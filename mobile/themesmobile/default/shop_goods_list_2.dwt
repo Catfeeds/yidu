@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
     <meta charset="UTF-8">
     <meta name="Keywords" content="商品管理" />
     <meta name="Description" content="商品管理" />
@@ -9,7 +9,7 @@
     <title>商品管理</title>
     <link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
     <link rel="stylesheet" type="text/css" href="themesmobile/default/css/shop_list.css">
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body style=" background:#e5e5e5">
     <div class="header">
         <div class="h-left">

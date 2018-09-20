@@ -78,3 +78,19 @@ Array
     [order_type] => 0
     [is_paid] => 0
 )
+Array
+(
+    [log_id] => 628
+    [order_id] => 1009
+    [order_amount] => 0.50
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 628
+    [order_id] => 1009
+    [order_amount] => 0.50
+    [order_type] => 0
+    [is_paid] => 1
+)

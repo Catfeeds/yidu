@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>小店上货</title>
 <!--v_shop.css-->
 <link href="themesmobile/default/css/v_user.css" type="text/css" rel="stylesheet">
 
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body >
 <!--header-->
 <div class="top">

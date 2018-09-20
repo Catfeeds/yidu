@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>{$page_title}</title>
@@ -9,7 +9,7 @@
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
   <link rel="stylesheet" href="themesmobile/default/css/loginxin.css">
   <link rel="stylesheet" href="themesmobile/default/css/public.css" >
-  {include file='library/weixinfenxiang.lbi'}</head>
+  </head>
 
 <body>
     <header class="header_03">

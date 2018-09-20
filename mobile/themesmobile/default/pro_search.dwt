@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>{$page_title}</title>
@@ -22,7 +22,7 @@ var DifferHour = -1
 var DifferMinute = -1
 var DifferSecond = -1
 </script>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body>
    <!----------------------------------header----------------------------------->
       <div class="tab_nav">

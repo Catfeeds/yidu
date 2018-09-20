@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -11,7 +11,7 @@
     <title>我的推荐</title>
     <meta name="keywords" content="我的推荐" />
     <meta name="description" content="我的推荐" />
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body data-psd-width="840" >
 <div class="rebate">
 	<div class="header">

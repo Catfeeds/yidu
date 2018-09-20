@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />

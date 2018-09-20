@@ -1,9 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{$gallery.goods_name} - {$shop_name}</title>
 <style>body{margin:0;}</style>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body id="page_{$pname}">
 <embed src="{$option.static_path}data/images/pic-view.swf" quality="high" id="picview" flashvars="copyright=shopex&xml=
 <products name='{$gallery.goods_name}' shopname='{$shop_name}'>

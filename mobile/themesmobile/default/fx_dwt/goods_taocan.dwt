@@ -1,6 +1,6 @@
 <!DOCTYPE html >
 <html>
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <title>{$page_title}</title>
@@ -12,7 +12,7 @@
 <script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
 {insert_scripts files='common.js'}
 {insert_scripts files='jquery.json.js,transport.js'}
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body>
 <div class="tab_nav">
         <div class="header">

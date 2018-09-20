@@ -17,6 +17,7 @@ define('IN_ECS', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
 
+
 if ((DEBUG_MODE & 2) != 2)
 {
     $smarty->caching = true;
@@ -186,7 +187,9 @@ if ($_REQUEST['act'] == 'list')
 //-- 积分兑换商品详情
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'view')
-{
+{   
+    // require(dirname(__FILE__) . '/includes/lib_payment.php');
+    // order_paid('628', 2);
     //今天的开奖码
     $totay = local_date('Y-m-d',time());
     $tt = local_strtotime($totay);
@@ -301,7 +304,7 @@ elseif ($_REQUEST['act'] == 'buy')
     $kc = $goods['exchange_number']*1 - $_POST['number']*1;
     if($_CFG['use_storage'] == 1 &&  $kc< 0)
     {
-        show_message('对不起，该商品库存不足，现在不能抽奖！', array($_LANG['back_up_page']), array($back_act), 'error');
+        // show_message('对不起，该商品库存不足，现在不能抽奖！', array($_LANG['back_up_page']), array($back_act), 'error');
     }
 
     /* 查询：检查兑换商品是否是取消 */

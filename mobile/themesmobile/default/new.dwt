@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
 <title>{$page_title}</title>
@@ -21,7 +21,7 @@ body{ margin:0; padding:0; font-size:14px; background:#f38500; color:#fff;}
 .img{ margin:80px 0 5px;}
 .img img{ display:block; width:60%; margin:0 auto;}
 </style>
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body >
 <script type="text/javascript">
 var process_request = "{$lang.process_request}";

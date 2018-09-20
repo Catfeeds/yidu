@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head>{include file='library/weixinfenxiang.lbi'}
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 <title>会员管理</title>
@@ -8,7 +8,7 @@
 <script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
 <script type="text/javascript" src="themesmobile/default/js/TouchSlide.1.1.js"></script>
 
-{include file='library/weixinfenxiang.lbi'}</head>
+</head>
 <body style=" background:#e5e5e5">
 <!--header-->
 <div class="top">
