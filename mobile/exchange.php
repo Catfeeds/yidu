@@ -188,8 +188,8 @@ if ($_REQUEST['act'] == 'list')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'view')
 {   
-    // require(dirname(__FILE__) . '/includes/lib_payment.php');
-    // order_paid('628', 2);
+    require(dirname(__FILE__) . '/includes/lib_payment.php');
+    order_paid('629', 2);
     //今天的开奖码
     $totay = local_date('Y-m-d',time());
     $tt = local_strtotime($totay);
@@ -521,11 +521,11 @@ elseif ($_REQUEST['act'] == 'vv')
     <div class="pick_b clearfix">
       <span>共<em id="num">1</em>个单位</span>
       <p>支付：<i>￥</i><em id="price1">'.$goods['exchange_integral'].'</em></p>';
-    if ($goods['exchange_number']>0) {
+    // if ($goods['exchange_number']>0) {
         $str3 .=  '<a class="part" onclick="submit_btn()">参加抽奖</a>';
-    }else{
-        $str3 .= '<span class="part" style="background: #ccc;color: #fff">参加人数已满</span>';
-    }
+    // }else{
+    //     $str3 .= '<span class="part" style="background: #ccc;color: #fff">参加人数已满</span>';
+    // }
 
     $str3 .='</div>';
     $arr["str3"]=$str3;

@@ -17,7 +17,7 @@ if (!defined('IN_ECS'))
 {
     die('Hacking attempt');
 }
-
+require_once(ROOT_PATH . 'includes/lib_order.php');
 /**
  * 取得返回信息地址
  * @param   string  $code   支付方式代码
@@ -199,7 +199,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                 $sql = 'SELECT o.order_id, o.user_id,o.supplier_id, o.order_sn, o.consignee, o.address, o.tel, o.shipping_id, o.extension_code, o.extension_id, o.goods_amount,o.extension_num,g.goods_number ' .
                     'FROM ' . $GLOBALS['ecs']->table('order_info') ." as o ".
                     " LEFT JOIN " .$GLOBALS['ecs']->table('order_goods') . 'as g '." ON o.order_id=g.order_id ".
-                    " WHERE order_id = '$pay_log[order_id]' OR parent_order_id = '$pay_log[order_id]' ";
+                    " WHERE o.order_id = '$pay_log[order_id]' OR o.parent_order_id = '$pay_log[order_id]' ";
                 $orderinfo    = $GLOBALS['db']->getAll($sql);
 
                 foreach($orderinfo as $key => $order)
@@ -219,65 +219,111 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                         " order_amount = 0 ".
                         "WHERE order_id = '$order_id'";
                     $GLOBALS['db']->query($sql);
-                    //分单
                     if($order['extension_code'] == 'exchange_goods'&&$order['goods_number']>1){
-
+                        //抽奖分单
+                        $order_info_h = $GLOBALS['db']->getRow('SELECT * FROM '.$GLOBALS['ecs']->table('order_info').' WHERE order_id='.$order['order_id']);
+                        $order_goods_h = $GLOBALS['db']->getRow('SELECT * FROM '.$GLOBALS['ecs']->table('order_goods').' WHERE order_id='.$order['order_id']);
+                        //处理数据
+                        unset($order_info_h['order_id']);
+                        $order_info_h['parent_order_id'] = $order['order_id'];
+                        $order_info_h['goods_amount'] = $order_goods_h['goods_price'];
+                        $order_info_h['order_amount'] = $order_goods_h['goods_price'];
+                        $order_info_h['inv_money'] = $order_goods_h['goods_price'];
+                        unset($order_goods_h['rec_id']);
+                        $order_goods_h['goods_number'] = 1;
+                        //添加子订单
+                        for($i=0;$i<$order['goods_number'];$i++){
+                            do{
+                                $order_info_h['order_sn'] = get_order_sn2(); //获取新订单号
+                                $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('order_info'), $order_info_h, 'INSERT');
+                                $error_no = $GLOBALS['db']->errno();
+                                if ($error_no > 0 && $error_no != 1062)
+                                {
+                                    die($GLOBALS['db']->errorMsg());
+                                }
+                            }
+                            while ($error_no == 1062); //如果是订单号重复则重新提交数据
+                            $new_order_id = $GLOBALS['db']->insert_id();
+                            $order_goods_h['order_id'] = $new_order_id;
+                            $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('order_goods'), $order_goods_h, 'INSERT');
+                        }
+                        //删除父订单
+                        $sql="delete from ".$GLOBALS['ecs']->table('order_info')." where order_id=".$order['order_id']." ";
+                        // $GLOBALS['db']->query($sql);
                     }
+                    
                     /* 记录订单操作记录 */
                     order_action($order_sn, OS_CONFIRMED, SS_UNSHIPPED, $pay_status, $note, $GLOBALS['_LANG']['buyer']);
 
 //49 start
                     
-                    if ($orderinfo[0]['extension_code'] == 'exchange_goods') {
-
+                    if ($order['extension_code'] == 'exchange_goods') {
                         //获取订单号
-                        $sql = "SELECT o.user_id,g.goods_number,o.order_id,o.order_sn ".
+                        $sql = "SELECT o.user_id,o.order_id,o.order_sn,o.mobile ".
                             " FROM " .$GLOBALS['ecs']->table('order_info') . ' as o '.
-                            " LEFT JOIN " .$GLOBALS['ecs']->table('order_goods') . 'as g '.
-                            " ON o.order_id=g.order_id ".
-                            " WHERE o.extension_id = ".$orderinfo[0]['extension_id']." and o.is_lucky = 0 and o.pay_time>0 order by o.pay_time asc ";
-                        
-                        var_dump($nnn);exit;
-                        $total=0;
-                        foreach ($nnn as $k => $v) {
-                            $total += $v['goods_number']*1;
-                        }
-
-                        if ($total*1 == 28 ) {
-                            foreach ($nnn as $k => $v) {
-                                $u[$k]['mobile_phone'] = $GLOBALS['db']->getOne("SELECT mobile_phone FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $v['user_id'] . "'");
-                                $u[$k]['nn'] = $GLOBALS['db']->getOne("SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $v['order_id'] . "'");
-                                $u[$k]['oid'] = $v['order_id'];
-                                $u[$k]['order_sn'] = $v['order_sn'];
-                            }
-                            $arr = range(1,28);
-                            $mm='';
-                            $ll =0;
-                            foreach ($u as $k => $v) {
-                                for ($i=$ll; $i < $ll*1+$v['nn']*1 ; $i++) {
-                                    $mm .= $arr[$i].',';
-                                }
-                                $ll += $v['nn']*1;
-                                $u[$k]['mm'] = rtrim($mm,',');
-                                unset($mm);
-                            }
-
-
-                            // include_once('send.php');
+                            " WHERE o.extension_id = ".$order['extension_id']." and o.is_lucky = 0 and o.extension_num = 0 and o.pay_time>0 order by o.order_id asc ";
+                        $exchange_order = $GLOBALS['db']->getAll($sql);
+                        $ex_count = count($exchange_order);
+                        if(floor($ex_count/28)>0){
+                            $sms = array();
+                            //抽奖大于28发放号码
                             require_once(ROOT_PATH . 'sms/sms.php');
-                            foreach ($u as $k => $v) {
-                                $sql0 = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') . " SET `extension_num`='".$v['mm']."'  WHERE `order_id`='" . $v['oid'] . "'";
-                                $GLOBALS['db']->query($sql0);
-                                
-                                $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$v['order_sn'], $v['mm']);
-                                // print_r($content);exit;
-                                if ($v['mobile_phone']) {
-                                    // send_sms($supplier,'您获得的抽奖码为：'.$v['mm'].'请注意查看。',2);
-                                    sendSMS($v['mobile_phone'], $content);
-                                    // print_r($kk);exit;
+                            for($i=0;$i<floor($ex_count/28);$i++){
+                                for($j=0;$j<28;$j++){
+                                    $k = ($i*28)+$j;
+                                    $inv = $j+1;
+                                    $sql0 = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') . " SET `extension_num`='".$inv."'  WHERE `order_id`='" . $exchange_order[$k]['order_id'] . "'";
+                                    $GLOBALS['db']->query($sql0);
+                                    if ($exchange_order[$k]['mobile']) {
+                                        $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$exchange_order[$k]['order_sn'],$inv);
+                                        // $sms[] = $content;
+                                        sendSMS($v['mobile'], $content);
+                                    }
                                 }
                             }
                         }
+                        // var_dump($sms);exit;
+
+                        // $total=0;
+                        // foreach ($nnn as $k => $v) {
+                        //     $total += $v['goods_number']*1;
+                        // }
+
+                        // if ($total*1 == 28 ) {
+                        //     foreach ($nnn as $k => $v) {
+                        //         $u[$k]['mobile_phone'] = $GLOBALS['db']->getOne("SELECT mobile_phone FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '" . $v['user_id'] . "'");
+                        //         $u[$k]['nn'] = $GLOBALS['db']->getOne("SELECT goods_number FROM " . $GLOBALS['ecs']->table('order_goods') . " WHERE order_id = '" . $v['order_id'] . "'");
+                        //         $u[$k]['oid'] = $v['order_id'];
+                        //         $u[$k]['order_sn'] = $v['order_sn'];
+                        //     }
+                        //     $arr = range(1,28);
+                        //     $mm='';
+                        //     $ll =0;
+                        //     foreach ($u as $k => $v) {
+                        //         for ($i=$ll; $i < $ll*1+$v['nn']*1 ; $i++) {
+                        //             $mm .= $arr[$i].',';
+                        //         }
+                        //         $ll += $v['nn']*1;
+                        //         $u[$k]['mm'] = rtrim($mm,',');
+                        //         unset($mm);
+                        //     }
+
+
+                        //     // include_once('send.php');
+                        //     require_once(ROOT_PATH . 'sms/sms.php');
+                        //     foreach ($u as $k => $v) {
+                        //         $sql0 = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') . " SET `extension_num`='".$v['mm']."'  WHERE `order_id`='" . $v['oid'] . "'";
+                        //         $GLOBALS['db']->query($sql0);
+                                
+                        //         $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$v['order_sn'], $v['mm']);
+                        //         // print_r($content);exit;
+                        //         if ($v['mobile_phone']) {
+                        //             // send_sms($supplier,'您获得的抽奖码为：'.$v['mm'].'请注意查看。',2);
+                        //             sendSMS($v['mobile_phone'], $content);
+                        //             // print_r($kk);exit;
+                        //         }
+                        //     }
+                        // }
                     }
 
 //49 end

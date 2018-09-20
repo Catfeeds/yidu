@@ -51,24 +51,24 @@
 
 
             {if $is_edit}
-            <tr>
+            <!-- <tr>
                 <td class="narrow-label">参与人数</td>
                 <td>
                     {$goods.exchange_number}&nbsp;&nbsp;/&nbsp;&nbsp;28
                 </td>
-            </tr>
+            </tr> -->
             {if $goods.exchange_lucky}
-            <tr>
+            <!-- <tr>
                 <td class="narrow-label">得奖幸运数</td>
                 <td>
                     {if $goods.exchange_lucky}<span style="color: red">{$goods.exchange_lucky}</span>{else}未开奖{/if}
                 </td>
-            </tr>
+            </tr> -->
             {/if}
-            <tr>
+            <!-- <tr>
                 <td class="label"><a href="javascript:showNotice('noticepackagePrice');" title="{$lang.form_notice}"></a>收盘指数</td>
                 <td><input {if $goods.exchange_number neq 28 || $no eq 1 || $goods.closing_index neq ''} disabled="true"{/if} type="text" name="closing_index" maxlength="60" size="20" value="{$goods.closing_index}" />{$lang.require_field} &nbsp;<span class="notice-span" style="color: red">上海市收盘指数末3码（满28人,用户都付款了才可以输入）</span></td>
-            </tr>
+            </tr> -->
             {/if}
         </table>
 

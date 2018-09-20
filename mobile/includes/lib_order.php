@@ -2500,7 +2500,25 @@ function get_order_sn()
 
 }
 
+/**
 
+ * 得到新唯一订单号
+
+ * @return  string
+
+ */
+
+function get_order_sn2(){
+    /* 选择一个随机的方案 */
+    mt_srand((double) microtime() * 1000000);
+    $order_sn = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+    $on = $GLOBALS['db']->getOne("SELECT order_sn FROM ".$GLOBALS['ecs']->table('order_info')." WHERE order_sn='".$order_sn."'");
+    if($on){
+        $order_sn = get_order_sn2();
+    }
+    return $order_sn;
+
+}
 
 /**
 
