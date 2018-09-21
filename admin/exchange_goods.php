@@ -78,6 +78,7 @@ if ($_REQUEST['act'] == 'list')
         }
     }
 
+
     // print_r($goods_list);exit;
     $smarty->assign('goods_list',    $goods_list['arr']);
     $smarty->assign('filter',        $goods_list['filter']);
@@ -90,7 +91,130 @@ if ($_REQUEST['act'] == 'list')
     assign_query_info();
     $smarty->display('exchange_goods_list.htm');
 }
+elseif($_REQUEST['act'] == 'lottery'){
+    //是否有开奖时间
 
+    
+
+    $closing_index = intval($_POST['closing_index']);//收盘指数
+    if(empty($closing_index)){
+        make_json_error("请填写收盘指数");
+    }
+    echo 1;exit;
+    if(local_date("H:i")<'15:00'){
+        //前一天的开奖
+        $manren_time_end = local_strtotime(date("Y-m-d")." 14:30");
+    }else{
+        //当天的开奖
+        $manren_time_end = local_strtotime(date("Y-m-d")." 14:30");
+    }
+
+    //待开奖的订单
+    $count = 'SELECT * FROM '.$GLOBALS['ecs']->table('order_info').' WHERE is_lucky=0 AND extension_num>0 AND manren_time<'.$manren_time_end;
+    if($count){
+        
+        $period_sql = 'SELECT period_num FROM '.$GLOBALS['ecs']->table('order_info').' WHERE period_num>0';
+        $period_num = $GLOBALS['db']->getOne($period_sql);//获取上期期数
+        $period_num = $period_num>0?$period_num+1:1;
+
+    }
+
+
+
+
+    if (empty($result)) {
+
+        //除去今天的开奖结果，去判断上一次开奖的是第几期
+        $s = local_strtotime(date('Y-m-d',time()));
+
+        $sta = 'SELECT stage FROM ' .$GLOBALS['ecs']->table('exchange_goods'). ' WHERE goods_id = '.$_POST['goods_id'].' AND open_time < '.$s.' order by open_time desc';
+        $stage = $GLOBALS['db']->getOne($sta);
+        if (empty($stage)) {
+            $stage = 1 ;
+        }else{
+            $stage = $stage*1 + 1; //那么这一期+1
+        }
+
+        //开奖时间 + 第几期
+        $time =time();
+        $o = 'UPDATE ' . $ecs->table('exchange_goods') . " SET `open_time`= $time,`stage`=$stage  WHERE `goods_id`='" . $_POST['goods_id'] . "'";
+        $db->query($o);
+    }
+
+    //得奖数
+    $exchange_lucky = $closing_index % 28 + 1 ;
+    //改变得奖的订单状态
+    $sql = 'SELECT order_sn,user_id,order_id,extension_num,goods_amount,mobile FROM ' .$GLOBALS['ecs']->table('order_info'). ' WHERE order_status != 2 AND extension_code = "exchange_goods" and extension_id = '.$_POST['goods_id'];
+    $res = $GLOBALS['db']->getAll($sql);
+
+    if ($res) {
+        //把抽奖序号改成数组格式
+        foreach ($res as $k => $v) {
+            $res[$k]['extension_num']=explode(',', $v['extension_num']);
+            //数量
+            $res[$k]['ex_count'] = count(explode(',', $v['extension_num']));
+        }
+         
+        foreach ($res as $k => $v) {
+            foreach ($v['extension_num'] as $k1 => $v1) {
+                if ($v1 == $exchange_lucky) {
+                    //中奖订单加已标志
+                    $sql = 'UPDATE ' . $ecs->table('order_info') . " SET `is_lucky`= 1  WHERE `order_id`='" . $v['order_id'] . "'";
+                    $db->query($sql);
+
+                    //把得奖的用户id号，记录下来
+                    $sql = 'UPDATE ' . $ecs->table('exchange_goods') . " SET `user_id`= $v[user_id]  WHERE `goods_id`='"  .$_POST['goods_id'] . "'";
+                    $db->query($sql);
+
+                    //记录已经修改了的订单，避免再次被修改
+                    $_SESSION['order_id'] = $v['order_id'];
+
+                    //获取商品名称 wenjun 05-31
+                    $goods_name = $GLOBALS['db']->getOne('SELECT goods_name FROM ' .$GLOBALS['ecs']->table('goods'). ' WHERE goods_id = '.$_POST['goods_id']);
+                    $goods_name =  mb_substr($goods_name, 0, 20, 'utf-8');
+                    //获取用户名 wenjun 05-31
+                    $user_name = $GLOBALS['db']->getOne('SELECT user_name FROM ' .$GLOBALS['ecs']->table('users'). ' WHERE user_id = '.$v['user_id']);
+                    $user_name =  mb_substr($user_name, 0, 20, 'utf-8');
+                    //发送短信
+                    $content = sprintf('尊敬的%s：恭喜你成为易度商城易乐透订单%s的幸运会员，订单商品:%s将会48小时内发货，请注意物流信息',$user_name,$v1['order_sn'],$goods_name);
+                    require_once(ROOT_PATH . 'mobile/sms/sms.php');
+                    $kk555 = sendSMS($v['mobile'], $content);
+                    
+                    //返回剩下的购物币
+                    if ($v['ex_count']>1) {
+                        
+                        $zjfh_gwb = ($v['goods_amount']/$v['ex_count'])*($v['ex_count']*1-1);
+                        
+                        $db->query("INSERT INTO " . $ecs->table('account_log') . "(user_id, rank_points, pay_points, change_time, change_desc, change_type) " . "VALUES ('".$v['user_id']."', '".$zjfh_gwb."', '" . $zjfh_gwb . "', " . gmtime() . ", '抽奖订单 ".$v['order_sn']." 赠送的购物币', '99')");
+                        $log = $db->getRow("SELECT SUM(rank_points) AS rank_points, SUM(pay_points) AS pay_points FROM " . $ecs->table("account_log") . " WHERE user_id = '$v[user_id]'");
+                        $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
+
+                    }
+
+
+
+
+                }
+            }
+        }
+        //未中奖的，改变状态，把现金转成购物币，添加在acount_log表和更新用户的积分（购物币就是积分）
+        foreach ($res as $k => $v) {
+            if ($v['order_id'] != $_SESSION['order_id']) {
+                $sql = 'UPDATE ' . $ecs->table('order_info') . " SET `order_status`= 3 , `is_lucky`= -1 WHERE `order_id` != $_SESSION[order_id] AND `order_id`='" . $v['order_id'] . "'";
+                $db->query($sql);
+                //wenjun start
+                $db->query("INSERT INTO " . $ecs->table('account_log') . "(user_id, rank_points, pay_points, change_time, change_desc, change_type) " . "VALUES ('".$v['user_id']."', '".$v['goods_amount']."', '" . $v['goods_amount'] . "', " . gmtime() . ", '抽奖订单 ".$v['order_sn']." 赠送的购物币', '99')");
+                //wenjun end
+                $log = $db->getRow("SELECT SUM(rank_points) AS rank_points, SUM(pay_points) AS pay_points FROM " . $ecs->table("account_log") . " WHERE user_id = '$v[user_id]'");
+                $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
+            }
+        }
+
+        // wenjun 2018.01.31 店主分成
+        draw_reward($_POST['goods_id']);
+
+    }
+}
 /*------------------------------------------------------ */
 //-- 翻页，排序
 /*------------------------------------------------------ */
@@ -328,102 +452,102 @@ if ($_REQUEST['act'] =='update')
     
     $is_exchange = $_POST['is_exchange'];
     if ($closing_index) {
-        $is_exchange = 0;//开奖了，就要不能再抽奖了
-        //是否有开奖时间
-        $pd = 'SELECT open_time FROM ' .$GLOBALS['ecs']->table('exchange_goods'). ' WHERE goods_id = '.$_POST['goods_id'];
-        $result = $GLOBALS['db']->getOne($pd);
-        if (empty($result)) {
+        // $is_exchange = 0;//开奖了，就要不能再抽奖了
+        // //是否有开奖时间
+        // $pd = 'SELECT open_time FROM ' .$GLOBALS['ecs']->table('exchange_goods'). ' WHERE goods_id = '.$_POST['goods_id'];
+        // $result = $GLOBALS['db']->getOne($pd);
+        // if (empty($result)) {
 
-            //除去今天的开奖结果，去判断上一次开奖的是第几期
-            $s = local_strtotime(date('Y-m-d',time()));
+        //     //除去今天的开奖结果，去判断上一次开奖的是第几期
+        //     $s = local_strtotime(date('Y-m-d',time()));
 
-            $sta = 'SELECT stage FROM ' .$GLOBALS['ecs']->table('exchange_goods'). ' WHERE goods_id = '.$_POST['goods_id'].' AND open_time < '.$s.' order by open_time desc';
-            $stage = $GLOBALS['db']->getOne($sta);
-            if (empty($stage)) {
-                $stage = 1 ;
-            }else{
-                $stage = $stage*1 + 1; //那么这一期+1
-            }
+        //     $sta = 'SELECT stage FROM ' .$GLOBALS['ecs']->table('exchange_goods'). ' WHERE goods_id = '.$_POST['goods_id'].' AND open_time < '.$s.' order by open_time desc';
+        //     $stage = $GLOBALS['db']->getOne($sta);
+        //     if (empty($stage)) {
+        //         $stage = 1 ;
+        //     }else{
+        //         $stage = $stage*1 + 1; //那么这一期+1
+        //     }
 
-            //开奖时间 + 第几期
-            $time =time();
-            $o = 'UPDATE ' . $ecs->table('exchange_goods') . " SET `open_time`= $time,`stage`=$stage  WHERE `goods_id`='" . $_POST['goods_id'] . "'";
-            $db->query($o);
-        }
+        //     //开奖时间 + 第几期
+        //     $time =time();
+        //     $o = 'UPDATE ' . $ecs->table('exchange_goods') . " SET `open_time`= $time,`stage`=$stage  WHERE `goods_id`='" . $_POST['goods_id'] . "'";
+        //     $db->query($o);
+        // }
 
-        //得奖数
-        $exchange_lucky = $closing_index % 28 + 1 ;
-        //改变得奖的订单状态
-        $sql = 'SELECT order_sn,user_id,order_id,extension_num,goods_amount,mobile FROM ' .$GLOBALS['ecs']->table('order_info'). ' WHERE order_status != 2 AND extension_code = "exchange_goods" and extension_id = '.$_POST['goods_id'];
-        $res = $GLOBALS['db']->getAll($sql);
+        // //得奖数
+        // $exchange_lucky = $closing_index % 28 + 1 ;
+        // //改变得奖的订单状态
+        // $sql = 'SELECT order_sn,user_id,order_id,extension_num,goods_amount,mobile FROM ' .$GLOBALS['ecs']->table('order_info'). ' WHERE order_status != 2 AND extension_code = "exchange_goods" and extension_id = '.$_POST['goods_id'];
+        // $res = $GLOBALS['db']->getAll($sql);
 
-        if ($res) {
-            //把抽奖序号改成数组格式
-            foreach ($res as $k => $v) {
-                $res[$k]['extension_num']=explode(',', $v['extension_num']);
-                //数量
-                $res[$k]['ex_count'] = count(explode(',', $v['extension_num']));
-            }
+        // if ($res) {
+        //     //把抽奖序号改成数组格式
+        //     foreach ($res as $k => $v) {
+        //         $res[$k]['extension_num']=explode(',', $v['extension_num']);
+        //         //数量
+        //         $res[$k]['ex_count'] = count(explode(',', $v['extension_num']));
+        //     }
              
-            foreach ($res as $k => $v) {
-                foreach ($v['extension_num'] as $k1 => $v1) {
-                    if ($v1 == $exchange_lucky) {
-                        //中奖订单加已标志
-                        $sql = 'UPDATE ' . $ecs->table('order_info') . " SET `is_lucky`= 1  WHERE `order_id`='" . $v['order_id'] . "'";
-                        $db->query($sql);
+        //     foreach ($res as $k => $v) {
+        //         foreach ($v['extension_num'] as $k1 => $v1) {
+        //             if ($v1 == $exchange_lucky) {
+        //                 //中奖订单加已标志
+        //                 $sql = 'UPDATE ' . $ecs->table('order_info') . " SET `is_lucky`= 1  WHERE `order_id`='" . $v['order_id'] . "'";
+        //                 $db->query($sql);
 
-                        //把得奖的用户id号，记录下来
-                        $sql = 'UPDATE ' . $ecs->table('exchange_goods') . " SET `user_id`= $v[user_id]  WHERE `goods_id`='"  .$_POST['goods_id'] . "'";
-                        $db->query($sql);
+        //                 //把得奖的用户id号，记录下来
+        //                 $sql = 'UPDATE ' . $ecs->table('exchange_goods') . " SET `user_id`= $v[user_id]  WHERE `goods_id`='"  .$_POST['goods_id'] . "'";
+        //                 $db->query($sql);
 
-                        //记录已经修改了的订单，避免再次被修改
-                        $_SESSION['order_id'] = $v['order_id'];
+        //                 //记录已经修改了的订单，避免再次被修改
+        //                 $_SESSION['order_id'] = $v['order_id'];
 
-                        //获取商品名称 wenjun 05-31
-                        $goods_name = $GLOBALS['db']->getOne('SELECT goods_name FROM ' .$GLOBALS['ecs']->table('goods'). ' WHERE goods_id = '.$_POST['goods_id']);
-                        $goods_name =  mb_substr($goods_name, 0, 20, 'utf-8');
-                        //获取用户名 wenjun 05-31
-                        $user_name = $GLOBALS['db']->getOne('SELECT user_name FROM ' .$GLOBALS['ecs']->table('users'). ' WHERE user_id = '.$v['user_id']);
-                        $user_name =  mb_substr($user_name, 0, 20, 'utf-8');
-                        //发送短信
-                        $content = sprintf('尊敬的%s：恭喜你成为易度商城易乐透订单%s的幸运会员，订单商品:%s将会48小时内发货，请注意物流信息',$user_name,$v1['order_sn'],$goods_name);
-                        require_once(ROOT_PATH . 'mobile/sms/sms.php');
-                        $kk555 = sendSMS($v['mobile'], $content);
+        //                 //获取商品名称 wenjun 05-31
+        //                 $goods_name = $GLOBALS['db']->getOne('SELECT goods_name FROM ' .$GLOBALS['ecs']->table('goods'). ' WHERE goods_id = '.$_POST['goods_id']);
+        //                 $goods_name =  mb_substr($goods_name, 0, 20, 'utf-8');
+        //                 //获取用户名 wenjun 05-31
+        //                 $user_name = $GLOBALS['db']->getOne('SELECT user_name FROM ' .$GLOBALS['ecs']->table('users'). ' WHERE user_id = '.$v['user_id']);
+        //                 $user_name =  mb_substr($user_name, 0, 20, 'utf-8');
+        //                 //发送短信
+        //                 $content = sprintf('尊敬的%s：恭喜你成为易度商城易乐透订单%s的幸运会员，订单商品:%s将会48小时内发货，请注意物流信息',$user_name,$v1['order_sn'],$goods_name);
+        //                 require_once(ROOT_PATH . 'mobile/sms/sms.php');
+        //                 $kk555 = sendSMS($v['mobile'], $content);
                         
-                        //返回剩下的购物币
-                        if ($v['ex_count']>1) {
+        //                 //返回剩下的购物币
+        //                 if ($v['ex_count']>1) {
                             
-                            $zjfh_gwb = ($v['goods_amount']/$v['ex_count'])*($v['ex_count']*1-1);
+        //                     $zjfh_gwb = ($v['goods_amount']/$v['ex_count'])*($v['ex_count']*1-1);
                             
-                            $db->query("INSERT INTO " . $ecs->table('account_log') . "(user_id, rank_points, pay_points, change_time, change_desc, change_type) " . "VALUES ('".$v['user_id']."', '".$zjfh_gwb."', '" . $zjfh_gwb . "', " . gmtime() . ", '抽奖订单 ".$v['order_sn']." 赠送的购物币', '99')");
-                            $log = $db->getRow("SELECT SUM(rank_points) AS rank_points, SUM(pay_points) AS pay_points FROM " . $ecs->table("account_log") . " WHERE user_id = '$v[user_id]'");
-                            $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
+        //                     $db->query("INSERT INTO " . $ecs->table('account_log') . "(user_id, rank_points, pay_points, change_time, change_desc, change_type) " . "VALUES ('".$v['user_id']."', '".$zjfh_gwb."', '" . $zjfh_gwb . "', " . gmtime() . ", '抽奖订单 ".$v['order_sn']." 赠送的购物币', '99')");
+        //                     $log = $db->getRow("SELECT SUM(rank_points) AS rank_points, SUM(pay_points) AS pay_points FROM " . $ecs->table("account_log") . " WHERE user_id = '$v[user_id]'");
+        //                     $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
 
-                        }
-
-
+        //                 }
 
 
-                    }
-                }
-            }
-            //未中奖的，改变状态，把现金转成购物币，添加在acount_log表和更新用户的积分（购物币就是积分）
-            foreach ($res as $k => $v) {
-                if ($v['order_id'] != $_SESSION['order_id']) {
-                    $sql = 'UPDATE ' . $ecs->table('order_info') . " SET `order_status`= 3 , `is_lucky`= -1 WHERE `order_id` != $_SESSION[order_id] AND `order_id`='" . $v['order_id'] . "'";
-                    $db->query($sql);
-                    //wenjun start
-                    $db->query("INSERT INTO " . $ecs->table('account_log') . "(user_id, rank_points, pay_points, change_time, change_desc, change_type) " . "VALUES ('".$v['user_id']."', '".$v['goods_amount']."', '" . $v['goods_amount'] . "', " . gmtime() . ", '抽奖订单 ".$v['order_sn']." 赠送的购物币', '99')");
-                    //wenjun end
-                    $log = $db->getRow("SELECT SUM(rank_points) AS rank_points, SUM(pay_points) AS pay_points FROM " . $ecs->table("account_log") . " WHERE user_id = '$v[user_id]'");
-                    $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
-                }
-            }
 
-            // wenjun 2018.01.31 店主分成
-            draw_reward($_POST['goods_id']);
 
-        }
+        //             }
+        //         }
+        //     }
+        //     //未中奖的，改变状态，把现金转成购物币，添加在acount_log表和更新用户的积分（购物币就是积分）
+        //     foreach ($res as $k => $v) {
+        //         if ($v['order_id'] != $_SESSION['order_id']) {
+        //             $sql = 'UPDATE ' . $ecs->table('order_info') . " SET `order_status`= 3 , `is_lucky`= -1 WHERE `order_id` != $_SESSION[order_id] AND `order_id`='" . $v['order_id'] . "'";
+        //             $db->query($sql);
+        //             //wenjun start
+        //             $db->query("INSERT INTO " . $ecs->table('account_log') . "(user_id, rank_points, pay_points, change_time, change_desc, change_type) " . "VALUES ('".$v['user_id']."', '".$v['goods_amount']."', '" . $v['goods_amount'] . "', " . gmtime() . ", '抽奖订单 ".$v['order_sn']." 赠送的购物币', '99')");
+        //             //wenjun end
+        //             $log = $db->getRow("SELECT SUM(rank_points) AS rank_points, SUM(pay_points) AS pay_points FROM " . $ecs->table("account_log") . " WHERE user_id = '$v[user_id]'");
+        //             $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
+        //         }
+        //     }
+
+        //     // wenjun 2018.01.31 店主分成
+        //     draw_reward($_POST['goods_id']);
+
+        // }
 
     }else{
         $pd = 'SELECT exchange_lucky,closing_index FROM ' .$GLOBALS['ecs']->table('exchange_goods'). ' WHERE goods_id = '.$_POST['goods_id'];

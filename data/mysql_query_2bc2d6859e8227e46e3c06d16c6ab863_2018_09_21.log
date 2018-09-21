@@ -1,0 +1,16 @@
+INSERT INTO `yidu_51itmap_co`.`hunuo_sessions` (sesskey, expiry, ip, data) VALUES ('fe74d0dcd2ef3c39e209253d6ff3ba0f', '1537526938', '127.0.0.1', 'a:0:{}')
+
+INSERT INTO `yidu_51itmap_co`.`hunuo_stats` ( ip_address, visit_times, browser, system, language, area, referer_domain, referer_path, access_url, access_time) VALUES ('127.0.0.1', '27', 'Safari 537.36', 'Windows NT', 'zh-CN,zh', 'LAN', '', '', '/index.php', '1537526938')
+
+SELECT user_id, user_name, password  FROM `yidu_51itmap_co`.`hunuo_users` WHERE user_id = '1423' AND password = '540928e4909dfacaf17616c36608692b'
+
+SELECT u.user_money,u.email,u.headimg, u.pay_points, u.user_rank, u.rank_points,  IFNULL(b.type_money, 0) AS user_bonus, u.last_login, u.last_ip FROM `yidu_51itmap_co`.`hunuo_users` AS u  LEFT JOIN `yidu_51itmap_co`.`hunuo_user_bonus` AS ub ON ub.user_id = u.user_id AND ub.used_time = 0  LEFT JOIN `yidu_51itmap_co`.`hunuo_bonus_type` AS b ON b.type_id = ub.bonus_type_id AND b.use_start_date <= '2018-09-21' AND b.use_end_date >= '2018-09-21'  WHERE u.user_id = '1423'
+
+SELECT rank_id, discount FROM `yidu_51itmap_co`.`hunuo_user_rank` WHERE special_rank = '0' AND min_points <= 0 AND max_points > 0
+
+SELECT rank_name from `yidu_51itmap_co`.`hunuo_user_rank`where rank_id= 1
+
+UPDATE `yidu_51itmap_co`.`hunuo_users` SET visit_count = visit_count + 1,  last_ip = '127.0.0.1', last_login = '1537526939' WHERE user_id = '1423'
+
+UPDATE `yidu_51itmap_co`.`hunuo_sessions` SET expiry = '1537526939', ip = '127.0.0.1', userid = '1423', adminid = '0', user_name='hao4', user_rank='1', discount='1', email='8094487974@qq.com', data = 'a:7:{s:7:\"from_ad\";i:0;s:7:\"referer\";s:6:\"本站\";s:10:\"login_fail\";i:0;s:9:\"last_time\";s:10:\"1537457988\";s:7:\"last_ip\";s:9:\"127.0.0.1\";s:7:\"headimg\";s:0:\"\";s:14:\"user_rank_name\";s:12:\"普通会员\";}' WHERE sesskey = 'fe74d0dcd2ef3c39e209253d6ff3ba0f' LIMIT 1
+

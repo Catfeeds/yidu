@@ -42,7 +42,7 @@ if (!file_exists(ROOT_PATH . '../data/install.lock') && !file_exists(ROOT_PATH .
 @ini_set('session.use_trans_sid', 0);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-@ini_set('display_errors',        1);//报错提示开启hao2018
+@ini_set('display_errors',        0);//报错提示开启hao2018
 
 if (DIRECTORY_SEPARATOR == '\\')
 {

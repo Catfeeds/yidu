@@ -18,6 +18,7 @@ if (!defined('IN_ECS'))
     die('Hacking attempt');
 }
 require_once(ROOT_PATH . 'includes/lib_order.php');
+require_once(ROOT_PATH . 'includes/lib_mail.php');
 /**
  * 取得返回信息地址
  * @param   string  $code   支付方式代码
@@ -181,8 +182,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
         $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('pay_log') .
             " WHERE log_id = '$log_id'";
         $pay_log = $GLOBALS['db']->getRow($sql);
-        if (1)
-        // if ($pay_log && $pay_log['is_paid'] == 0)
+        // if (1)
+        if ($pay_log && $pay_log['is_paid'] == 0)
         {
              error_log(print_r($pay_log,1), 3, "ee.log");
             /* 修改此次支付操作的状态为已付款 */
@@ -191,8 +192,8 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
             $GLOBALS['db']->query($sql);
 
             /* 根据记录类型做相应处理 */
-            if (1)
-            // if ($pay_log['order_type'] == PAY_ORDER)
+            // if (1)
+            if ($pay_log['order_type'] == PAY_ORDER)
             {
                 /* 取得订单信息 */
                 // wenjun start     查询sql 中添加了extension_num这个字段       // wenjun end
@@ -272,12 +273,13 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                                 for($j=0;$j<28;$j++){
                                     $k = ($i*28)+$j;
                                     $inv = $j+1;
-                                    $sql0 = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') . " SET `extension_num`='".$inv."'  WHERE `order_id`='" . $exchange_order[$k]['order_id'] . "'";
+                                    $sql0 = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') . " SET `extension_num`='".$inv."',`manren_time`='".gmtime()."'  WHERE `order_id`='" . $exchange_order[$k]['order_id'] . "'";
                                     $GLOBALS['db']->query($sql0);
                                     if ($exchange_order[$k]['mobile']) {
                                         $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$exchange_order[$k]['order_sn'],$inv);
                                         // $sms[] = $content;
                                         sendSMS($v['mobile'], $content);
+                                        mail_add('抽奖订单',$content.$exchange_order[$k]['user_id']);
                                     }
                                 }
                             }
