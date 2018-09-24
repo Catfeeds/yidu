@@ -250,7 +250,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                         }
                         //删除父订单
                         $sql="delete from ".$GLOBALS['ecs']->table('order_info')." where order_id=".$order['order_id']." ";
-                        // $GLOBALS['db']->query($sql);
+                        $GLOBALS['db']->query($sql);
                     }
                     
                     /* 记录订单操作记录 */
@@ -279,7 +279,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                                         $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$exchange_order[$k]['order_sn'],$inv);
                                         // $sms[] = $content;
                                         sendSMS($v['mobile'], $content);
-                                        mail_add('抽奖订单',$content.$exchange_order[$k]['user_id']);
+                                        mail_add('抽奖订单',$content,$exchange_order[$k]['user_id']);
                                     }
                                 }
                             }

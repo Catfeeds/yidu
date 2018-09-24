@@ -1142,6 +1142,10 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
 			//$content = '您的订单已发货，订单号为'.$order['order_sn'].'收货人为'.$order['consignee'].'收货地址为'.$order['address'].'，请注意查收【'.$GLOBALS['_CFG']['shop_name'].'】';
 			sendSMS($order['mobile'],$content);
         }
+        //站内信通知
+        require_once(ROOT_PATH.'mobile/includes/lib_mail.php');
+        $content = sprintf('您的订单已发货，订单号为%s，收货人为%s，收货地址为%s，请注意查收',$order['order_sn'],$order['consignee'],$order['address']);
+        mail_add('发货通知',$content,$order['user_id']);
     }
 
     /* 清除缓存 */
@@ -3275,6 +3279,10 @@ elseif ($_REQUEST['act'] == 'operate')
             $arr['order_status'] = $order_finish ? OS_SPLITED : OS_SPLITING_PART; // 全部分单、部分分单
             $arr['shipping_status']     = $shipping_status;
             update_order($order_id, $arr);
+
+            require_once(ROOT_PATH.'mobile/includes/lib_mail.php');
+            $content = sprintf('您的订单已发货，订单号为%s，收货人为%s，收货地址为%s，请注意查收',$order['order_sn'],$order['consignee'],$order['address']);
+            mail_add('发货通知',$content,$order['user_id']);
 		}
 
         /* 记录log */

@@ -146,15 +146,15 @@
 			<!-- wenjun start -->
 			<ul class="cou clearfix">
 				<li><a href="user.php?act=order_list&ex=1&composite_status=101">
-					<div class="pic"><img src="themesmobile/default/images/icon20.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon20.png" alt=""><span class="count">{$ex_order.o1_c}</span></div>
 					<p>进行中</p>
 				</a></li>
 				<li><a href="user.php?act=order_list&ex=1&composite_status=105">
-					<div class="pic"><img src="themesmobile/default/images/icon21.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon21.png" alt=""><span class="count">{$ex_order.o2_c}</span></div>
 					<p>已中奖</p>
 				</a></li>
 				<li><a href="user.php?act=order_list&ex=1&composite_status=103">
-					<div class="pic"><img src="themesmobile/default/images/icon22.png" alt=""></div>
+					<div class="pic"><img src="themesmobile/default/images/icon22.png" alt=""><span class="count">{$ex_order.o3_c}</span></div>
 					<p>未中奖</p>
 				</a></li>
 			</ul>

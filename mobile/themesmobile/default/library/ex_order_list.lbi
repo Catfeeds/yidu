@@ -24,7 +24,7 @@
         </div>
       {/foreach}
         <div class="lus_b clearfix">
-          <span>抽奖码：{$order.order_extension_num|truncate:15}</span>
+          <span>抽奖码：{if $order.order_extension_num eq 0}未满人{else}{$order.order_extension_num|truncate:15}{/if}</span>
           <p> <span>共<i>{$order.count}</i>件商品</span> 合计：{$order.total_fee}</p>
         </div>
   </a>

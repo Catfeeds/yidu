@@ -26,47 +26,49 @@ if (window.parent != window)
 </script>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap login">
     <div class="bg"></div>
-    <div class="inner clearfix">
-        <div class="left">
-            <span class="span0"></span>
-            <h3>Administrator</h3>
-            <span class="span1">管理员</span>
+    <div class="wrap2">
+        <div class="inner clearfix">
+            <div class="left">
+                <div class="title"><span class="span0"></span>管理系统</div>
+                <!-- <h3>Administrator</h3>
+                <span class="span1">管理员</span> -->
 
-            <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
-                <div class="clearfix">
-                    <p class="gg2">
-                        <b>账户</b><input name="username" type="text"  placeholder="请输入您的账户名"/>
-                    </p>
-                    <p class="gg">
-                        <em class="ml t">*</em><i class="fz">最小字节需大于4个字符</i>
-                    </p>
-                </div>
-                <div class="clearfix">
-                    <p class="gg2">
-                        <b>密码</b><input type="password" name="password" placeholder="最长填写16位"/>
-                    </p>
-                </div>
+                <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
+                    <div class="clearfix">
+                        <p class="gg2">
+                            <b>账户</b><input name="username" type="text"  placeholder="请输入您的账户名"/>
+                        </p>
+                        <p class="gg">
+                            <em class="ml t">*</em><i class="fz">最小字节需大于4个字符</i>
+                        </p>
+                    </div>
+                    <div class="clearfix">
+                        <p class="gg2">
+                            <b>密码</b><input type="password" name="password" placeholder="最长填写16位"/>
+                        </p>
+                    </div>
 
-                <input type="checkbox" value="1" name="remember" id="remember" style="display:none;" />
+                    <input type="checkbox" value="1" name="remember" id="remember" style="display:none;" />
 
-            <div class="dl clearfix"><input type="submit" value="立即登录" style="text-align:left;cursor: pointer;" class="a1" /></div>
-                <input type="hidden" name="act" value="signin" />
-            </form>
-        </div>
-
-        <div class="right clearfix" style="display:none;">
-            <div class="d1">
-                <img src="images/a.jpg" alt="" />
+                <div class="dl clearfix"><input type="submit" value="立即登录" style="text-align:left;cursor: pointer;" class="a1" /></div>
+                    <input type="hidden" name="act" value="signin" />
+                </form>
             </div>
-            <div class="d2">
-                <a href="http://www.hunuo.com/contact/" class="btn1" target="_blank">立即联系我们</a>
-                <div></div>
-                <a href="http://www.hunuo.com/contact/" class="btn2" target="_blank">常见问题帮助？</a>
-            </div>
-        </div>
 
+            <div class="right clearfix" style="display:none;">
+                <div class="d1">
+                    <img src="images/a.jpg" alt="" />
+                </div>
+                <div class="d2">
+                    <a href="http://www.hunuo.com/contact/" class="btn1" target="_blank">立即联系我们</a>
+                    <div></div>
+                    <a href="http://www.hunuo.com/contact/" class="btn2" target="_blank">常见问题帮助？</a>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 

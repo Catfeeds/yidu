@@ -70,13 +70,12 @@
                 <div class="acivi3_box">
                     <div class="swiper-container ting_t fl">
                         <div class="swiper-wrapper">
-                            {foreach from=$user_info item=kk}
-                            <div class="swiper-slide swiper-no-swiping ac"><h2>{$kk[stage]}期</h2></div>
-                            {foreach from=$kk[arr] item=r}
-                            <div class="swiper-slide swiper-no-swiping"><div class="nahp clearfix">{$r[user_name]} <span>手机号码：{$r[mobile_phone]}</span></div></div>
+                            {foreach from=$stage item=item}
+                                <div class="swiper-slide swiper-no-swiping ac"><h2>{$item[period_num]}期</h2></div>
+                                {foreach from=$item[stage_list] item=r}
+                                <div class="swiper-slide swiper-no-swiping"><div class="nahp clearfix">{$r[consignee]} <span>手机号码：{$r[mobile]}</span></div></div>
+                                {/foreach}
                             {/foreach}
-                            {/foreach}
-
                         </div>
                     </div>
                 </div>

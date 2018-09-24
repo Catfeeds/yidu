@@ -758,11 +758,7 @@ function selcartResponse(result){
     <!-- 2018 wenjun start $ex存在即为抽奖商品的详情。在else下面的如有修改，替换即可-->
     {if $ex}
     <dl>
-        {if $ex_goods.exchange_number gt 0}
         <span class="daohuo" id="ECS_DAOHUO"> <a style="width: 100%;background: none;" onClick="choose_attr(3)"/>立即参与</a></span>
-        {else}
-        <span class="daohuo" id="ECS_DAOHUO"> <a style="width: 100%;background: #ccc;" />参与人数已满</a></span>
-        {/if}
     </dl>
     {else}
     <dl>
@@ -779,34 +775,34 @@ function selcartResponse(result){
 </html>
 <script type="text/javascript" src="themesmobile/default/js/NativeShare.js"></script>
 <script>
-  var nativeShare = new NativeShare()
-  nativeShare.setConfig({
-      wechatConfig: {
-          appId: '{$signPackage.appId}',
-          timestamp: {$signPackage.timestamp},
-          nonceStr: '{$signPackage.nonceStr}',
-          signature: '{$signPackage.signature}',
-      }
-  })
-  var shareData = {
-      title: '{$share_data.Title}',
-      desc: '{$share_data.Description}',
-      // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
-      link: '{$share_data.Url}',
-      icon: '{$share_data.PicUrl}',
-      // 不要过于依赖以下两个回调，很多浏览器是不支持的
-      success: function() {
-          // alert('success')
-      },
-      fail: function() {
-          // alert('fail')
-      }
-  }
-  nativeShare.setShareData(shareData)
+  // var nativeShare = new NativeShare()
+  // nativeShare.setConfig({
+  //     wechatConfig: {
+  //         appId: '{$signPackage.appId}',
+  //         timestamp: {$signPackage.timestamp},
+  //         nonceStr: '{$signPackage.nonceStr}',
+  //         signature: '{$signPackage.signature}',
+  //     }
+  // })
+  // var shareData = {
+  //     title: '{$share_data.Title}',
+  //     desc: '{$share_data.Description}',
+  //     // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
+  //     link: '{$share_data.Url}',
+  //     icon: '{$share_data.PicUrl}',
+  //     // 不要过于依赖以下两个回调，很多浏览器是不支持的
+  //     success: function() {
+  //         // alert('success')
+  //     },
+  //     fail: function() {
+  //         // alert('fail')
+  //     }
+  // }
+  // nativeShare.setShareData(shareData)
 
-  function setTitle(title) {
-      nativeShare.setShareData({
-          title: title,
-      })
-  }
+  // function setTitle(title) {
+  //     nativeShare.setShareData({
+  //         title: title,
+  //     })
+  // }
 </script>

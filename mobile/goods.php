@@ -805,7 +805,7 @@ $smarty->assign('now_time',  gmtime());           // 当前系统时间
 //         'Title' => $goods['goods_name'],
 //         'Description' => $goods['goods_name'],
 //         // 'PicUrl' => $domain . "/mobile/images/wx_share.jpg",
-//         'PicUrl' => $domain . '/' . ltrim($goods['goods_thumb'], './..'),
+//         'PicUrl' => ,
 //         'Url' => $domain . "/mobile/goods.php?id=$goods_id&u=".$_SESSION['user_id']."&ex=1"
 //     );
 // }else{
@@ -819,8 +819,8 @@ $smarty->assign('now_time',  gmtime());           // 当前系统时间
 // }
 
 $smarty->assign('share_data', $share_data);
-$smarty->assign('wx_imgUrl', $ecs_url_name."/".ltrim($goods['goods_thumb'], './..'));
-   
+$smarty->assign('wx_imgUrl',PicUrl($goods['goods_thumb']));
+
 $smarty->display('goods.dwt',      $cache_id);
 
 /*------------------------------------------------------ */

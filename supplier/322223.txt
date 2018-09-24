@@ -1,1 +1,1 @@
-SELECT COUNT(distinct(g.goods_id)) FROM `yidu_51itmap_co`.`hunuo_goods` AS g,`yidu_51itmap_co`.`hunuo_supplier_goods_cat` as sgc WHERE sgc.goods_id=g.goods_id AND is_delete='0' AND sgc.supplier_id='4495'  AND supplier_status='1' AND is_real='1'
+SELECT COUNT(distinct(g.goods_id)) FROM `yidu_51itmap_co`.`hunuo_goods` AS g,`yidu_51itmap_co`.`hunuo_supplier_goods_cat` as sgc WHERE sgc.goods_id=g.goods_id AND is_delete='0' AND sgc.supplier_id='4799'  AND supplier_status='0' AND is_real='1'

@@ -785,7 +785,6 @@ function get_user_orders_ajax($user_id, $limit,$where='')
     $arr    = array();
 
 
-
     $sql = "SELECT o.*, bo.status_back, ifnull(ssc.value,'网站自营') as shopname, " .
 
            "(o.goods_amount + o.shipping_fee + o.insure_fee + o.pay_fee + o.pack_fee + o.card_fee + o.tax - o.discount) AS total_fee ".
@@ -800,7 +799,7 @@ function get_user_orders_ajax($user_id, $limit,$where='')
 
            " ON o.order_id=bo.order_id ".
 
-           " WHERE o.user_id = '$user_id' $where ORDER BY add_time DESC";
+           " WHERE o.user_id = '$user_id' $where ORDER BY order_id DESC,add_time DESC";
 
     $sql .= $limit;
 

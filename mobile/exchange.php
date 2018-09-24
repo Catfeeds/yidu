@@ -188,14 +188,15 @@ if ($_REQUEST['act'] == 'list')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'view')
 {   
-    require(dirname(__FILE__) . '/includes/lib_payment.php');
-    order_paid('629', 2);
+    // require(dirname(__FILE__) . '/includes/lib_payment.php');
+    // order_paid('638', 2);
     //今天的开奖码
-    $totay = local_date('Y-m-d',time());
-    $tt = local_strtotime($totay);
-    $tt1 = $tt*1 +86400;
-
-    $exchange_lucky = $GLOBALS['db']->getOne('SELECT exchange_lucky FROM ' . $GLOBALS['ecs']->table('exchange_goods') ." WHERE open_time > $tt AND open_time < $tt1 order by goods_id desc LIMIT 1");
+    // $totay = local_date('Y-m-d',time());
+    $tt = local_strtotime(date("Y-m-d")." 15:00");
+    $tt1 = local_strtotime(local_date('Y-m-d'))+86400;
+    // $exchange_lucky = $GLOBALS['db']->getOne('SELECT exchange_lucky FROM ' . $GLOBALS['ecs']->table('exchange_goods') ." WHERE open_time > $tt AND open_time < $tt1 order by goods_id desc LIMIT 1");
+    // $smarty->assign('exchange_lucky',            $exchange_lucky);
+    $exchange_lucky = $GLOBALS['db']->getOne('SELECT extension_num FROM ' . $GLOBALS['ecs']->table('order_info') ." WHERE kaijian_time >= $tt AND kaijian_time < $tt1 AND is_lucky=1 order by order_id desc LIMIT 1");
     $smarty->assign('exchange_lucky',            $exchange_lucky);
 
 
@@ -234,22 +235,32 @@ elseif ($_REQUEST['act'] == 'view')
     $smarty->assign('s3',            $s3); //日
 
     //往期中奖名单 最近10期的
-    $stage = $GLOBALS['db']->getAll('SELECT stage FROM ' . $GLOBALS['ecs']->table('exchange_goods') ." WHERE stage != '' GROUP BY stage order by stage desc LIMIT 10");
-    
-    foreach ($stage as $k => $v) {
-        $user = $GLOBALS['db']->getAll('SELECT user_id FROM ' . $GLOBALS['ecs']->table('exchange_goods') ." WHERE stage = $v[stage]");
-        foreach ($user as $k1 => $v1) {
-            $user_info[$k]['stage'] = $v['stage'];
-            $info = $GLOBALS['db']->getRow('SELECT user_name,mobile_phone FROM ' . $GLOBALS['ecs']->table('users') ." WHERE user_id = $v1[user_id]");
-            //修正电话号码
-
-            $info['mobile_phone'] = substr($info['mobile_phone'] , 0 , 3).'*****'.substr($info['mobile_phone'] ,  -3);
-
-            $user_info[$k]['arr'][] = $info;
-
+    $stage = $GLOBALS['db']->getAll('SELECT period_num FROM ' . $GLOBALS['ecs']->table('order_info') ." WHERE period_num>0 GROUP BY period_num order by period_num desc LIMIT 10");
+    foreach($stage as &$v){
+        $stage_list = $GLOBALS['db']->getAll('SELECT consignee,mobile FROM ' . $GLOBALS['ecs']->table('order_info') .' WHERE is_lucky=1 AND period_num='.$v['period_num'].' order by order_id desc');
+        foreach($stage_list as &$v2){
+            $v2['mobile'] = substr($v2['mobile'] , 0 , 3).'*****'.substr($v2['mobile'] ,  -3);
         }
+        $v['stage_list'] = $stage_list;
     }
-    $smarty->assign('user_info',            $user_info);
+    // var_dump($stage_list);exit;
+    $smarty->assign('stage',$stage);
+    // $stage = $GLOBALS['db']->getAll('SELECT stage FROM ' . $GLOBALS['ecs']->table('exchange_goods') ." WHERE stage != '' GROUP BY stage order by stage desc LIMIT 10");
+    
+    // foreach ($stage as $k => $v) {
+    //     $user = $GLOBALS['db']->getAll('SELECT user_id FROM ' . $GLOBALS['ecs']->table('exchange_goods') ." WHERE stage = $v[stage]");
+    //     foreach ($user as $k1 => $v1) {
+    //         $user_info[$k]['stage'] = $v['stage'];
+    //         $info = $GLOBALS['db']->getRow('SELECT user_name,mobile_phone FROM ' . $GLOBALS['ecs']->table('users') ." WHERE user_id = $v1[user_id]");
+    //         //修正电话号码
+
+    //         $info['mobile_phone'] = substr($info['mobile_phone'] , 0 , 3).'*****'.substr($info['mobile_phone'] ,  -3);
+
+    //         $user_info[$k]['arr'][] = $info;
+
+    //     }
+    // }
+    // $smarty->assign('user_info',            $user_info);
     // print_r($user_info);exit;
     
     //判断是否为微信浏览器
@@ -359,6 +370,7 @@ elseif ($_REQUEST['act'] == 'buy')
     include_once(ROOT_PATH . 'includes/lib_order.php');
     clear_cart(CART_EXCHANGE_GOODS);
 
+
     /* 更新：加入购物车 */
     $number = $_POST['number'];
     $cart = array(
@@ -369,6 +381,7 @@ elseif ($_REQUEST['act'] == 'buy')
         'goods_sn'       => addslashes($goods['goods_sn']),
         'goods_name'     => addslashes($goods['goods_name']),
         'market_price'   => $goods['market_price'],
+        'cost_price'    =>  round($goods['cost_price']/28,2),
         // 'goods_price'    => 0,
         'goods_price'    => $attr_price,
         'goods_number'   => $number,

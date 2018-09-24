@@ -157,8 +157,8 @@ width: 0;height: 0;border-style: solid;border-color: transparent transparent #56
 ::-webkit-scrollbar {width: 0px;}
 .f_mask3 {background-color: #000;opacity: 0.4;height: 100%;width: 100%; position: absolute;top: 0;left: 0;z-index: 111;display: none;}
 .good_canshu { width:96%; overflow-y:scroll;margin-left:2%;}
-#choose_attr3{position:fixed; bottom:0; left:0; height:0px; z-index:99999999; background:#fff; width:100%;}
-.subNavBox{ width:95%; overflow:hidden; margin:auto;}
+#choose_attr3{position:fixed; bottom:0; left:0; height:0px; z-index:99999999; background:#fff; width:100%;padding-bottom: 60px;box-sizing: border-box;}
+.subNavBox{ width:95%; overflow:hidden; margin:auto;overflow-y:auto;height: 100%;}
 .subNavBox h2{ width:100%;height:50px; padding-top:10px; border-bottom:1px solid #eeeeee; padding-bottom:10px; font-weight:normal}
 .subNavBox h2 img{ display:block; height:40px; margin-top:5px; float:left;}
 .subNavBox h2 span{ display:block; float:right; width:70%; font-size:16px; line-height:50px; color:#333; text-indent:10px;}

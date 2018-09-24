@@ -350,3 +350,43 @@ Array
     [order_type] => 0
     [is_paid] => 1
 )
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 640
+    [order_id] => 1315
+    [order_amount] => 90.00
+    [order_type] => 0
+    [is_paid] => 0
+)

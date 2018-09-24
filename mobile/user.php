@@ -424,6 +424,16 @@ function action_default()
 	/* “未确认”的订单 */
 	$order_count['unconfirmed'] = $db->GetOne('SELECT COUNT(*) FROM ' . $ecs->table('order_info') . " WHERE 1 $ex_where " . order_query_sql('unconfirmed'));
 	$status['unconfirmed'] = OS_UNCONFIRMED;
+
+	//查询抽奖订单数
+	$ex_where = " user_id=$user_id AND extension_code='exchange_goods' ";
+	$ex_order['o1_c'] = $db->GetOne('SELECT COUNT(*)' . ' FROM ' . $ecs->table('order_info') . " WHERE $ex_where AND is_lucky=0 AND pay_status=2 ");
+	$ex_order['o2_c'] = $db->GetOne('SELECT COUNT(*)' . ' FROM ' . $ecs->table('order_info') . " WHERE $ex_where AND is_lucky=1");
+	$ex_order['o3_c'] = $db->GetOne('SELECT COUNT(*)' . ' FROM ' . $ecs->table('order_info') . " WHERE $ex_where AND is_lucky=-1");
+
+    $smarty->assign('ex_order', $ex_order);
+
+
         $smarty->assign('order_count', $order_count);
 	$collect_count = $GLOBALS['db']->getOne("select count(*) from " . $GLOBALS['ecs']->table('collect_goods') . " where user_id = " . $user_id);
 	$smarty->assign('collect_count', $collect_count);
@@ -8170,13 +8180,15 @@ function action_user_message() {
 	$db = $GLOBALS['db'];
 	$ecs = $GLOBALS['ecs'];
 	$user_id = $GLOBALS['user_id'];
+	$action = $GLOBALS['action'];
+	$page = $_REQUEST['page'];
 
 	$sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('message_log') . " a LEFT JOIN " . $GLOBALS['ecs']->table('message') . " b ON a.msg_id = b.msg_id WHERE deleted = 0 AND a.user_id = " . $user_id;
 	$record_count = $db->getOne($sql);
 	// 分页函数
 	$pager = get_pager('user.php', array( 'act' => $action ), $record_count, $page);
 
-	$sql = "SELECT a.*, b.title, b.content FROM " . $GLOBALS['ecs']->table('message_log') . " a LEFT JOIN " . $GLOBALS['ecs']->table('message') . " b ON a.msg_id = b.msg_id WHERE deleted = 0 AND a.user_id = " . $user_id . " ORDER BY add_time DESC LIMIT " . $pager['start'] . ", " . $pager['size'];
+	$sql = "SELECT a.*, b.title, b.content FROM " . $GLOBALS['ecs']->table('message_log') . " a LEFT JOIN " . $GLOBALS['ecs']->table('message') . " b ON a.msg_id = b.msg_id WHERE deleted = 0 AND a.user_id = " . $user_id . " ORDER BY msg_id DESC,add_time DESC LIMIT " . $pager['start'] . ", " . $pager['size'];
 	$message_list = $db->getAll($sql);
 	foreach ($message_list as $key => $value) {
 		$message_list[$key]['add_time'] = local_date('Y-m-d', $value['add_time']);

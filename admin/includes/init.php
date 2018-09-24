@@ -33,7 +33,7 @@ if (__FILE__ == '')
 @ini_set('session.use_trans_sid', 0);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-// @ini_set('display_errors',        0);//先注释，后开启hao
+@ini_set('display_errors',        0);//先注释，后开启hao
 
 if (DIRECTORY_SEPARATOR == '\\')
 {

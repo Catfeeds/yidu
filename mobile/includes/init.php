@@ -271,7 +271,28 @@ else
     ob_start();
 }*/
 
-
+/**
+ * 连接处理
+ * @param [type] $content [description]
+ * @param string $strUrl  [description]
+ */
+function PicUrl($content = null, $strUrl = ''){
+    if(empty($strUrl)){
+        $strUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+    }
+    if(is_array($content)){
+        foreach($content as &$v){
+            if(!strstr($v,'http')){
+                $v = $strUrl."/".$v;
+            }
+        }
+    }else{
+        if(!strstr($content,'http')){
+            $content = $strUrl."/".$content;
+        }
+    }
+    return $content;
+}
 if (!defined('INIT_NO_SMARTY'))
 {
     header('Cache-control: private');

@@ -3040,6 +3040,12 @@ elseif ($_REQUEST['step'] == 'done')
         $order['froms'] = $from_client;
 
     	$order['parent_order_id'] = $parent_order_id;
+        //判断是否有设置佣金
+        $sql = "SELECT COUNT(*) FROM ".$ecs->table('cart')." WHERE $sql_where AND rec_type = '$flow_type' $id_ext_new AND cost_price>0";
+        $cost_price = $GLOBALS['db']->getOne($sql);
+        if($cost_price){
+            $order['is_brokerage'] = 1;
+        }
 	     /* 插入订单表 */
 	    $error_no = 0;
 	    do
@@ -3821,6 +3827,12 @@ elseif ($_REQUEST['step'] == 'done1')
 
 
         $order['parent_order_id'] = $parent_order_id;
+        //判断是否有设置佣金
+        $sql = "SELECT COUNT(*) FROM ".$ecs->table('cart')." WHERE $sql_where AND rec_type = '$flow_type' $id_ext_new AND cost_price>0";
+        $cost_price = $GLOBALS['db']->getOne($sql);
+        if($cost_price){
+            $order['is_brokerage'] = 1;
+        }
          /* 插入订单表 */
         $error_no = 0;
         do

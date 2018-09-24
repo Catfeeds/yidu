@@ -381,11 +381,16 @@ elseif ($action == 'separate_log') {
         $smarty->assign('affdb', $affdb);
 
         // 累计分成
-        $sqltotal = "SELECT SUM(a.money) FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods' AND (u.parent_id IN ($all_uid) AND o.is_separate = 1 OR a.user_id = '$user_id' AND o.is_separate = 1)";
+        // $sqltotal = "SELECT SUM(a.money) FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods' AND (u.parent_id IN ($all_uid)  AND o.is_brokerage=1 AND o.is_separate = 1 OR a.user_id = '$user_id' AND o.is_separate = 1)";
 
-        $sqlcount = "SELECT count(*) FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods' AND (u.parent_id IN ($all_uid) AND o.is_separate = 1 OR a.user_id = '$user_id' AND o.is_separate = 1)";
+        // $sqlcount = "SELECT count(*) FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods'  AND o.is_brokerage=1 AND (u.parent_id IN ($all_uid) AND o.is_separate = 1 OR a.user_id = '$user_id' AND o.is_separate = 1)";
 
-        $sql = "SELECT o.*, a.log_id, a.user_id as suid,  a.user_name as auser, a.money, a.point, a.separate_type, a.time, u.user_name FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods' AND (u.parent_id IN ($all_uid) AND o.is_separate = 1 OR a.user_id = '$user_id' AND o.is_separate = 1)" . " ORDER BY order_id DESC";
+        // $sql = "SELECT o.*, a.log_id, a.user_id as suid,  a.user_name as auser, a.money, a.point, a.separate_type, a.time, u.user_name, u.parent_id FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.is_brokerage=1 AND o.extension_code <> 'exchange_goods' AND (u.parent_id IN ($all_uid) AND o.is_separate = 1 OR a.user_id = '$user_id' AND o.is_separate = 1)" . " ORDER BY order_id DESC";
+        // 
+        //记录修改hao2018--分成的才展示
+        $sqltotal = "SELECT SUM(a.money) FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods' AND a.user_id=$user_id AND a.separate_type=0";
+        $sqlcount = "SELECT count(*) FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0 AND o.extension_code <> 'exchange_goods' AND a.user_id=$user_id AND a.separate_type=0";
+        $sql = "SELECT o.*, a.log_id, a.user_id as suid,  a.user_name as auser, a.money, a.point, a.separate_type, a.time, u.user_name, u.parent_id FROM " . $GLOBALS['ecs']->table('order_info') . " o" . " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id" . " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" . " WHERE o.user_id > 0  AND o.extension_code <> 'exchange_goods' AND a.user_id=$user_id AND a.separate_type=0 ORDER BY order_id DESC";
         /*
          * SQL解释：
          *
@@ -404,7 +409,6 @@ elseif ($action == 'separate_log') {
     }
 
     $count = $GLOBALS['db']->getOne($sqlcount);
-
     $separate_total = $GLOBALS['db']->getOne($sqltotal);    //累计分成
     $separate_total = $separate_total ? $separate_total : 0;
 
@@ -429,9 +433,19 @@ elseif ($action == 'separate_log') {
         }
         $rt['order_sn'] = substr($rt['order_sn'], 0, strlen($rt['order_sn']) - 5) . "***" . substr($rt['order_sn'], - 2, 2);
         $rt['time'] = local_date('Y-m-d', $rt['time']);
-        $shop_info = $GLOBALS['db']->getRow("SELECT a.shop_code, b.value AS shop_name FROM " . $GLOBALS['ecs']->table('agent_shop') . " a LEFT JOIN " . $GLOBALS['ecs']->table('supplier_shop_config') . " b ON a.shop_id = b.supplier_id AND b.code = 'shop_name' WHERE a.shop_id = " . $rt['supplier_id']);
-        $rt['shop_code'] = $shop_info['shop_code'];
-        $rt['shop_name'] = $shop_info['shop_name'];
+        $rt['shop_code'] = '';
+        $rt['shop_name'] = '';
+        if($rt['parent_id']>0){
+            $supplier_user = $GLOBALS['db']->getRow("SELECT * FROM ".$GLOBALS['ecs']->table('users')." WHERE user_id=".$rt['parent_id']);
+            $shop_info = $GLOBALS['db']->getRow("SELECT a.shop_code, b.value AS shop_name FROM " . $GLOBALS['ecs']->table('agent_shop') . " a LEFT JOIN " . $GLOBALS['ecs']->table('supplier_shop_config') . " b ON a.shop_id = b.supplier_id AND b.code = 'shop_name' WHERE a.shop_id = " . $supplier_user['shop_id']);
+            $rt['shop_code'] = $shop_info['shop_code'];
+            $rt['shop_name'] = $shop_info['shop_name'];
+        }
+        
+        // 
+        // $shop_info = $GLOBALS['db']->getRow("SELECT a.shop_code, b.value AS shop_name FROM " . $GLOBALS['ecs']->table('agent_shop') . " a LEFT JOIN " . $GLOBALS['ecs']->table('supplier_shop_config') . " b ON a.shop_id = b.supplier_id AND b.code = 'shop_name' WHERE a.shop_id = " . $rt['supplier_id']);
+        // $rt['shop_code'] = $shop_info['shop_code'];
+        // $rt['shop_name'] = $shop_info['shop_name'];
         $rt['money'] = $rt['money'] ? $rt['money'] : '0.00';
         $logdb[] = $rt;
     }

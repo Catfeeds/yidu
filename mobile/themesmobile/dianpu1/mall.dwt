@@ -890,11 +890,11 @@ panda(function () {
 <!-- 抽奖商品 -->
 <!-- //2018 wenjun start  -->
 <!-- {if $exchange_goods} -->
-<div class="tprize bgc mt " style="padding: 1.0rem;background: #fff;margin-top: 0.25rem;">
+<div class="tprize bgc mt " style="padding: 1.0rem 1rem 1rem 6.76rem;background: #fff;margin-top: 0.25rem;position: relative;overflow: hidden;zoom:1;">
     <a href="goods.php?id={$exchange_goods.goods_id}&ex=1&supplier_id={$supplier_id}">
         <div>
-            <img style="height: 5.76rem;float: left" src="./../{if $exchange_goods.goods_thumb}{$exchange_goods.goods_thumb}{else}$exchange_goods.goods_img{/if}">
-            <div style="float: left;max-width: 16.5rem;margin-left: 1rem">
+            <img style="height: 5.76rem;float: left;margin-left: -5.76rem;" src="./../{if $exchange_goods.goods_thumb}{$exchange_goods.goods_thumb}{else}$exchange_goods.goods_img{/if}">
+            <div style="margin-left: 1rem">
                 <h3>今日乐透奖品</h3>
                 <p style="line-height: 1.4rem"><span style="margin-right: 0rem">商品名：{$exchange_goods.goods_name}</span></p>
                 <p style="line-height: 1.4rem"><span style="margin-right: 0rem">价格：{$exchange_goods.exchange_integral}元</span></p>

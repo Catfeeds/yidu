@@ -182,8 +182,9 @@ elseif ($_REQUEST['act'] == 'separate')
         	  	{
 					$all_cost_price = $row1[$i]['cost_price']  * $row1[$i]['goods_number'];
         	    }
-				$money +=round($all_cost_price,2);
+				$money +=$all_cost_price;
         	  }
+                $money +=round($money,2);
 		}
 		else
 		{
@@ -312,11 +313,16 @@ function get_affiliate_ck()
         if(empty($separate_by))
         {
             //推荐注册分成
+            // $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_info') . " o".
+            //         " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
+            //         " LEFT JOIN".$GLOBALS['ecs']->table('users')." u2 ON u.parent_id = u2.user_id".
+            //         " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" .
+            //         " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND u2.shop_id > 0 AND (u.parent_id > 0 AND o.is_separate = 0 OR o.is_separate > 0) $sqladd";
             $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('order_info') . " o".
                     " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
                     " LEFT JOIN".$GLOBALS['ecs']->table('users')." u2 ON u.parent_id = u2.user_id".
                     " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" .
-                    " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND u2.shop_id > 0 AND (u.parent_id > 0 AND o.is_separate = 0 OR o.is_separate > 0) $sqladd";
+                    " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND o.is_brokerage > 0 AND (o.is_separate = 0 OR o.is_separate > 0) $sqladd";
         }
         else
         {
@@ -347,11 +353,18 @@ function get_affiliate_ck()
         if(empty($separate_by))
         {
             //推荐注册分成
+            // $sql = "SELECT o.*, a.log_id, a.user_id as suid,  a.user_name as auser, a.money, a.point, a.separate_type,u.parent_id as up FROM " . $GLOBALS['ecs']->table('order_info') . " o".
+            //         " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
+            //         " LEFT JOIN".$GLOBALS['ecs']->table('users')." u2 ON u.parent_id = u2.user_id".
+            //         " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" .
+            //         " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND u2.shop_id > 0 AND (u.parent_id > 0 AND o.is_separate = 0 OR o.is_separate > 0) $sqladd".
+            //         " ORDER BY order_id DESC" .
+            //         " LIMIT " . $filter['start'] . ",$filter[page_size]";
             $sql = "SELECT o.*, a.log_id, a.user_id as suid,  a.user_name as auser, a.money, a.point, a.separate_type,u.parent_id as up FROM " . $GLOBALS['ecs']->table('order_info') . " o".
                     " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
                     " LEFT JOIN".$GLOBALS['ecs']->table('users')." u2 ON u.parent_id = u2.user_id".
                     " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" .
-                    " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND u2.shop_id > 0 AND (u.parent_id > 0 AND o.is_separate = 0 OR o.is_separate > 0) $sqladd".
+                    " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND o.is_brokerage > 0 AND (o.is_separate = 0 OR o.is_separate > 0) $sqladd".
                     " ORDER BY order_id DESC" .
                     " LIMIT " . $filter['start'] . ",$filter[page_size]";
 

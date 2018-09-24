@@ -14,11 +14,11 @@ if ($_REQUEST['act'] == 'lists') {
         exit($address);
     }
 
-	require_once "wxjs/jssdk.php";
-	$ret = $db->getRow("SELECT  *  FROM " . $GLOBALS['ecs']->table('weixin_config') );
-	$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
-	$signPackage = $jssdk->GetSignPackage();
-	$smarty->assign('signPackage',  $signPackage);	
+	// require_once "wxjs/jssdk.php";
+	// $ret = $db->getRow("SELECT  *  FROM " . $GLOBALS['ecs']->table('weixin_config') );
+	// $jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+	// $signPackage = $jssdk->GetSignPackage();
+	// $smarty->assign('signPackage',  $signPackage);	
 
     $latitude = $_SESSION['latitude'];
     $longitude = $_SESSION['longitude'];
@@ -138,11 +138,11 @@ if ($_REQUEST['act'] == 'lists') {
         exit($address);
     }
 
-	require_once "wxjs/jssdk.php";
-	$ret = $db->getRow("SELECT  *  FROM " . $GLOBALS['ecs']->table('weixin_config') );
-	$jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
-	$signPackage = $jssdk->GetSignPackage();
-	$smarty->assign('signPackage',  $signPackage);	
+	// require_once "wxjs/jssdk.php";
+	// $ret = $db->getRow("SELECT  *  FROM " . $GLOBALS['ecs']->table('weixin_config') );
+	// $jssdk = new JSSDK($appid=$ret['appid'], $ret['appsecret']);
+	// $signPackage = $jssdk->GetSignPackage();
+	// $smarty->assign('signPackage',  $signPackage);	
 
     $latitude = $_SESSION['latitude'];
     $longitude = $_SESSION['longitude'];

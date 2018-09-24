@@ -255,7 +255,7 @@ elseif ($_REQUEST['act']=='update')
         sys_msg('该供货商信息不存在！');
     }
     // 申请用户不是店主才执行下面操作
-    require_once(dirname(__FILE__).'/mobile/includes/lib_mail.php');
+    require_once(ROOT_PATH.'mobile/includes/lib_mail.php');
     if(empty($supplier_old['shop_id'])){
         if ($supplier['status'] == 1) {
             mail_add('店铺审核成功通知',$_LANG['ok_sms_tishi'],$supplier_old['user_id']);

@@ -6,10 +6,11 @@
         <span>价格：<i id="ECS_GOODS_AMOUNT_CHOOSE">0</i></span>
 
         <!-- 2018 wenjun start -->
+        
         {if $ex eq ''}
         <span>库存：<i id="ECS_GOODS_NUMBER">0</i>件</span>
         {else}
-        <span>剩余单位：<i id="nn">{$ex_goods.exchange_number}</i>件</span>
+        <!-- <span>剩余单位：<i id="nn">{$ex_goods.exchange_number}</i>件</span> -->
         {/if}
         <!-- 2018 wenjun end -->
 
@@ -67,7 +68,8 @@
                         }
                     }
                     function uu(id){
-                        if (id <1 || isNaN(id) || id > $('#nn').html()*1) {
+                        if (id <1 || isNaN(id) ) {
+                        // if (id <1 || isNaN(id) || id > $('#nn').html()*1) {
                             alert('请正确填写数量')
                             $('#number').val('1')
                             changePrice();
