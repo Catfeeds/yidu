@@ -3324,7 +3324,7 @@ function get_pc_url(){
    $res = $db->getOne($sql);
    if(!$res){
        // $res = './..';
-    $res = 'http://www.ed163.cn';
+    $res = 'http://yidu.51itmap.com';
    }
    return $res;
 }

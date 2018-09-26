@@ -71,7 +71,7 @@ width: 0;height: 0;border-style: solid;border-color: transparent transparent #56
 .Nav2{  background:url(../images/icon2.png) no-repeat center center; background-size: auto 30px;}
 .Nav1{  background:url(../images/icon1.png) no-repeat center center; background-size: auto 30px;}
 .Navigation{ width:100%; height:40px; background:#FFF; margin-top: 5px;}
-.Navigation li{ width:50%; float:left; height:40px;}
+.Navigation li{ width:50%; float:left; height:40px;line-height: 40px;}
 .Navigation li i{ display:block; height:20px; font-size:14px; line-height:20px; font-style:normal; color:#666; text-align:center;}
 .Navigation li span{ display:block; font-size:14px; font-style:normal; color:#666; text-align:center;}
 .Navigation li.on span{ color: #e03b1f;border-bottom: .04rem solid #e03b1f;}
