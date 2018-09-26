@@ -302,6 +302,21 @@ if (!defined('INIT_NO_SMARTY'))
     require(ROOT_PATH . 'includes/cls_template.php');
     $smarty = new cls_template;
 
+    $h_uid = $_SESSION['user_id'];
+    $up_uid = get_affiliate();
+    if($up_uid>0&&$h_uid>0){
+        $sql = "SELECT shop_id FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'";
+        $p_user = $GLOBALS['db']->getRow($sql);
+
+        $sql = "SELECT parent_id FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$h_uid'";
+        $h_user = $GLOBALS['db']->getRow($sql);
+        if($p_user['shop_id']>0&&$h_user['parent_id']==0){
+            // 设置推荐人
+            $sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $h_uid;
+            $GLOBALS['db']->query($sql);
+        }
+    }
+    
 
     /*分享*/
     require_once(ROOT_PATH.'includes/jssdk.php');

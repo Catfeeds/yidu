@@ -121,8 +121,8 @@ elseif ($_REQUEST['act'] == 'separate')
     $row = $db->getRow("SELECT o.order_sn,u.parent_id, o.is_separate, (o.goods_amount - o.discount) AS goods_amount, o.user_id FROM " . $GLOBALS['ecs']->table('order_info') . " o".
                     " LEFT JOIN " . $GLOBALS['ecs']->table('users') . " u ON o.user_id = u.user_id".
                     " LEFT JOIN " . $GLOBALS['ecs']->table('users') . " u2 ON u.parent_id = u2.user_id".
-            " WHERE order_id = '$oid' AND extension_code <> 'exchange_goods' AND u2.shop_id > 0");
-
+            " WHERE order_id = '$oid' AND extension_code <> 'exchange_goods'");
+    
 //代码增加--cb--推荐分成
 
 	if($separate_by==0)
@@ -219,6 +219,18 @@ elseif ($_REQUEST['act'] == 'separate')
                         " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.parent_id = u.user_id".
                         " WHERE o.user_id = '$row[user_id]'"
                     );
+                if($i==1){
+                    //进行判断是否是店主 不是店主的话结束
+                    if(!($row['shop_id']>0&&$row['is_agent']==0)){
+                        break;
+                    }
+                }
+                if($i==2){
+                    //进行判断是否业主 不是店主的话结束
+                    if($row['is_agent']!=1){
+                        break;
+                    }
+                }
                 // $row = $db->getRow("SELECT o.parent_id as user_id,u.user_name FROM " . $GLOBALS['ecs']->table('users') . " o" .
                 //         " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.parent_id = u.user_id".
                 //         " WHERE o.user_id = '$row[user_id]'"
