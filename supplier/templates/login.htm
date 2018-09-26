@@ -26,14 +26,45 @@ if (window.parent != window)
 </script>
 </head>
 <body>
-<div class="wrap login">
+<div class="login">
+    <div class="logo">
+        <div class="wrap3">
+            <img src="/admin/images/logo2.png">
+        </div>
+    </div>
+    <div class="info">
+        <div class="wrap3">
+            <div class="inner clearfix">
+                <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
+                    <div class="title">密码登陆</div>
+                    <div class="clearfix">
+                        <input name="username" type="text"  placeholder="请输入您的账户名" class="text username"/>
+                    </div>
+                    <div class="clearfix">
+                        <input name="password" type="password"  placeholder="请输入您的密码" class="text password"/>
+                    </div>
+                    <input type="checkbox" value="1" name="remember" id="remember" style="display:none;" />
+                    <div class="dl clearfix"><input type="submit" value="立即登录" style="cursor: pointer;" class="a1 submit" /></div>
+                    <input type="hidden" name="act" value="signin" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="ewm">
+        <div class="wrap3">
+            <img src="/admin/images/ewm.jpg" alt="">
+        </div>
+    </div>
+</div>
+
+<!-- <div class="wrap login">
     <div class="bg"></div>
     <div class="wrap2">
         <div class="inner clearfix">
             <div class="left">
                 <div class="title"><span class="span0"></span>管理系统</div>
-                <!-- <h3>Administrator</h3>
-                <span class="span1">管理员</span> -->
+                <h3>Administrator</h3>
+                <span class="span1">管理员</span>
 
                 <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
                     <div class="clearfix">
@@ -70,7 +101,7 @@ if (window.parent != window)
 
         </div>
     </div>
-</div>
+</div> -->
 
 
 <!--加载页面-->

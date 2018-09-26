@@ -154,8 +154,39 @@
   display: none;
   background-size:cover;
 }
-.login{height: 100%;position: fixed;top: 50%;left: 0; height: 560px; margin-top: -280px;}
-.login .wrap2{width: 1100px;margin:0 auto;position: relative;height: 100%;}
+/*.login{height: 100%;position: fixed;top: 50%;left: 0; height: 560px; margin-top: -280px;}
+.login .wrap2{width: 1100px;margin:0 auto;position: relative;height: 100%;}*/
+.login .logo{padding:24px 0 17px;}
+.login .logo img{max-width: 100%;width: auto;}
+.login .wrap3{width: 1200px;margin:0 auto;position: relative;height: 100%;}
+.login .wrap2{width: 1050px;margin:0 auto;position: relative;height: 100%;}
+.login .info{height: 600px;background: url(../images/login.jpg) no-repeat center;position: relative;}
+.login .inner{position: absolute;width: 350px;height: 400px;right:70px;top: 50%;margin-top: -200px;background-color: #fff;box-sizing: border-box;padding:25px;}
+.login .title{font-size: 16px;color: #000;padding-top:30px;}
+.login .text{border:1px solid #cbcbcb;width: 100%;line-height: 40px;height: 40px;padding-left: 49px;margin-top: 25px;box-sizing: border-box;}
+.login .username{background: url(../images/ico1.jpg) no-repeat left center;}
+.login .password{background: url(../images/ico2.jpg) no-repeat left center;}
+.login .submit{margin-top: 25px;background-color: #ff0036;color: #fff;text-align: center;font-size: 16px;line-height: 42px;width: 100%;text-align: center;display: block;}
+.login .yzm{margin-top: 25px;}
+.login .yzm .last{line-height: 40px;border:1px solid #cbcbcb;width:140px;padding-left: 10px;}
+.login .yzm .em1{float: right;width: auto;height: 40px;}
+.login .ewm{text-align: right;padding: 45px 0 15px;}
+.login .ewm img{width: auto;}
+@media(max-width: 1200px){
+  .login .wrap3{padding:0 15px;width: 100%;box-sizing: border-box;}
+  .login .inner{right: 40px;}
+}
+@media(max-width: 768px){
+  .login .logo{padding:14px 0 7px;}
+  .login .logo img{width: 90px;}
+  .login .info{height: auto;padding:15px;}
+  .login .inner{position: static;width: 100%;margin-top: 0;padding:15px;}
+  .login .yzm .last{width: 85px;}
+  .login .ewm{padding-top: 15px;}
+  .login .ewm img{width:120px;}
+}
+
+
 .wrap .inner {
   position: absolute;
   top: 50%;
