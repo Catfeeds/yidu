@@ -30,6 +30,9 @@ if ($_REQUEST['act'] == 'list')
     }
     
     // $config['item'][2] = array('level_point'=>"10%", 'level_money'=>"10%");
+    // $config['item'][0] = array('level_point'=>"30%", 'level_money'=>"30%");
+    // $config['item'][1] = array('level_point'=>"5%", 'level_money'=>"5%");
+    // unset($config['item'][2]);
     // put_affiliate($config);
 
     $smarty->assign('ur_here', $_LANG['affiliate']);

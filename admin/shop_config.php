@@ -120,6 +120,12 @@ elseif ($_REQUEST['act'] == 'post')
     $arr = array();
     $sql = 'SELECT id, value FROM ' . $ecs->table('shop_config');
     $res= $db->query($sql);
+    $max_gxf = max($_POST['value']['1065'],$_POST['value']['1066'],$_POST['value']['1067'],$_POST['value']['1068']);
+    if($_POST['value']['1069']<$max_gxf){
+        $links[] = array('text' =>"返回", 'href' => 'shop_config.php?act=list_edit');
+        sys_msg("店铺租金必需大于最大管理费",1,$links);
+    }
+
     while($row = $db->fetchRow($res))
     {
         $arr[$row['id']] = $row['value'];

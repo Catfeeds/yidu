@@ -169,6 +169,7 @@ elseif ($_REQUEST['act'] == 'separate')
             $affiliate['config']['level_money_all'] /= 100;
         }
 
+        $money = 0;
 		//代码增加--cb--推荐分成-start
 		if($affiliate['config']['level_money_all']==1)
 		{
@@ -184,13 +185,12 @@ elseif ($_REQUEST['act'] == 'separate')
         	    }
 				$money +=$all_cost_price;
         	  }
-                $money +=round($money,2);
+            $money =round($money,2);
 		}
 		else
 		{
 			$money = round($affiliate['config']['level_money_all'] * $row['goods_amount'],2);
 		}
-        
 		//代码增加--cb--推荐分成-end
         $integral = integral_to_give(array('order_id' => $oid, 'extension_code' => ''));
         $point = round($affiliate['config']['level_point_all'] * intval($integral['rank_points']), 0);
@@ -215,17 +215,21 @@ elseif ($_REQUEST['act'] == 'separate')
                 $setmoney = round($money * $affiliate['item'][$i]['level_money'], 2);
                 $setpoint = round($point * $affiliate['item'][$i]['level_point'], 0);
                 /*hao2018修改分销从会员自身开始*/
-                $row = $db->getRow("SELECT o.user_id,o.user_name,o.parent_id FROM " . $GLOBALS['ecs']->table('users') . " o" .
-                        " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.parent_id = u.user_id".
-                        " WHERE o.user_id = '$row[user_id]'"
+                // $row = $db->getRow("SELECT o.user_id,o.user_name,o.parent_id FROM " . $GLOBALS['ecs']->table('users') . " o" .
+                //         " LEFT JOIN" . $GLOBALS['ecs']->table('users') . " u ON o.parent_id = u.user_id".
+                //         " WHERE o.user_id = '$row[user_id]'"
+                //     );
+                /*更改只有两级，会员的是返利另外的地方*/
+                $row = $db->getRow("SELECT * FROM " . $GLOBALS['ecs']->table('users') . " o" .
+                        " WHERE o.user_id = '$row[parent_id]'"
                     );
-                if($i==1){
+                if($i==0){
                     //进行判断是否是店主 不是店主的话结束
                     if(!($row['shop_id']>0&&$row['is_agent']==0)){
                         break;
                     }
                 }
-                if($i==2){
+                if($i==1){
                     //进行判断是否业主 不是店主的话结束
                     if($row['is_agent']!=1){
                         break;
@@ -376,7 +380,7 @@ function get_affiliate_ck()
                     " LEFT JOIN".$GLOBALS['ecs']->table('users')." u ON o.user_id = u.user_id".
                     " LEFT JOIN".$GLOBALS['ecs']->table('users')." u2 ON u.parent_id = u2.user_id".
                     " LEFT JOIN " . $GLOBALS['ecs']->table('affiliate_log') . " a ON o.order_id = a.order_id" .
-                    " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND o.is_brokerage > 0 AND (o.is_separate = 0 OR o.is_separate > 0) $sqladd".
+                    " WHERE o.user_id > 0 AND extension_code <> 'exchange_goods' AND u2.shop_id > 0 AND o.is_brokerage > 0 AND (o.is_separate = 0 OR o.is_separate > 0) $sqladd".
                     " ORDER BY order_id DESC" .
                     " LIMIT " . $filter['start'] . ",$filter[page_size]";
 
