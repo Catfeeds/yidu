@@ -262,7 +262,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                         //获取订单号
                         $sql = "SELECT o.user_id,o.order_id,o.order_sn,o.mobile ".
                             " FROM " .$GLOBALS['ecs']->table('order_info') . ' as o '.
-                            " WHERE o.extension_id = ".$order['extension_id']." and o.is_lucky = 0 and o.extension_num = 0 and o.pay_time>0 order by o.order_id asc ";
+                            " WHERE o.extension_id = ".$order['extension_id']." and o.is_lucky = 0 and o.order_status = 1 and o.extension_num = '' and o.pay_status=2 order by o.order_id asc ";
                         $exchange_order = $GLOBALS['db']->getAll($sql);
                         $ex_count = count($exchange_order);
                         if(floor($ex_count/28)>0){
@@ -278,7 +278,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                                     if ($exchange_order[$k]['mobile']) {
                                         $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$exchange_order[$k]['order_sn'],$inv);
                                         // $sms[] = $content;
-                                        sendSMS($v['mobile'], $content);
+                                        sendSMS($exchange_order[$k]['mobile'], $content);
                                         mail_add('抽奖订单',$content,$exchange_order[$k]['user_id']);
                                     }
                                 }

@@ -188,6 +188,40 @@ if ($_REQUEST['act'] == 'list')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'view')
 {   
+    // if(isset($_GET['bug'])){
+    //     // require_once(ROOT_PATH . 'sms/sms.php');
+    //     // $sms = sendSMS(13226468871,"测试");
+    //     // var_dump($sms);exit;
+    //     require_once(ROOT_PATH . 'includes/lib_mail.php');
+    //     $order_list = $GLOBALS['db']->getAll("SELECT * FROM ".$GLOBALS['ecs']->table('order_info')." where extension_num='' AND pay_status=2 AND order_status=1 AND is_lucky=0");
+    //     foreach($order_list as $order){
+    //         $sql = "SELECT o.user_id,o.order_id,o.order_sn,o.mobile ".
+    //             " FROM " .$GLOBALS['ecs']->table('order_info') . ' as o '.
+    //             " WHERE o.extension_id = ".$order['extension_id']." and o.is_lucky = 0 and o.order_status = 1 and o.extension_num = '' and o.pay_status=2 order by o.order_id asc ";
+    //         $exchange_order = $GLOBALS['db']->getAll($sql);
+    //         $ex_count = count($exchange_order);
+    //         if(floor($ex_count/28)>0){
+    //             $sms = array();
+    //             //抽奖大于28发放号码
+    //             require_once(ROOT_PATH . 'sms/sms.php');
+    //             for($i=0;$i<floor($ex_count/28);$i++){
+    //                 for($j=0;$j<28;$j++){
+    //                     $k = ($i*28)+$j;
+    //                     $inv = $j+1;
+    //                     $sql0 = 'UPDATE ' . $GLOBALS['ecs']->table('order_info') . " SET `extension_num`='".$inv."',`manren_time`='".gmtime()."'  WHERE `order_id`='" . $exchange_order[$k]['order_id'] . "'";
+    //                     $GLOBALS['db']->query($sql0);
+    //                     if ($exchange_order[$k]['mobile']) {
+    //                         $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$exchange_order[$k]['order_sn'],$inv);
+    //                         // $sms[] = $content;
+    //                         sendSMS($exchange_order[$k]['mobile'], $content);
+    //                         mail_add('抽奖订单',$content,$exchange_order[$k]['user_id']);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
     // require(dirname(__FILE__) . '/includes/lib_payment.php');
     // order_paid('638', 2);
     //今天的开奖码

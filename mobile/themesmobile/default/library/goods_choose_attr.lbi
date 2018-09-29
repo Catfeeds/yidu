@@ -116,14 +116,9 @@
 
     <!-- 2018 wenjun start -->
     {if $ex}
-    {if $ex_goods.exchange_number gt 0}
     <input type="hidden" value="{$supplier_id}" name="supplier_id">
-    <input type="submit"  border="0" class="add_gift_attr" value="立即充值" />
+    <input type="submit"  border="0" class="add_gift_attr" value="立即参加" />
     <div style=" height:30px"></div>
-    {else}
-    <input style="background: #ccc;" type="button"  border="0" class="add_gift_attr" value="参与人数已满" />
-    <div style=" height:30px"></div>
-    {/if}
     {else}
     <input type="submit"  border="0" class="add_gift_attr" value="提交" />
     <div style=" height:30px"></div>
