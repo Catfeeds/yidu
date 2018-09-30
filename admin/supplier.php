@@ -258,7 +258,7 @@ elseif ($_REQUEST['act']=='update')
     require_once(ROOT_PATH.'mobile/includes/lib_mail.php');
     if(empty($supplier_old['shop_id'])){
         if ($supplier['status'] == 1) {
-            mail_add('店铺审核成功通知',$_LANG['ok_sms_tishi'],$supplier_old['user_id']);
+            mail_add('店铺审核成功通知',$_LANG['ok_sms_tishi'],$supplier_old['user_id'],'/mobile/user.php?act=shop_index');
             // 店铺信息
             $sql = "SELECT * FROM " . $ecs->table('agent_shop') . " WHERE shop_id = " . $shop_id;
             $shop_info = $db->getRow($sql);
@@ -328,7 +328,7 @@ elseif ($_REQUEST['act']=='update')
                 $send_sms = sendSMS($supplier_old['tel'],$_LANG['ok_sms_tishi']);
             }
         } else {
-            mail_add('店铺审核失败通知',$supplier['supplier_remark'],$supplier_old['user_id']);
+            mail_add('店铺审核失败通知',$supplier['supplier_remark'],$supplier_old['user_id'],'/mobile/user.php?act=openshop_index');
             /* 保存供货商信息 */
             $db->autoExecute($ecs->table('supplier'), $supplier, 'UPDATE', "supplier_id = '" . $supplier_id . "'");
         }

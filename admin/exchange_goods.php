@@ -134,13 +134,13 @@ elseif($_REQUEST['act'] == 'lottery'){
                 $db->query("UPDATE " . $ecs->table('users') . " SET rank_points = '" . $log['rank_points'] . "', pay_points = '" . $log['pay_points'] . "' WHERE user_id = '$v[user_id]'");
                 $goods_name = $GLOBALS['db']->getOne('SELECT goods_name FROM ' .$GLOBALS['ecs']->table('order_goods'). ' WHERE order_id = '.$v['order_id']);
                 $content = sprintf('尊敬的%s：您的易乐透订单%s未中奖，已返还领购物币，请前往查看',$v['consignee'],$v['order_sn'],$goods_name);
-                mail_add('中奖通知',$content,$v['user_id']);
+                mail_add('抽奖通知',$content,$v['user_id'],'/mobile/user.php?act=ex_order_detail&order_id='.$v['order_id']);
             }else{
                 //获取商品名称 wenjun 05-31
                 $goods_name = $GLOBALS['db']->getOne('SELECT goods_name FROM ' .$GLOBALS['ecs']->table('order_goods'). ' WHERE order_id = '.$v['order_id']);
                 $content = sprintf('尊敬的%s：恭喜你成为易度商城易乐透订单%s的幸运会员，订单商品:%s将会48小时内发货，请注意物流信息',$v['consignee'],$v['order_sn'],$goods_name);
                 $kk555 = sendSMS($v['mobile'], $content);
-                mail_add('中奖通知',$content,$v['user_id']);
+                mail_add('抽奖通知',$content,$v['user_id'],'/mobile/user.php?act=ex_order_detail&order_id='.$v['order_id']);
             }
         }
         $lnk[] = array('text' =>'返回列表', 'href' => 'exchange_goods.php?act=list');

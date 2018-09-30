@@ -279,7 +279,7 @@ function order_paid($log_id, $pay_status = PS_PAYED, $note = '')
                                         $content = sprintf('您的订单号%s获得的抽奖码是%s。如有疑问，请联系商城客服。',$exchange_order[$k]['order_sn'],$inv);
                                         // $sms[] = $content;
                                         sendSMS($exchange_order[$k]['mobile'], $content);
-                                        mail_add('抽奖订单',$content,$exchange_order[$k]['user_id']);
+                                        mail_add('抽奖订单',$content,$exchange_order[$k]['user_id'],'/mobile/user.php?act=ex_order_detail&order_id='.$exchange_order[$k]['order_id']);
                                     }
                                 }
                             }

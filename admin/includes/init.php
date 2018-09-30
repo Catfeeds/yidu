@@ -340,6 +340,28 @@ if ($_REQUEST['act'] != 'login' && $_REQUEST['act'] != 'signin' &&
         exit;
     }
 }
+/**
+ * 连接处理
+ * @param [type] $content [description]
+ * @param string $strUrl  [description]
+ */
+function PicUrl($content = null, $strUrl = ''){
+    if(empty($strUrl)){
+        $strUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+    }
+    if(is_array($content)){
+        foreach($content as &$v){
+            if(!strstr($v,'http')){
+                $v = $strUrl."/".$v;
+            }
+        }
+    }else{
+        if(!strstr($content,'http')){
+            $content = $strUrl."/".$content;
+        }
+    }
+    return $content;
+}
 // safety_20150626 del_start
 /* 管理员登录后可在任何页面使用 act=phpinfo 显示 phpinfo() 信息 */
 /*if ($_REQUEST['act'] == 'phpinfo' && function_exists('phpinfo'))

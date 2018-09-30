@@ -1145,7 +1145,7 @@ elseif ($_REQUEST['act'] == 'delivery_ship')
         //站内信通知
         require_once(ROOT_PATH.'mobile/includes/lib_mail.php');
         $content = sprintf('您的订单已发货，订单号为%s，收货人为%s，收货地址为%s，请注意查收',$order['order_sn'],$order['consignee'],$order['address']);
-        mail_add('发货通知',$content,$order['user_id']);
+        mail_add('发货通知',$content,$order['user_id'],'/mobile/user.php?act=order_detail&order_id='.$order_id);
     }
 
     /* 清除缓存 */
@@ -3282,7 +3282,7 @@ elseif ($_REQUEST['act'] == 'operate')
 
             require_once(ROOT_PATH.'mobile/includes/lib_mail.php');
             $content = sprintf('您的订单已发货，订单号为%s，收货人为%s，收货地址为%s，请注意查收',$order['order_sn'],$order['consignee'],$order['address']);
-            mail_add('发货通知',$content,$order['user_id']);
+            mail_add('发货通知',$content,$order['user_id'],'/mobile/user.php?act=order_detail&order_id='.$order_id);
 		}
 
         /* 记录log */

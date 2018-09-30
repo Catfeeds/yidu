@@ -3,7 +3,7 @@ class JSSDK {
   private $appId;
   private $appSecret;
   
-  public function __construct($appId, $appSecret) {
+  public function __construct() {
     $weixinconfig = $GLOBALS['db']->getRow ( "SELECT * FROM " . $GLOBALS['ecs']->table('weixin_config') . " WHERE `id` = 1" );
     $this->appId = $weixinconfig['appid'];
     $this->appSecret = $weixinconfig['appsecret'];
@@ -47,7 +47,7 @@ class JSSDK {
 
   private function getJsApiTicket() {
     // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode(file_get_contents("jsapi_ticket.json"));
+    $data = json_decode(file_get_contents(ROOT_PATH."mobile/jsapi_ticket.json"));
     if ($data->expire_time < time()) {
       $accessToken = $this->getAccessToken();
       // 如果是企业号用以下 URL 获取 ticket
@@ -58,7 +58,7 @@ class JSSDK {
       if ($ticket) {
         $data->expire_time = time() + 7000;
         $data->jsapi_ticket = $ticket;
-        $fp = fopen("jsapi_ticket.json", "w");
+        $fp = fopen(ROOT_PATH."mobile/jsapi_ticket.json", "w");
         fwrite($fp, json_encode($data));
         fclose($fp);
       }
@@ -69,9 +69,9 @@ class JSSDK {
     return $ticket;
   }
 
-  private function getAccessToken() {
+  public function getAccessToken() {
     // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
-    $data = json_decode(file_get_contents("access_token.json"));
+    $data = json_decode(file_get_contents(ROOT_PATH."mobile/access_token.json"));
     if ($data->expire_time < time()) {
       // 如果是企业号用以下URL获取access_token
       // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
@@ -81,7 +81,7 @@ class JSSDK {
       if ($access_token) {
         $data->expire_time = time() + 7000;
         $data->access_token = $access_token;
-        $fp = fopen("access_token.json", "w");
+        $fp = fopen(ROOT_PATH."mobile/access_token.json", "w");
         fwrite($fp, json_encode($data));
         fclose($fp);
       }
@@ -97,7 +97,7 @@ class JSSDK {
     curl_setopt($curl, CURLOPT_TIMEOUT, 500);
     // 为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。
     // 如果在部署过程中代码在此处验证失败，请到 http://curl.haxx.se/ca/cacert.pem 下载新的证书判别文件。
-    curl_setopt($curl, CURLOPT_CAINFO, getcwd().'/cacert.pem');//证书地址
+    curl_setopt($curl, CURLOPT_CAINFO,ROOT_PATH."mobile/cacert.pem");//证书地址
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
     curl_setopt($curl, CURLOPT_URL, $url);
