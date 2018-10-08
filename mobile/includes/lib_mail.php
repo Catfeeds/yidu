@@ -24,6 +24,69 @@ function mail_add($title='',$content='',$user_id='',$url=''){
     // );
     // wxtongzhi($user_id,'t8RK3W-k1k51RLN07ai4bKmPMfkXxAovnhBUConJeM8',$url,$data);
 }
+
+// V7wlUdgWBnAqKnTc99LrcEYylwPg2XRpHsqoZ0xAox4
+// 开发者调用模版消息接口时需提供模版ID
+// 标题开奖结果通知
+// 行业IT科技 - 互联网|电子商务
+// 详细内容
+// {{first.DATA}}
+// 项目名称：{{keyword1.DATA}}
+// 订单编号：{{keyword2.DATA}}
+// 抽奖编号：{{keyword3.DATA}}
+// {{remark.DATA}}
+// 在发送时，需要将内容中的参数（{{.DATA}}内为参数）赋值替换为需要的信息
+// 内容示例
+// 亲爱的众筹用户，您支持的众筹项目已经开奖，恭喜您中奖！
+// 项目名称：欧西尼智能手表 X8
+// 订单编号：12345678901234
+// 抽奖编号：88888888
+// 项目发起人正在兑现承诺中，请您耐心等待~
+// 
+// 
+// 
+// bygr_NwuALb7v5xF3Chieg0ijFE8DtebJLErQuUZJ0E
+// 开发者调用模版消息接口时需提供模版ID
+// 标题发货提醒
+// 行业IT科技 - 互联网|电子商务
+// 详细内容
+// {{first.DATA}}
+// 订单号：{{keyword1.DATA}}
+// 收货人姓名：{{keyword2.DATA}}
+// 收货人手机号：{{keyword3.DATA}}
+// 收货人详情地址：{{keyword4.DATA}}
+// {{remark.DATA}}
+// 在发送时，需要将内容中的参数（{{.DATA}}内为参数）赋值替换为需要的信息
+// 内容示例
+// 店主您好，您有待发货订单(*￣︶￣)
+// 订单号：1234589564541
+// 收货人姓名：王先森
+// 收货人手机号：12344579532
+// 收货人详情地址：北京市海尚名都
+// 请尽快发货哦(*^▽^*)
+// 
+// 
+// 
+// 
+// 
+// 
+// jjRfCsh5Y9OExtDuMB_6kfB5rbZ5hp7JDEvkSE_Zj0U
+// 开发者调用模版消息接口时需提供模版ID
+// 标题审核结果通知
+// 行业IT科技 - 互联网|电子商务
+// 详细内容
+// {{first.DATA}}
+// 姓名：{{keyword1.DATA}}
+// 审核结果：{{keyword2.DATA}}
+// 审核时间：{{keyword3.DATA}}
+// {{remark.DATA}}
+// 在发送时，需要将内容中的参数（{{.DATA}}内为参数）赋值替换为需要的信息
+// 内容示例
+// 亲，您提交申请现已处理。
+// 姓名：张三
+// 审核结果：通过
+// 审核时间：2018年4月3日
+//  审核通过后可通过公众号进入系统
 function wxtongzhi($user_id='',$template_id='',$url='',$data=array()){
 	$db = $GLOBALS['db'];
 	$ecs = $GLOBALS['ecs'];
