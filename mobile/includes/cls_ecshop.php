@@ -3,14 +3,14 @@
 /**
  * ECSHOP 基础类
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: cls_ecshop.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: cls_ecshop.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -18,9 +18,10 @@ if (!defined('IN_ECS'))
     die('Hacking attempt');
 }
 
-define('APPNAME', 'ECSHOP');
-define('VERSION', 'v2.7.3');
-define('RELEASE', '20120411');
+define('APPNAME', '68ECSHOP');
+define('VERSION', 'v4_2');
+define('RELEASE', '20150923');
+define('PRODUCTNAME', 'xjd_dan');
 
 class ECS
 {
@@ -49,12 +50,8 @@ class ECS
      *
      * @return  string
      */
-    function table($str, $adm = 0)
+    function table($str)
     {
-		if ($str == "ecsmart_shop_config" && $adm == 0)
-		{
-			return ' (SELECT * FROM (SELECT * FROM `' . $this->db_name . '`.`' . $this->prefix . $str . '` UNION SELECT * FROM `' . $this->db_name . '`.`' . $this->prefix . 'shop_config`) AS total group by code) AS totals ';
-		}
         return '`' . $this->db_name . '`.`' . $this->prefix . $str . '`';
     }
 
@@ -131,8 +128,8 @@ class ECS
      */
     function url()
     {
-        $curr = strpos(PHP_SELF, ADMIN_PATH_M . '/') !== false ?
-                preg_replace('/(.*)(' . ADMIN_PATH_M . ')(\/?)(.)*/i', '\1', dirname(PHP_SELF)) :
+        $curr = strpos(PHP_SELF, ADMIN_PATH . '/') !== false ?
+                preg_replace('/(.*)(' . ADMIN_PATH . ')(\/?)(.)*/i', '\1', dirname(PHP_SELF)) :
                 dirname(PHP_SELF);
 
         $root = str_replace('\\', '/', $curr);

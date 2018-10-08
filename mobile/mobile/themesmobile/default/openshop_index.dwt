@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>我要开店</title>
+    <meta name="keywords" content="我要开店" />
+    <meta name="description" content="我要开店" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>我要开店</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div><a href=""><img src="themesmobile/default/images/img17.png"></a></div>
+	<div class="continue_sm bgc mt">
+		<h3>开店说明</h3>
+		<p>
+		1、购物前先参加抽彩活动，中奖几率高达1/28,参加只需产品价格5% <br>
+			2、手机短信通知会员抽奖序号（1~28）<br>
+			3、中奖依据当日上海股市收盘指数末3码除28的余数+1<br>
+			4、幸运中奖者，中奖产品在七日内送达，现金则冲抵产品税金<br>
+			5、未中奖者，参加易乐透的金额自动转为购物币，可至易度店选购等值商品（购物币可以累积使用）<br>
+		</p>
+	</div>
+	<div class="clearfix contract pa3">
+		<p class="fr">价格：<span>￥<em>{$shop_renter_cost}</em></span>/季度 </p>
+	</div>
+	<div class="fbtn pa3"><a href="user.php?act=openshop_apply">申请开店</a></div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

@@ -61,6 +61,29 @@ var Validator = function(name)
       this.addErrorMsg(msg);
     }
   }
+  
+  /* *
+   * 检查用户输入的是否为合法的手机号码
+   *
+   * @param :  controlId   表单元素的ID
+   * @param :  msg         错误提示信息
+   * @param :  required    是否必须
+   */
+   this.isMobile = function(controlId, msg, required)
+   {
+     var obj = document.forms[this.formName].elements[controlId];
+     obj.value = Utils.trim(obj.value);
+
+     if ( ! required && obj.value == '')
+     {
+       return;
+     }
+
+     if ( ! Utils.isMobile(obj.value))
+     {
+       this.addErrorMsg(msg);
+     }
+   }
 
   /* *
   * 检查两个表单元素的值是否相等

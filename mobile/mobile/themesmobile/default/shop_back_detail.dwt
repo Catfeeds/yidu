@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>退款详情</title>
+    <meta name="keywords" content="退款详情" />
+    <meta name="description" content="退款详情" />
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2 >退款详情</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<form action="user.php?act=back_order_act" method="post" enctype="multipart/form-data">
+		<div class="tksq2">
+			<h2>退款类型</h2>
+			<input type="text" value="退款" readonly="true">
+		</div>
+		<div class="tksq2">
+			<h2>退款金额</h2>
+			<input type="text" value="￥{$back_info.refund_money_1}" readonly="true">
+		</div>
+		<div class="tksq2">
+			<h2>退款说明</h2>
+			<input type="text" value="退款" readonly="true">
+		</div>
+		<div class="fbtn pa3" style="position:static;margin-top:20px;">
+			<a href="shop.php?act=back_refund&back_id={$back_info.back_id}">退款</a>
+		</div>
+	</form>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

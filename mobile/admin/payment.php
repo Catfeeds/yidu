@@ -3,14 +3,14 @@
 /**
  * ECSHOP 支付方式管理程序
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: payment.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: payment.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 define('IN_ECS', true);
@@ -103,23 +103,29 @@ elseif ($_REQUEST['act'] == 'install')
     $pay['pay_name']    = $_LANG[$data['code']];
     $pay['pay_desc']    = $_LANG[$data['desc']];
     $pay['is_cod']      = $data['is_cod'];
+	/* 代码增加_start   By www.ecshop68.com */
+	$pay['is_pickup']   = isset($data['is_pickup']) && $modules[0]['is_pickup'] ? 1 : 0;
+	/* 代码增加_end   By www.ecshop68.com */
     $pay['pay_fee']     = $data['pay_fee'];
     $pay['is_online']   = $data['is_online'];
     $pay['pay_config']  = array();
-
-    foreach ($data['config'] AS $key => $value)
-    {
-        $config_desc = (isset($_LANG[$value['name'] . '_desc'])) ? $_LANG[$value['name'] . '_desc'] : '';
-        $pay['pay_config'][$key] = $value +
-            array('label' => $_LANG[$value['name']], 'value' => $value['value'], 'desc' => $config_desc);
-
-        if ($pay['pay_config'][$key]['type'] == 'select' ||
-            $pay['pay_config'][$key]['type'] == 'radiobox')
-        {
-            $pay['pay_config'][$key]['range'] = $_LANG[$pay['pay_config'][$key]['name'] . '_range'];
-        }
-    }
-
+	/* 代码修改_start   By www.ecshop68.com */
+    if(isset($data['config']))
+	{
+		foreach ($data['config'] AS $key => $value)
+		{
+			$config_desc = (isset($_LANG[$value['name'] . '_desc'])) ? $_LANG[$value['name'] . '_desc'] : '';
+			$pay['pay_config'][$key] = $value +
+				array('label' => $_LANG[$value['name']], 'value' => $value['value'], 'desc' => $config_desc);
+	
+			if ($pay['pay_config'][$key]['type'] == 'select' ||
+				$pay['pay_config'][$key]['type'] == 'radiobox')
+			{
+				$pay['pay_config'][$key]['range'] = $_LANG[$pay['pay_config'][$key]['name'] . '_range'];
+			}
+		}
+	}
+		/* 代码修改_end   By www.ecshop68.com */
     assign_query_info();
 
     $smarty->assign('action_link',  array('text' => $_LANG['02_payment_list'], 'href' => 'payment.php?act=list'));
@@ -249,7 +255,7 @@ elseif ($_REQUEST['act'] == 'edit')
     }
 
     /* 如果以前没设置支付费用，编辑时补上 */
-    if (!isset($pay['pay_fee']))
+    /*if (!isset($pay['pay_fee']))
     {
         if (isset($data['pay_fee']))
         {
@@ -259,7 +265,7 @@ elseif ($_REQUEST['act'] == 'edit')
         {
             $pay['pay_fee'] = 0;
         }
-    }
+    }*/
 
     assign_query_info();
 
@@ -301,6 +307,19 @@ elseif (isset($_POST['Submit']))
             );
         }
     }
+
+	if($_POST['pay_code'] == 'alipay')
+	{
+		//读取配置文件信息
+		$info = @file_get_contents("../mobile/pay/alipay.config.php");
+		//对配置文件信息进行正则替换
+		$info = preg_replace("/define\(\"PARTNER\",\".*?\"\)/","define(\"PARTNER\",\"{$pay_config[2]['value']}\")",$info);
+		$info = preg_replace("/define\(\"KEY\",\".*?\"\)/","define(\"KEY\",\"{$pay_config[1]['value']}\")",$info);
+		$info = preg_replace("/define\(\"ACCOUNT\",\".*?\"\)/","define(\"ACCOUNT\",\"{$pay_config[0]['value']}\")",$info);
+		//将替换后的信息写入配置文件中
+		file_put_contents("../mobile/pay/alipay.config.php",$info);	
+	}
+
 	
 	//dqy add start 2015-9-7
 	if($_POST['pay_code'] == 'alipay')
@@ -316,6 +335,7 @@ elseif (isset($_POST['Submit']))
 	}
 	//dqy add end 2015-9-7
 	
+
     $pay_config = serialize($pay_config);
     /* 取得和验证支付手续费 */
     $pay_fee    = empty($_POST['pay_fee'])?0:$_POST['pay_fee'];
@@ -356,10 +376,12 @@ elseif (isset($_POST['Submit']))
         }
         else
         {
+           /* 代码修改_start   By www.ecshop68.com */
             /* 该支付方式没有安装过, 将该支付方式的信息添加到数据库 */
-            $sql = "INSERT INTO " . $ecs->table('payment') . " (pay_code, pay_name, pay_desc, pay_config, is_cod, pay_fee, enabled, is_online)" .
-                   "VALUES ('$_POST[pay_code]', '$_POST[pay_name]', '$_POST[pay_desc]', '$pay_config', '$_POST[is_cod]', '$pay_fee', 1, '$_POST[is_online]')";
+            $sql = "INSERT INTO " . $ecs->table('payment') . " (pay_code, pay_name, pay_desc, pay_config, is_cod, pay_fee, enabled, is_online, is_pickup)" .
+                   "VALUES ('$_POST[pay_code]', '$_POST[pay_name]', '$_POST[pay_desc]', '$pay_config', '$_POST[is_cod]', '$pay_fee', 1, '$_POST[is_online]', $_POST[is_pickup])";
             $db->query($sql);
+			/* 代码修改_end   By www.ecshop68.com */
         }
 
         /* 记录日志 */
@@ -375,6 +397,11 @@ elseif (isset($_POST['Submit']))
 elseif ($_REQUEST['act'] == 'uninstall')
 {
     admin_priv('payment');
+
+	if($_REQUEST[code] == 'balance'){
+		$link[] = array('text' => $_LANG['back_list'], 'href' => 'payment.php?act=list');
+		sys_msg("余额支付方式是产品必须要有的，强制删除后，用户下订单时会出现错误，请不要删除！", 0, $link);
+	}
 
     /* 把 enabled 设为 0 */
     $sql = "UPDATE " . $ecs->table('payment') .

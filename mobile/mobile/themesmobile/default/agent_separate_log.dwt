@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>推荐购物返利记录</title>
+    <meta name="keywords" content="会员购物返利记录" />
+    <meta name="description" content="会员购物返利记录" />
+</head>
+<body data-psd-width="840" >
+<div class="rebate">
+	<div class="header">
+		<div class="back" onclick="history.go(-1)"></div>
+		<h2>推荐购物返利记录</h2>
+		<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+	</div>
+	<div class="rebate_num">
+		<p>推荐购物返利记录</p>
+		<h1>{$separate_total}</h1>
+	</div>
+</div>
+<div class="content">
+	<div class="recom_con">
+		<ul class="recom_list">
+			{foreach from=$logdb item=val name=logdb}
+			<li>
+				<div class="clearfix recom_t">会员名称：{$val.user_name}<span>返利时间：{$val.time}</span></div>
+				<div class="recom_b">
+					<p>所属店铺名称: <span>	{$val.shop_name}</span></p>
+					<p>店铺编号：<span>{$val.shop_code}</span></p>
+					<p>订单编号： <span>{$val.order_sn}</span>  </p>
+					<p>商品金额（元）： <span>{$val.goods_amount}</span></p>
+					<p>分成状态： <span>{$lang.affiliate_stats[$val.is_separate]}</span></p>
+				</div>
+				<h2>返利金额（元）：<span>{$val.money}</span></h2>
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+{if $logdb}
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+{else}
+<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+{/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

@@ -34,12 +34,12 @@
     </tr>
   </table>
   </div>
-  <div class="list-div list-div-ad" style="margin-top:15px;">
+  <div class="list-div list-div-ad" style="margin-top:15px;display:none">
   <table>
   <tr><th>{$lang.flash_template}</th></tr>
   <tr>
       <td>{foreach from=$flashtpls item=flashtpl}
-  <table style="float:left;width: 220px;">
+  <table style="float:left;width: 220px;background:none;margin-right:40px">
   <tr>
     <td><strong><center>{$flashtpl.name}&nbsp;{if $flashtpl.code eq $current_flashtpl}<span style="color:red;" id="current_theme">{$lang.current_theme}</span>{/if}</center></strong></td>
   </tr>

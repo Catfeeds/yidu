@@ -3,14 +3,14 @@
 /**
  * ECSHOP 定期删除
  * ===========================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ==========================================================
- * $Author: derek $
- * $Id: ipdel.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: ipdel.php 17217 2011-01-19 06:29:08Z liubo $
  */
 
 if (!defined('IN_ECS'))
@@ -37,10 +37,10 @@ if (isset($set_modules) && $set_modules == TRUE)
     $modules[$i]['desc']    = 'ipdel_desc';
 
     /* 作者 */
-    $modules[$i]['author']  = 'ECSHOP TEAM';
+    $modules[$i]['author']  = 'HUNUO';
 
     /* 网址 */
-    $modules[$i]['website'] = 'http://www.ecshop.com';
+    $modules[$i]['website'] = 'http://www.hunuo.com';
 
     /* 版本号 */
     $modules[$i]['version'] = '1.0.0';

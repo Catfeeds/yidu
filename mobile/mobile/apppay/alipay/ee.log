@@ -1,0 +1,48 @@
+Array
+(
+    [log_id] => 308
+    [order_id] => 727
+    [order_amount] => 0.11
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 337
+    [order_id] => 756
+    [order_amount] => 0.10
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 385
+    [order_id] => 789
+    [order_amount] => 9703.00
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 399
+    [order_id] => 801
+    [order_amount] => 0.01
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 521
+    [order_id] => 913
+    [order_amount] => 3414.00
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 522
+    [order_id] => 914
+    [order_amount] => 869.00
+    [order_type] => 0
+    [is_paid] => 0
+)

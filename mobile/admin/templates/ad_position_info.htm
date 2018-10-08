@@ -5,16 +5,16 @@
     <table width="100%">
       <tr>
         <td class="label">{$lang.position_name}</td>
-        <td><input type="text" name="position_name" value="{$posit_arr.position_name}" size="30" /></td>
+        <td><input type="text" name="position_name" value="{$posit_arr.position_name}" size="30" /><span class="require-field">*</span></td>
       </tr>
       <tr>
         <td class="label">{$lang.ad_width}</td>
-        <td><input type="text" name="ad_width" value="{$posit_arr.ad_width}" size="30" /> {$lang.unit_px}</td>
+        <td><input type="text" name="ad_width" value="{$posit_arr.ad_width}" size="30" /> {$lang.unit_px}<span class="require-field">*</span></td>
       </tr>
       <tr>
         <td class="label">{$lang.ad_height}</td>
         <td>
-          <input type="text" name="ad_height" value="{$posit_arr.ad_height}" size="30" /> {$lang.unit_px}
+          <input type="text" name="ad_height" value="{$posit_arr.ad_height}" size="30" /> {$lang.unit_px}<span class="require-field">*</span>
         </td>
       </tr>
       <tr>
@@ -70,12 +70,12 @@ function validate()
     validator.isNumber("ad_height",       ad_height_number, true);
     validator.required("position_style",  empty_position_style);
 
-    if (document.forms['theForm'].elements['ad_width'].value > 1024 || document.forms['theForm'].elements['ad_width'].value == 0)
+    if (document.forms['theForm'].elements['ad_width'].value > 1210 || document.forms['theForm'].elements['ad_width'].value == 0)
     {
         alert(width_value);
         return false;
     }
-    if (document.forms['theForm'].elements['ad_height'].value > 1024 || document.forms['theForm'].elements['ad_height'].value == 0)
+    if (document.forms['theForm'].elements['ad_height'].value > 1210 || document.forms['theForm'].elements['ad_height'].value == 0)
     {
         alert(height_value);
         return false;

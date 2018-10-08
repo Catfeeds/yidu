@@ -24,55 +24,94 @@
         {/literal}
         //-->
     </script>
+    <style type="text/css">
+        body{height: 100%;}
+
+    </style>
 </head>
 <body>
-<div class="wrap">
-    <div class="bg"></div>
-    <div class="inner clearfix">
-        <div class="left">
-            <span class="span0"></span>
-            <h3>Administrator</h3>
-            <span class="span1">管理员</span>
-
-            <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
-                <div class="clearfix">
-                    <p class="gg2">
-                        <b>账户</b><input name="username" type="text"  placeholder="请输入您的账户名"/>
-                    </p>
-                    <p class="gg">
-                        <em class="ml t">*</em><i class="fz">最小字节需大于4个字符</i>
-                    </p>
-                </div>
-                <div class="clearfix">
-                    <p class="gg2">
-                        <b>密码</b><input type="password" name="password" placeholder="最长填写16位"/>
-                    </p>
-                </div>
-                <div class="clearfix">
-                    <p class="gg2">
+<div class="login">
+    <div class="logo">
+        <div class="wrap3">
+            <img src="/admin/images/logo2.png">
+        </div>
+    </div>
+    <div class="info">
+        <div class="wrap3">
+            <div class="inner clearfix">
+                <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
+                    <div class="title">密码登陆</div>
+                    <div class="clearfix">
+                        <input name="username" type="text"  placeholder="请输入您的账户名" class="text username"/>
+                    </div>
+                    <div class="clearfix">
+                        <input name="password" type="password"  placeholder="请输入您的密码" class="text password"/>
+                    </div>
+                    <div class="clearfix yzm">
                         <input type="text" name="captcha" placeholder="请输入验证码" class="last"/><img src="index.php?act=captcha&{$random}" class="em1" alt="CAPTCHA" border="0" onclick= this.src="index.php?act=captcha&"+Math.random() style="cursor: pointer; " title="{$lang.click_for_another}" />
-                    </p>
-                </div>
-                <input type="checkbox" value="1" name="remember" id="remember" style="display:none;" />
-
-            <div class="dl clearfix"><input type="submit" value="立即登录" style="text-align:left;cursor: pointer;" class="a1" /></div>
-                <input type="hidden" name="act" value="signin" />
-            </form>
-        </div>
-
-        <div class="right clearfix">
-            <div class="d1">
-                <img src="images/a.jpg" alt="" />
-            </div>
-            <div class="d2">
-                <a href="http://www.hunuo.com/contact/" class="btn1" target="_blank">立即联系我们</a>
-                <div></div>
-                <a href="http://www.hunuo.com/contact/" class="btn2" target="_blank">常见问题帮助？</a>
+                    </div>
+                    <input type="checkbox" value="1" name="remember" id="remember" style="display:none;" />
+                    <div class="dl clearfix"><input type="submit" value="立即登录" style="cursor: pointer;" class="a1 submit" /></div>
+                    <input type="hidden" name="act" value="signin" />
+                </form>
             </div>
         </div>
-
+    </div>
+    <div class="ewm">
+        <div class="wrap3">
+            <img src="/admin/images/ewm.jpg" alt="">
+        </div>
     </div>
 </div>
+<!-- <div class="wrap login">
+    <div class="bg"></div>
+    <div class="wrap2">
+        <div class="inner clearfix">
+            <div class="left">
+                <div class="title"><span class="span0"></span>管理系统</div>
+                <h3>Administrator</h3>
+                <span class="span1">管理员</span>
+                <span class="span1">B2B2C购物管理系统</span>
+                <form method="post" action="privilege.php" name='theForm' onsubmit="return validate()">
+                    <div class="clearfix">
+                        <p class="gg2">
+                            <b>账户</b><input name="username" type="text"  placeholder="请输入您的账户名"/>
+                        </p>
+                        <p class="gg">
+                            <em class="ml t">*</em><i class="fz">最小字节需大于4个字符</i>
+                        </p>
+                    </div>
+                    <div class="clearfix">
+                        <p class="gg2">
+                            <b>密码</b><input type="password" name="password" placeholder="最长填写16位"/>
+                        </p>
+                    </div>
+                    <div class="clearfix">
+                        <p class="gg2">
+                            <input type="text" name="captcha" placeholder="请输入验证码" class="last"/><img src="index.php?act=captcha&{$random}" class="em1" alt="CAPTCHA" border="0" onclick= this.src="index.php?act=captcha&"+Math.random() style="cursor: pointer; " title="{$lang.click_for_another}" />
+                        </p>
+                    </div>
+                    <input type="checkbox" value="1" name="remember" id="remember" style="display:none;" />
+
+                <div class="dl clearfix"><input type="submit" value="立即登录" style="text-align:left;cursor: pointer;" class="a1" /></div>
+                    <input type="hidden" name="act" value="signin" />
+                </form>
+            </div>
+
+            <div class="right clearfix" style="display:none;">
+                <div class="d1">
+                    <img src="images/a.jpg" alt="" />
+                </div>
+                <div class="d2">
+                    <a href="http://www.hunuo.com/contact/" class="btn1" target="_blank">立即联系我们</a>
+                    <div></div>
+                    <a href="http://www.hunuo.com/contact/" class="btn2" target="_blank">常见问题帮助？</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> -->
 
 
 <!--加载页面-->

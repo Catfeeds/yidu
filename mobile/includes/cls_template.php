@@ -3,14 +3,14 @@
 /**
  * ECSHOP 模版类
  * ============================================================================
- * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
+ * 版权所有 2005-2010 上海商派网络科技有限公司，并保留所有权利。
  * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: liubo $
- * $Id: cls_template.php 17217 2011-01-19 06:29:08Z liubo $
+ * $Author: liuhui $
+ * $Id: cls_template.php 17063 2010-03-25 06:35:46Z liuhui $
  */
 
 class cls_template
@@ -403,7 +403,12 @@ class cls_template
         }
         else
         {
-            $tag_sel = array_shift(explode(' ', $tag));
+			/* 代码修改_start  By  www.68ecshop.com */
+            //$tag_sel = array_shift(explode(' ', $tag));
+			$tag_arr_www_ecshop68_com = explode(' ', $tag);
+			$tag_sel = array_shift($tag_arr_www_ecshop68_com);
+			/* 代码修改_end  By  www.68ecshop.com */
+
             switch ($tag_sel)
             {
                 case 'if':
@@ -614,11 +619,7 @@ class cls_template
                         break;
 
                     case 'truncate':
-                        if ($s[2]) {
-                            $p = 'sub_str(' . $p . ",$s[1],$s[2])";
-                        } else {
-                            $p = 'sub_str(' . $p . ",$s[1])";
-                        }
+                        $p = 'sub_str(' . $p . ",$s[1])";
                         break;
 
                     case 'strip_tags':
@@ -1046,7 +1047,7 @@ class cls_template
     function smarty_prefilter_preCompile($source)
     {
         $file_type = strtolower(strrchr($this->_current_file, '.'));
-        $tmp_dir   = 'themesmobile/' . $GLOBALS['_CFG']['template'] . '/'; // 模板所在路径
+        $tmp_dir   = 'themes/' . $GLOBALS['_CFG']['template'] . '/'; // 模板所在路径
 
         /**
          * 处理模板文件
@@ -1088,8 +1089,11 @@ class cls_template
             }
 
             /* 在头部加入版本信息 */
-//            $source = preg_replace('/<head>/i', "<head>\r\n<meta name=\"Generator\" content=\"" . APPNAME .' ' . VERSION . "\" />",  $source);
-
+            $source = preg_replace('/<head>/i', "<head>\r\n<meta name=\"Generator\" content=\"" . APPNAME .' ' . VERSION . "\" />",  $source);
+			/* By www.68ecshop.com 代码增加_start */
+			$source = preg_replace('/<head>/i', "<head>\r\n<base href=\"". $GLOBALS['ecs']->url() ."\" />",  $source);
+			/* By www.68ecshop.com 代码增加_end */
+			
             /* 修正css路径 */
             $source = preg_replace('/(<link\shref=["|\'])(?:\.\/|\.\.\/)?(css\/)?([a-z0-9A-Z_]+\.css["|\']\srel=["|\']stylesheet["|\']\stype=["|\']text\/css["|\'])/i','\1' . $tmp_dir . '\2\3', $source);
 

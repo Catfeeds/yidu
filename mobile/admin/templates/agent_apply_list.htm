@@ -1,0 +1,172 @@
+{if $full_page}
+<!-- $Id: users_list.htm 17053 2010-03-15 06:50:26Z sxc_shop $ -->
+{include file="pageheader.htm"} {insert_scripts files="../js/utils.js,listtable.js,placeholder.js"}
+<div class="form-div">
+	<form action="javascript:searchUser()" name="searchForm">
+		<img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+		<span style="position:relative"><input type="text" name="keyword" placeholder="名称/手机号/详细地址" /></span>
+		<input type="submit" class="button" value="{$lang.button_search}" />
+	</form>
+</div>
+<form method="POST" action="" name="listForm" onsubmit="return confirm_bath()">
+	<!-- start users list -->
+	<div class="list-div" id="listDiv">
+		{/if}
+		<!--用户列表部分-->
+		<table cellpadding="3" cellspacing="1">
+			<tr>
+				<th>
+					<input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
+					编号
+				</th>
+				<th>申请人</th>
+				<th>推荐人</th>
+				<th>联系电话</th>
+				<th>代理商类型</th>
+				<th>用户名</th>
+				<th>所在地区</th>
+				<th>详细地址</th>
+				<th>身份证号码</th>
+				<th>身份证正面</th>
+				<th>身份证背面</th>
+				<th>申请时间</th>
+				<th>是否通过</th>
+				<th>操作</th>
+			</tr>
+			{foreach from=$agent_apply_list item=apply}
+			<tr>
+				<td>
+					<input type="checkbox" name="checkboxes[]" value="{$apply.apply_id}" />
+					{$apply.apply_id}
+				</td>
+				<td class="first-cell">{$apply.name|escape}</td>
+				<td class="first-cell">{$apply.parent_agent_name|escape}</td>
+				<td align="center">{$apply.phone}</td>
+				<td align="center">
+					<!-- {if $apply.agent_type == '1'} -->
+					小盘
+					<!-- {elseif $apply.agent_type == '2'} -->
+					中盘
+					<!-- {elseif $apply.agent_type == '3'} -->
+					大盘
+					<!-- {elseif $apply.agent_type == '4'} -->
+					VIP
+					<!-- {/if} -->
+				</td>
+				<td align="center">{$apply.user_name}</td>
+				<td align="center">{$apply.province|escape} {$apply.city|escape} {$apply.district|escape}</td>
+				<td align="center">{$apply.address|escape}</td>
+				<td align="center">{$apply.card}</td>
+				<td align="center"><a href="../mobile/{$apply.face_card}" target="_blank"><img src="../mobile/{$apply.face_card}" width="40" height="40"></a></td>
+				<td align="center"><a href="../mobile/{$apply.back_card}" target="_blank"><img src="../mobile/{$apply.back_card}" width="40" height="40"></a></td>
+				<td align="center">{$apply.add_time}</td>
+				<td align="center">{if $apply.is_pass eq 1}审核通过{else}待审核{/if}</td>
+				<td align="center">
+					{if $apply.is_pass eq 0}<a href="javascript:void();" title="通过审核" class="pass" data-id="{$apply.apply_id}">通过审核</a>{else}/{/if}
+					<!-- {if $apply.is_pass eq 0}<a href="javascript:confirm_redirect('您确定通过审核吗？', 'agent.php?act=pass&apply_id={$apply.apply_id}')" title="通过审核">通过审核</a>{else}/{/if} -->
+					<!-- <a href="javascript:confirm_redirect('您确定要删除该条记录吗？', 'agent.php?act=remove&apply_id={$apply.apply_id}')" title="删除">删除</a> -->
+				</td>
+			</tr>
+			{foreachelse}
+			<tr>
+				<td class="no-records" colspan="14">没有找到任何记录</td>
+			</tr>
+			{/foreach}
+			<tr>
+				<!-- <td colspan="2">
+					<input type="hidden" name="act" value="batch_remove" />
+					<input type="submit" id="btnSubmit" value="删除" disabled="true" class="button" />
+				</td> -->
+				<td align="right" nowrap="true" colspan="14">{include file="page.htm"}</td>
+			</tr>
+		</table>
+		{if $full_page}
+	</div>
+	<!-- end users list -->
+</form>
+<div class="main-div" style="position:absolute; top:35%;left:35%;display:none;">
+	<form method="post" action="agent.php?act=pass" name="theForm">
+		<table id="general-table" width="100%">
+			<tbody>
+				<tr>
+        			<td class="label" style="width:31%">代理商编号：</td>
+        			<td>
+          				<input type="text" name="agent_code" id="agent_code">
+        			</td>
+      			</tr>
+    		</tbody>
+   	 	</table>
+    	<div class="button-div">
+	      	<input name="act" value="pass" type="hidden">
+	      	<input name="apply_id" value="" type="hidden">
+	      	<input value=" 确定 " class="button" id="submit" type="submit">
+	      	<input value=" 关闭 " class="close" type="button">
+    	</div>
+  </form>
+</div>
+<script type="text/javascript" language="JavaScript">
+<!--
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+{literal}
+onload = function()
+{
+    document.forms['searchForm'].elements['keyword'].focus();
+    // 开始检查订单
+    startCheckOrder();
+}
+
+/**
+ * 搜索用户
+ */
+function searchUser()
+{
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+
+function confirm_bath()
+{
+  userItems = document.getElementsByName('checkboxes[]');
+
+  cfm = '您确定要删除所有选中的会员账号吗？';
+
+  for (i=0; userItems[i]; i++)
+  {
+    if (userItems[i].checked && userItems[i].notice == 1)
+    {
+      cfm = '{$lang.list_still_accounts}' + '您确定要删除所有选中的会员账号吗？';
+      break;
+    }
+  }
+
+  return confirm(cfm);
+}
+//-->
+</script>
+<script>
+	$(function(){
+		$('.pass').click(function(event) {
+			$('.main-div').show();
+			var apply_id = $(this).attr('data-id');
+			$("input[name='apply_id']").val(apply_id);
+		});
+		$('.close').click(function(event) {
+			$('.main-div').hide();
+			return false;
+		});
+		$('#submit').click(function(event) {
+			if ($('#agent_code').val().length == 0) {
+				alert('请填写代理商编号!');
+				return false;
+			}
+		});
+	});
+</script>
+{/literal} {include file="pagefooter.htm"} {/if}

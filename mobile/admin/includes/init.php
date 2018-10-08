@@ -3,14 +3,14 @@
 /**
  * ECSHOP 管理中心公用文件
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: init.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: init.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -33,7 +33,7 @@ if (__FILE__ == '')
 @ini_set('session.use_trans_sid', 0);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-@ini_set('display_errors',        0);
+@ini_set('display_errors',        0);//先注释，后开启hao
 
 if (DIRECTORY_SEPARATOR == '\\')
 {
@@ -44,21 +44,21 @@ else
     @ini_set('include_path',      '.:' . ROOT_PATH);
 }
 
-if (file_exists('../../data/config.php'))
+if (file_exists('../data/config.php'))
 {
-    include('../../data/config.php');
+    include('../data/config.php');
 }
 else
 {
-    include('../../includes/config.php');
+    include('../includes/config.php');
 }
 
 /* 取得当前ecshop所在的根目录 */
-if(!defined('ADMIN_PATH_M'))
+if(!defined('ADMIN_PATH'))
 {
-    define('ADMIN_PATH_M','admin');
+    define('ADMIN_PATH','admin');
 }
-define('ROOT_PATH', str_replace(ADMIN_PATH_M . '/includes/init.php', '', str_replace('\\', '/', __FILE__)));
+define('ROOT_PATH', str_replace(ADMIN_PATH . '/includes/init.php', '', str_replace('\\', '/', __FILE__)));
 
 if (defined('DEBUG_MODE') == false)
 {
@@ -85,8 +85,8 @@ require(ROOT_PATH . 'includes/cls_error.php');
 require(ROOT_PATH . 'includes/lib_time.php');
 require(ROOT_PATH . 'includes/lib_base.php');
 require(ROOT_PATH . 'includes/lib_common.php');
-require(ROOT_PATH . ADMIN_PATH_M . '/includes/lib_main.php');
-require(ROOT_PATH . ADMIN_PATH_M . '/includes/cls_exchange.php');
+require(ROOT_PATH . ADMIN_PATH . '/includes/lib_main.php');
+require(ROOT_PATH . ADMIN_PATH . '/includes/cls_exchange.php');
 
 /* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc())
@@ -200,7 +200,7 @@ if (preg_replace('/(?:\.|\s+)[a-z]*$/i', '', $_CFG['ecs_version']) != preg_repla
 require(ROOT_PATH . 'includes/cls_template.php');
 $smarty = new cls_template;
 
-$smarty->template_dir  = ROOT_PATH . ADMIN_PATH_M . '/templates';
+$smarty->template_dir  = ROOT_PATH . ADMIN_PATH . '/templates';
 $smarty->compile_dir   = ROOT_PATH . 'temp/compiled/admin';
 if ((DEBUG_MODE & 2) == 2)
 {
@@ -227,20 +227,18 @@ if(isset($_GET['ent_id']) && isset($_GET['ent_ac']) &&  isset($_GET['ent_sign'])
     $ent_ac = trim($_GET['ent_ac']);
     $ent_sign = trim($_GET['ent_sign']);
     $ent_email = trim($_GET['ent_email']);
-    $certificate_id = trim($_CFG['certificate_id']);
     $domain_url = $ecs->url();
-    $token=$_GET['token'];
-    if($token==md5(md5($_CFG['token']).$domain_url.ADMIN_PATH_M))
+    require(ROOT_PATH . 'includes/cls_transport.php');
+    $t = new transport('-1',5);
+    $apiget = "act=ent_sign&ent_id= $ent_id &ent_ac= $ent_ac &ent_sign= $ent_sign &ent_email= $ent_email &domain_url= $domain_url";
+    $api_comment = $t->request('http://cloud.ecshop.com/api.php', $apiget);
+    $api_str = $api_comment["body"];
+    if($api_str == $ent_sign)
     {
-        require(ROOT_PATH . 'includes/cls_transport.php');
-        $t = new transport('-1',5);
-        $apiget = "act=ent_sign&ent_id= $ent_id & certificate_id=$certificate_id";
-
-        $t->request('http://cloud.ecshop.com/api.php', $apiget);
-        $db->query('UPDATE '.$ecs->table('ecsmart_shop_config',1) . ' SET value = "'. $ent_id .'" WHERE code = "ent_id"');
-        $db->query('UPDATE '.$ecs->table('ecsmart_shop_config',1) . ' SET value = "'. $ent_ac .'" WHERE code = "ent_ac"');
-        $db->query('UPDATE '.$ecs->table('ecsmart_shop_config',1) . ' SET value = "'. $ent_sign .'" WHERE code = "ent_sign"');
-        $db->query('UPDATE '.$ecs->table('ecsmart_shop_config',1) . ' SET value = "'. $ent_email .'" WHERE code = "ent_email"');
+        $db->query('UPDATE '.$ecs->table('shop_config') . ' SET value = "'. $ent_id .'" WHERE code = "ent_id"');
+        $db->query('UPDATE '.$ecs->table('shop_config') . ' SET value = "'. $ent_ac .'" WHERE code = "ent_ac"');
+        $db->query('UPDATE '.$ecs->table('shop_config') . ' SET value = "'. $ent_sign .'" WHERE code = "ent_sign"');
+        $db->query('UPDATE '.$ecs->table('shop_config') . ' SET value = "'. $ent_email .'" WHERE code = "ent_email"');
         clear_cache_files();
         ecs_header("Location: ./index.php\n");
     }
@@ -323,14 +321,12 @@ if ((!isset($_SESSION['admin_id']) || intval($_SESSION['admin_id']) <= 0) &&
     }
 }
 
-$smarty->assign('token', $_CFG['token']);
-
 if ($_REQUEST['act'] != 'login' && $_REQUEST['act'] != 'signin' &&
     $_REQUEST['act'] != 'forget_pwd' && $_REQUEST['act'] != 'reset_pwd' && $_REQUEST['act'] != 'check_order')
 {
-    $ADMIN_PATH = preg_replace('/:\d+/', '', $ecs->url()) . ADMIN_PATH_M;
+    $admin_path = preg_replace('/:\d+/', '', $ecs->url()) . ADMIN_PATH;
     if (!empty($_SERVER['HTTP_REFERER']) &&
-        strpos(preg_replace('/:\d+/', '', $_SERVER['HTTP_REFERER']), $ADMIN_PATH) === false)
+        strpos(preg_replace('/:\d+/', '', $_SERVER['HTTP_REFERER']), $admin_path) === false)
     {
         if (!empty($_REQUEST['is_ajax']))
         {
@@ -344,7 +340,29 @@ if ($_REQUEST['act'] != 'login' && $_REQUEST['act'] != 'signin' &&
         exit;
     }
 }
-
+/**
+ * 连接处理
+ * @param [type] $content [description]
+ * @param string $strUrl  [description]
+ */
+function PicUrl($content = null, $strUrl = ''){
+    if(empty($strUrl)){
+        $strUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
+    }
+    if(is_array($content)){
+        foreach($content as &$v){
+            if(!strstr($v,'http')){
+                $v = $strUrl."/".$v;
+            }
+        }
+    }else{
+        if(!strstr($content,'http')){
+            $content = $strUrl."/".$content;
+        }
+    }
+    return $content;
+}
+// safety_20150626 del_start
 /* 管理员登录后可在任何页面使用 act=phpinfo 显示 phpinfo() 信息 */
 /*if ($_REQUEST['act'] == 'phpinfo' && function_exists('phpinfo'))
 {

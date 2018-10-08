@@ -52,6 +52,7 @@ FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
 
 // FCKConfig.Plugins.Add( 'autogrow' ) ;
 // FCKConfig.Plugins.Add( 'dragresizetable' );
+FCKConfig.Plugins.Add('swfupload','zh-cn'); //代码增加 by	 www.68ecshop.com
 FCKConfig.AutoGrowMax = 400 ;
 
 // FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
@@ -129,8 +130,8 @@ FCKConfig.ToolbarSets["Normal"] = [
   ['Bold','Italic','Underline'],
   ['OrderedList','UnorderedList','-','Outdent','Indent'],
   ['JustifyLeft','JustifyCenter','JustifyRight'],
-  ['TextColor','BGColor']
-] ;
+  ['TextColor','BGColor','swfupload' ]
+] ;//上面一行最后增加了一个 swfupload，By www.68ecshop.com 
 
 FCKConfig.ToolbarSets["Mail"] = [
   ['Cut','Copy','Paste','PasteText','PasteWord','-','Undo','Redo','-','Find','Replace','-','RemoveFormat'],

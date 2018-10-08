@@ -16,15 +16,15 @@
       <a href="javascript:listTable.sort('tag_id'); ">{$lang.record_id}</a>{$sort_tag_id}
     </th>
     <th><a href="javascript:listTable.sort('tag_words'); ">{$lang.tag_words}</a>{$sort_tag_words}</th>
-    <th><a href="javascript:listTable.sort('user_name'); ">{$lang.user_id}</a>{$sort_user_name}</th>
+    <!--<th><a href="javascript:listTable.sort('user_name'); ">{$lang.user_id}</a>{$sort_user_name}</th>-->
     <th><a href="javascript:listTable.sort('goods_name'); ">{$lang.goods_id}</a>{$sort_goods_name}</th>
     <th>{$lang.handler}</th>
   </tr>
   {foreach from=$tag_list item=tag}
   <tr>
     <td><span><input name="checkboxes[]" type="checkbox" value="{$tag.tag_id}">{$tag.tag_id}</span></td>
-    <td class="first-cell"><span onclick="javascript:listTable.edit(this, 'edit_tag_name', {$tag.tag_id})">{$tag.tag_words|escape}</span></td>
-    <td align="left"><span>{$tag.user_name}</span></td>
+    <td class="first-cell"><span onclick="javascript:listTable.edit(this, 'edit_tag_name', {$tag.tag_id})">{$tag.tag_words}</span></td>
+    <!--<td align="left"><span>{$tag.user_name}</span></td>-->
     <td align="left"><span><a href="../goods.php?id={$tag.goods_id}" target="_blank">{$tag.goods_name}</a></span></td>
     <td align="center">
       <span>

@@ -24,15 +24,15 @@ if (defined('WEBSITE'))
 	$web[$i]['type'] = 'weibo';
 	
 	// 作者信息
-	$web[$i]['author'] = '`hunuo\'';
+	$web[$i]['author'] = '`68ecshop\'';
 	
 	$web[$i]['className'] = 'weibo';
 	
 	// 作者QQ
-	$web[$i]['qq'] = '';
+	$web[$i]['qq'] = '800007396';
 	
 	// 作者邮箱
-	$web[$i]['email'] = 'service@hunuo.com';
+	$web[$i]['email'] = '68ecshop@68ecshop.com';
 	
 	// 申请网址
 	$web[$i]['website'] = 'http://open.weibo.com';

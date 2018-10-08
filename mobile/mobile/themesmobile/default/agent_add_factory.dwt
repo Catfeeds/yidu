@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>添加厂家</title>
+    <meta name="keywords" content="添加厂家" />
+    <meta name="description" content="添加厂家" />
+    
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2> 添加厂家</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="tur5">
+		<div class="tur5_list fpx ">
+			<form class="bgc" action="agent.php?act=insert_factory" method="post" enctype="multipart/form-data">
+			 	<div class="item clearfix item3">
+			 		<span >*厂家名称</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="factory_name" id="factory_name">
+			 		</div>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*商品类别</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="factory_type" id="factory_type">
+			 		</div>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*厂家联系人</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="contacts_name" id="contacts_name">
+			 		</div>
+			 	</div>
+			 	<div class="item clearfix item3">
+			 		<span >*厂家联系电话</span>
+			 		<div class="gr fr clearfix">
+			 			<input class="fl" type="text" placeholder="" name="contacts_phone" id="contacts_phone">
+			 		</div>
+			 	</div>
+			 	<div class="picture_box pa3">
+			 		<h2>*资质图片</h2>
+			 		<ul class="pictures clearfix">
+			 			<li>
+			 				<div class="adb23">
+								<div class="wocao clearfix">
+					            	<div class="obm fl">
+					                    <input type="file" name="business_card" id="wocaobut"/>
+					                    <input type="button" class="button" />
+					                </div>
+					            </div>
+							</div>
+							<p>（上传营业执照）</p>
+			 			</li>
+			 			<li>
+			 				<div class="adb23">
+								<div class="wocao2 clearfix">
+					            	<div class="obm fl">
+					                    <input type="file" name="tax_card" id="wocaobut2"/>
+					                    <input type="button" class="button" />
+					                </div>
+					            </div>
+							</div>
+							<p>（上传税务登记证）</p>
+			 			</li>
+			 			<li class="last">
+			 				<div class="adb23">
+								<div class="wocao3 clearfix">
+					            	<div class="obm fl">
+					                    <input type="file" name="code_card" id="wocaobut3"/>
+					                    <input type="button" class="button" />
+					                </div>
+					            </div>
+							</div>
+							<p>（上传机构代码证）</p>
+			 			</li>
+			 		</ul>
+			 	</div>
+			 	<div class="brief">
+			 		<h2>*商品简介</h2>
+			 		<textarea name="goods_desc" id="goods_desc"></textarea>
+			 	</div>
+			 	<div class="pub">
+			 		<input type="submit" class="submit" value="提交" name="">
+			 	</div>
+			</form>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		FastClick.attach(document.body);
+
+	    // passwordchange('.ad2 .adchange');
+
+	    $('#wocaobut').bind('change',function(){
+			var self = $(this);
+			var files = this.files, file;
+			if (files && files.length > 0) {
+				// 获取目前上传的文件
+				file = files[0];
+				//读取图片信息
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = function(e){
+				   	$('.wocao .obm').before('<div class="li fl"><img src="'+ this.result +'"/><em class="guan"> </em></div>');
+				}
+			}
+			if($('.wocao .li').length ==1){ //限制9个
+				self.hide()
+				$('.button').hide()
+			}
+			// if($('.wocao .li').length ==0){
+			// 	$('span').hide()
+			// }
+			$('.wocao .li .guan').live('click',function(){
+				$(this).parents('.li').remove();
+				self.show();
+				$('.button').show();
+
+			});
+		    $('.wocao .li').live('click',function(){
+		    	$('.fd').show();
+		    	var src2=$(this).children('img').attr('src');
+		    	console.log(src2);
+		    	$('.fd .pic').children('img').attr('src',src2);
+		    })
+
+		});
+		FastClick.attach(document.body);
+
+	    // passwordchange('.ad2 .adchange');
+
+	    $('#wocaobut2').bind('change',function(){
+			var self = $(this);
+			var files = this.files, file;
+			if (files && files.length > 0) {
+				// 获取目前上传的文件
+				file = files[0];
+				//读取图片信息
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = function(e){
+				   	$('.wocao2 .obm').before('<div class="li fl"><img src="'+ this.result +'"/><em class="guan"> </em></div>');
+				}
+			}
+			if($('.wocao2 .li').length ==1){ //限制9个
+				self.hide()
+				$('.button').hide()
+			}
+			// if($('.wocao .li').length ==0){
+			// 	$('span').hide()
+			// }
+			$('.wocao2 .li .guan').live('click',function(){
+				$(this).parents('.li').remove();
+				self.show();
+				$('.button').show();
+
+			});
+		    $('.wocao2 .li').live('click',function(){
+		    	$('.fd').show();
+		    	var src2=$(this).children('img').attr('src');
+		    	console.log(src2);
+		    	$('.fd .pic').children('img').attr('src',src2);
+		    })
+
+		});
+		FastClick.attach(document.body);
+
+	    // passwordchange('.ad2 .adchange');
+
+	    $('#wocaobut3').bind('change',function(){
+			var self = $(this);
+			var files = this.files, file;
+			if (files && files.length > 0) {
+				// 获取目前上传的文件
+				file = files[0];
+				//读取图片信息
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = function(e){
+				   	$('.wocao3 .obm').before('<div class="li fl"><img src="'+ this.result +'"/><em class="guan"> </em></div>');
+				}
+			}
+			if($('.wocao3 .li').length ==1){ //限制9个
+				self.hide()
+				$('.button').hide()
+			}
+			// if($('.wocao .li').length ==0){
+			// 	$('span').hide()
+			// }
+			$('.wocao3 .li .guan').live('click',function(){
+				$(this).parents('.li').remove();
+				self.show();
+				$('.button').show();
+
+			});
+		    $('.wocao3 .li').live('click',function(){
+		    	$('.fd').show();
+		    	var src2=$(this).children('img').attr('src');
+		    	console.log(src2);
+		    	$('.fd .pic').children('img').attr('src',src2);
+		    })
+
+		});
+
+		$('.submit').click(function(event) {
+			if (!$('#factory_name').val()) {
+				alert('请填写厂家名称');
+				return false;
+			}
+			if (!$('#factory_type').val()) {
+				alert('请填写厂家类别');
+				return false;
+			}
+			if (!$('#contacts_name').val()) {
+				alert('请填写联系人');
+				return false;
+			}
+			if (!$('#contacts_phone').val()) {
+				alert('请填写联系电话');
+				return false;
+			}
+			if (!$("#contacts_phone").val().match(/^(\d{11})$/)) {
+				alert("手机号码格式不正确");
+				return false;
+			}
+			if (!$('#goods_desc').val()) {
+				alert('请填写商品简介');
+				return false;
+			}
+		});
+	});
+</script>

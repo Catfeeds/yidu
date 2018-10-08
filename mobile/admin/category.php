@@ -3,23 +3,19 @@
 /**
  * ECSHOP 商品分类管理程序
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2010 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: category.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liuhui $
+ * $Id: category.php 17063 2010-03-25 06:35:46Z liuhui $
 */
 
 define('IN_ECS', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
-/***新增加的开始***/
-include_once(ROOT_PATH . 'includes/cls_image.php');
-$image = new cls_image($_CFG['bgcolor']);
-/***新增加的结束***/
 $exc = new exchange($ecs->table("category"), $db, 'cat_id', 'cat_name');
 
 /* act操作项的初始化 */
@@ -32,6 +28,53 @@ else
     $_REQUEST['act'] = trim($_REQUEST['act']);
 }
 
+
+/* 代码增加_start  By jdy */
+include_once(ROOT_PATH . 'includes/cls_image.php');
+$image = new cls_image($_CFG['bgcolor']);
+$catimg_dir="category_img";
+$smarty->assign('data_dir',    '/'.DATA_DIR. '/');
+if($_REQUEST['cat_id']){
+	$parent_id=$GLOBALS['db']->getOne("select parent_id from ". $GLOBALS['ecs']->table('category') ." where cat_id='$_REQUEST[cat_id]' ");
+	$is_topcat= $parent_id==0 ? '1' : '0';
+	$smarty->assign('is_topcat',    $is_topcat);
+}
+if ($_REQUEST['act'] == 'drop_adimg_1')
+{
+	$cat_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    /* 取得 adimg 名称 */
+    $sql = "SELECT cat_adimg_1 FROM " .$ecs->table('category'). " WHERE cat_id = '$cat_id'";
+    $adimg_name = $db->getOne($sql);
+
+    if (!empty($adimg_name))
+    {
+        @unlink(ROOT_PATH . DATA_DIR . '/'. $catimg_dir .'/' .$adimg_name);
+        $sql = "UPDATE " .$ecs->table('category'). " SET cat_adimg_1 = '' WHERE cat_id = '$cat_id'";
+        $db->query($sql);
+    }
+    $link= array(array('text' => '返回商品分类编辑页', 'href' => 'category.php?act=edit&cat_id=' . $cat_id), array('text' => '返回商品分类列表页', 'href' => 'category.php?act=list'));
+    sys_msg('成功删除子分类广告图1', 0, $link);
+}
+elseif ($_REQUEST['act'] == 'drop_adimg_2')
+{
+	$cat_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    /* 取得 adimg 名称 */
+    $sql = "SELECT cat_adimg_2 FROM " .$ecs->table('category'). " WHERE cat_id = '$cat_id'";
+    $adimg_name = $db->getOne($sql);
+
+    if (!empty($adimg_name))
+    {
+        @unlink(ROOT_PATH . DATA_DIR . '/'. $catimg_dir .'/' .$adimg_name);
+        $sql = "UPDATE " .$ecs->table('category'). " SET cat_adimg_2 = '' WHERE cat_id = '$cat_id'";
+        $db->query($sql);
+    }
+    $link= array(array('text' => '返回商品分类编辑页', 'href' => 'category.php?act=edit&cat_id=' . $cat_id), array('text' => '返回商品分类列表页', 'href' => 'category.php?act=list'));
+    sys_msg('成功删除子分类广告图2', 0, $link);
+}
+/* 代码增加_end  By jdy */
+
 /*------------------------------------------------------ */
 //-- 商品分类列表
 /*------------------------------------------------------ */
@@ -39,9 +82,9 @@ if ($_REQUEST['act'] == 'list')
 {
     /* 获取分类列表 */
     $cat_list = cat_list(0, 0, false);
-
     /* 模板赋值 */
-    $smarty->assign('ur_here',      $_LANG['03_category_list']);
+    $smarty->assign('ur_here',      $_LANG['04_category_list']);
+    $smarty->assign('action_link',  array('href' => 'category.php?act=add', 'text' => $_LANG['04_category_add']));
     $smarty->assign('full_page',    1);
 
     $smarty->assign('cat_info',     $cat_list);
@@ -51,15 +94,42 @@ if ($_REQUEST['act'] == 'list')
     $smarty->display('category_list.htm');
 }
 
+if ($_REQUEST['act'] == 'virtual_list')
+{
+    /* 获取分类列表 */
+    $cat_list = cat_list1(0, 0, false);
+
+    /* 模板赋值 */
+    $smarty->assign('ur_here',      $_LANG['virtual_category_list']);
+    $smarty->assign('action_link',  array('href' => 'category.php?act=add_virtual', 'text' => $_LANG['04_category_add']));
+    $smarty->assign('full_page',    1);
+
+    $smarty->assign('cat_info',     $cat_list);
+
+    /* 列表页面 */
+    assign_query_info();
+    $smarty->display('category_virtual_list.htm');
+}
+
 /*------------------------------------------------------ */
 //-- 排序、分页、查询
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'query')
 {
-    $cat_list = cat_list(0, 0, false);
+        $is_virtual = empty($_REQUEST['is_virtual'])? 0 : intval($_REQUEST['is_virtual']);
+	if(empty($_POST['cat_name']))
+	{
+		/* 获取分类列表 */
+		$cat_list = $is_virtual ? cat_list1(0, 0, false) : cat_list(0, 0, false);
+	}
+	// 如果查询条件不为空
+	else {
+		$cat_list = search_cat($_POST['cat_name']);
+	}
+	
     $smarty->assign('cat_info',     $cat_list);
 
-    make_json_result($smarty->fetch('category_list.htm'));
+    $is_virtual ? make_json_result($smarty->fetch('category_virtual_list.htm')): make_json_result($smarty->fetch('category_list.htm'));
 }
 /*------------------------------------------------------ */
 //-- 添加商品分类
@@ -73,11 +143,11 @@ if ($_REQUEST['act'] == 'add')
 
     /* 模板赋值 */
     $smarty->assign('ur_here',      $_LANG['04_category_add']);
-    $smarty->assign('action_link',  array('href' => 'category.php?act=list', 'text' => $_LANG['03_category_list']));
+    $smarty->assign('action_link',  array('href' => 'category.php?act=list', 'text' => $_LANG['04_category_list']));
 
     $smarty->assign('goods_type_list',  goods_type_list(0)); // 取得商品类型
     $smarty->assign('attr_list',        get_attr_list()); // 取得商品属性
-
+    $smarty->assign('is_virtual',        0); //  分类属性
     $smarty->assign('cat_select',   cat_list(0, 0, true));
     $smarty->assign('form_act',     'insert');
     $smarty->assign('cat_info',     array('is_show' => 1));
@@ -89,6 +159,31 @@ if ($_REQUEST['act'] == 'add')
     $smarty->display('category_info.htm');
 }
 
+
+if ($_REQUEST['act'] == 'add_virtual')
+{
+    /* 权限检查 */
+    admin_priv('cat_manage');
+
+
+
+    /* 模板赋值 */
+    $smarty->assign('ur_here',     '添加虚拟商品分类');
+    $smarty->assign('action_link',  array('href' => 'category.php?act=virtual_list', 'text' => $_LANG['04_category_list']));
+
+    $smarty->assign('goods_type_list',  goods_type_list(0)); // 取得商品类型
+    $smarty->assign('attr_list',        get_attr_list()); // 取得商品属性
+    $smarty->assign('cat_select',   get_virtual_cat_select());
+    $smarty->assign('is_virtual',        1); //  分类属性
+    $smarty->assign('form_act',     'insert');
+    $smarty->assign('cat_info',     array('is_show' => 1));
+
+
+
+    /* 显示页面 */
+    assign_query_info();
+    $smarty->display('category_virtual_info.htm');
+}
 /*------------------------------------------------------ */
 //-- 商品分类添加时的处理
 /*------------------------------------------------------ */
@@ -96,78 +191,114 @@ if ($_REQUEST['act'] == 'insert')
 {
     /* 权限检查 */
     admin_priv('cat_manage');
+ 
+ /* 初始化变量 */
+ /* 代码增加_start By szy */   
+ $cat['is_virtual']       = !empty($_POST['is_virtual'])  ? intval($_POST['is_virtual'])     : 0;
+ /* 代码增加_end By szy */       
+ $cat['cat_id']       = !empty($_POST['cat_id'])       ? intval($_POST['cat_id'])     : 0;
+ $cat['parent_id']    = !empty($_POST['parent_id'])    ? intval($_POST['parent_id'])  : 0;
+ $cat['sort_order']   = !empty($_POST['sort_order'])   ? intval($_POST['sort_order']) : 0;
+ $cat['keywords']     = !empty($_POST['keywords'])     ? trim($_POST['keywords'])     : '';
+ $cat['cat_desc']     = !empty($_POST['cat_desc'])     ? $_POST['cat_desc']           : '';
+ $cat['measure_unit'] = !empty($_POST['measure_unit']) ? trim($_POST['measure_unit']) : '';
+ $cat['show_in_nav']  = !empty($_POST['show_in_nav'])  ? intval($_POST['show_in_nav']): 0;
+ $cat['style']        = !empty($_POST['style'])        ? trim($_POST['style'])        : '';
+ $cat['is_show']      = !empty($_POST['is_show'])      ? intval($_POST['is_show'])    : 0;
+ $cat['grade']        = !empty($_POST['grade'])        ? intval($_POST['grade'])      : 0;
+ $cat['filter_attr']  = !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'],array(0)))) : 0;
+ 
+	$cat['category_index']       =  !empty($_POST['category_index'])  ? $_POST['category_index'] : '0';
+	$cat['category_index_dwt'] = !empty($_POST['category_index_dwt'])  ? $_POST['category_index_dwt'] : '0';
+	$cat['index_dwt_file']     = !empty($_POST['index_dwt_file'])  ? $_POST['index_dwt_file'] : '';
+	$cat['show_in_index']       =  !empty($_POST['show_in_index'])  ? $_POST['show_in_index'] : '0';
+    
+    $cat['show_goods_num']       =  !empty($_POST['show_goods_num'])  ? $_POST['show_goods_num'] : '0';
+    
+    $cat['cat_nameimg']        =   basename($image->upload_image($_FILES['cat_nameimg'], $catimg_dir ));
+	$cat['cat_nameimg']		= $cat['cat_nameimg'] ?  $catimg_dir. '/' . $cat['cat_nameimg']  : '';
+	$cat['cat_adimg_1']        =   basename($image->upload_image($_FILES['cat_adimg_1'], $catimg_dir));
+	$cat['cat_adimg_1']		=	 $cat['cat_adimg_1']  ?   $catimg_dir. '/' . $cat['cat_adimg_1']  :  '';
+	$cat['cat_adurl_1']        = !empty($_POST['cat_adurl_1']) ?  trim($_POST['cat_adurl_1'])      : '';
+	$cat['cat_adimg_2']        =   basename($image->upload_image($_FILES['cat_adimg_2'], $catimg_dir));
+	$cat['cat_adimg_2']		=	 $cat['cat_adimg_2']  ?   $catimg_dir. '/' . $cat['cat_adimg_2']  :  '';
+	$cat['cat_adurl_2']        = !empty($_POST['cat_adurl_2']) ?  trim($_POST['cat_adurl_2'])      : '';
+	$cat['cat_index_rightad']        =   basename($image->upload_image($_FILES['cat_index_rightad'], $catimg_dir));
+	$cat['cat_index_rightad']		=	 $cat['cat_index_rightad']  ?   $catimg_dir. '/' . $cat['cat_index_rightad']  :  '';
+	
 
-    /* 初始化变量 */
-    $cat['cat_id']       = !empty($_POST['cat_id'])       ? intval($_POST['cat_id'])     : 0;
-    $cat['parent_id']    = !empty($_POST['parent_id'])    ? intval($_POST['parent_id'])  : 0;
-    $cat['sort_order']   = !empty($_POST['sort_order'])   ? intval($_POST['sort_order']) : 0;
-    $cat['keywords']     = !empty($_POST['keywords'])     ? trim($_POST['keywords'])     : '';
-    $cat['cat_desc']     = !empty($_POST['cat_desc'])     ? $_POST['cat_desc']           : '';
-    $cat['measure_unit'] = !empty($_POST['measure_unit']) ? trim($_POST['measure_unit']) : '';
-    $cat['cat_name']     = !empty($_POST['cat_name'])     ? trim($_POST['cat_name'])     : '';
-    $cat['show_in_nav']  = !empty($_POST['show_in_nav'])  ? intval($_POST['show_in_nav']): 0;
-    $cat['style']        = !empty($_POST['style'])        ? trim($_POST['style'])        : '';
-    $cat['is_show']      = !empty($_POST['is_show'])      ? intval($_POST['is_show'])    : 0;
-    $cat['grade']        = !empty($_POST['grade'])        ? intval($_POST['grade'])      : 0;
-    $cat['filter_attr']  = !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'],array(0)))) : 0;
+   $cat['cat_recommend']  = !empty($_POST['cat_recommend'])  ? $_POST['cat_recommend'] : array();$cat['filter_attr']  = !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'],array(0)))) : 0;
+ 
+   $cat['cat_name']     = !empty($_POST['cat_name'])     ? trim($_POST['cat_name'])     : '';
+   $arrCatName = explode("," ,$cat['cat_name']);
+  
+   $cat['brand_qq']  = !empty($_POST['brand_hunuo']) ? $_POST['brand_hunuo'] : '';
+   $cat['attr_hunuo']  = !empty($_POST['attr_qq']) ? $_POST['attr_qq'] : '';
+   
+	
+	$cat['path_name']     = !empty($_POST['path_name'])     ? trim($_POST['path_name'])     : '';
+	if($cat['path_name'] != '')
+	{
+		$is_have = $db->getOne("select cat_id  from ". $ecs->table('category') ." where path_name='$cat[path_name]' "); 
+		if ($is_have)
+		{
+		   $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
+		   sys_msg('对不起，已经存在同名目录', 0, $link);
+		}
+	}
+	
+   
+ 
+ foreach($arrCatName as $arrCatNameValue)
+ {
+  $cat['cat_name'] = $arrCatNameValue;
 
-    $cat['cat_recommend']  = !empty($_POST['cat_recommend'])  ? $_POST['cat_recommend'] : array();
+  if (cat_exists($cat['cat_name'], $cat['parent_id']))
+  {
+   /* 同级别下不能有重复的分类名称 */
+     $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
+     sys_msg($_LANG['catname_exist'], 0, $link);
+  }
 
-    if (cat_exists($cat['cat_name'], $cat['parent_id']))
-    {
-        /* 同级别下不能有重复的分类名称 */
-       $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
-       sys_msg($_LANG['catname_exist'], 0, $link);
-    }
+  if($cat['grade'] > 10 || $cat['grade'] < 0)
+  {
+   /* 价格区间数超过范围 */
+     $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
+     sys_msg($_LANG['grade_error'], 0, $link);
+  }
 
-    if($cat['grade'] > 10 || $cat['grade'] < 0)
-    {
-        /* 价格区间数超过范围 */
-       $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
-       sys_msg($_LANG['grade_error'], 0, $link);
-    }
-
- /*处理图片*/
-     if (isset($_FILES['type_img']) && $_FILES['type_img']['tmp_name'] != '' &&
-        isset($_FILES['type_img']['tmp_name']) &&$_FILES['type_img']['tmp_name'] != 'none')
-    {
-        // 上传了，直接使用，原始大小
-       	$type_img = $image->upload_image($_FILES['type_img']);
-       	if ($type_img === false)
-        {
-            show_message($image->error_msg());
-        }
-    }
-	$cat['type_img'] = $type_img;
-    /* 入库的操作 */
-    if ($db->autoExecute($ecs->table('category'), $cat) !== false)
-    {
-        $cat_id = $db->insert_id();
-        if($cat['show_in_nav'] == 1)
-        {
-            $vieworder = $db->getOne("SELECT max(vieworder) FROM ". $ecs->table('nav') . " WHERE type = 'middle'");
-            $vieworder += 2;
-            //显示在自定义导航栏中
-            $sql = "INSERT INTO " . $ecs->table('nav') .
-                " (name,ctype,cid,ifshow,vieworder,opennew,url,type)".
-                " VALUES('" . $cat['cat_name'] . "', 'c', '".$db->insert_id()."','1','$vieworder','0', '" . build_uri('category', array('cid'=> $cat_id), $cat['cat_name']) . "','middle')";
-            $db->query($sql);
-        }
-        insert_cat_recommend($cat['cat_recommend'], $cat_id);
-
-        admin_log($_POST['cat_name'], 'add', 'category');   // 记录管理员操作
-        clear_cache_files();    // 清除缓存
-
-        /*添加链接*/
-        $link[0]['text'] = $_LANG['continue_add'];
-        $link[0]['href'] = 'category.php?act=add';
-
-        $link[1]['text'] = $_LANG['back_list'];
-        $link[1]['href'] = 'category.php?act=list';
-
-        sys_msg($_LANG['catadd_succed'], 0, $link);
-    }
+  /* 入库的操作 */
+  if ($db->autoExecute($ecs->table('category'), $cat) !== false)
+  {
+   $cat_id = $db->insert_id();
+   if($cat['show_in_nav'] == 1)
+   {
+    $vieworder = $db->getOne("SELECT max(vieworder) FROM ". $ecs->table('nav') . " WHERE type = 'middle'");
+    $vieworder += 2;
+    //显示在自定义导航栏中
+    $sql = "INSERT INTO " . $ecs->table('nav') .
+     " (name,ctype,cid,ifshow,vieworder,opennew,url,type)".
+     " VALUES('" . $cat['cat_name'] . "', 'c', '".$db->insert_id()."','1','$vieworder','0', '" . build_uri('category', array('cid'=> $cat_id), $cat['cat_name']) . "','middle')";
+    $db->query($sql);
+   }
+   insert_cat_recommend($cat['cat_recommend'], $cat_id);
+  }
  }
+ 
+ admin_log($_POST['cat_name'], 'add', 'category');   // 记录管理员操作
+ clear_cache_files();    // 清除缓存
+
+ /*添加链接*/
+ $link[0]['text'] = $_LANG['continue_add'];
+ $link[0]['href'] = $cat['is_virtual']? 'category.php?act=add_virtual':'category.php?act=add';
+
+ $link[1]['text'] = $_LANG['back_list'];
+ $link[1]['href'] = $cat['is_virtual']? 'category.php?act=virtual_list': 'category.php?act=list';
+
+ sys_msg($_LANG['catadd_succed'], 0, $link);
+
+}
+
 
 /*------------------------------------------------------ */
 //-- 编辑商品分类信息
@@ -190,10 +321,12 @@ if ($_REQUEST['act'] == 'edit')
             $filter_attr_list[$k]['goods_type_list'] = goods_type_list($attr_cat_id);  //取得每个属性的商品类型
             $filter_attr_list[$k]['filter_attr'] = $v;
             $attr_option = array();
-
-            foreach ($attr_list[$attr_cat_id] as $val)
-            {
-                $attr_option[key($val)] = current ($val);
+            
+            if(!empty($attr_list)){
+	            foreach ($attr_list[$attr_cat_id] as $val)
+	            {
+	                $attr_option[key($val)] = current ($val);
+	            }
             }
 
             $filter_attr_list[$k]['option'] = $attr_option;
@@ -207,10 +340,11 @@ if ($_REQUEST['act'] == 'edit')
     }
 
     /* 模板赋值 */
+    $smarty->assign('is_virtual' , $cat_info['is_virtual']); //分类类型
     $smarty->assign('attr_list',        $attr_list); // 取得商品属性
     $smarty->assign('attr_cat_id',      $attr_cat_id);
-    $smarty->assign('ur_here',     $_LANG['category_edit']);
-    $smarty->assign('action_link', array('text' => $_LANG['03_category_list'], 'href' => 'category.php?act=list'));
+    $smarty->assign('ur_here',     '编辑虚拟商品分类');
+    $smarty->assign('action_link', array('text' => $_LANG['04_category_list'], 'href' => $cat_info['is_virtual']?'category.php?act=virtual_list':'category.php?act=list'));
 
     //分类是否存在首页推荐
     $res = $db->getAll("SELECT recommend_type FROM " . $ecs->table("cat_recommend") . " WHERE cat_id=" . $cat_id);
@@ -226,13 +360,15 @@ if ($_REQUEST['act'] == 'edit')
 
     $smarty->assign('cat_info',    $cat_info);
     $smarty->assign('form_act',    'update');
-    $smarty->assign('cat_select',  cat_list(0, $cat_info['parent_id'], true));
+    $smarty->assign('cat_select',  $cat_info['is_virtual']?get_virtual_cat_select():cat_list(0, $cat_info['parent_id'], true));
     $smarty->assign('goods_type_list',  goods_type_list(0)); // 取得商品类型
 
     /* 显示页面 */
     assign_query_info();
-    $smarty->display('category_info.htm');
+        //如果是虚拟商品则用虚拟分类模板
+    $cat_info['is_virtual']?$smarty->display('category_virtual_info.htm'):$smarty->display('category_info.htm');
 }
+
 
 elseif($_REQUEST['act'] == 'add_category')
 {
@@ -268,9 +404,10 @@ if ($_REQUEST['act'] == 'update')
     admin_priv('cat_manage');
 
     /* 初始化变量 */
+    $is_virtual = !empty($_POST['is_virtual']) ? intval($_POST['is_virtual'])     : 0;
     $cat_id              = !empty($_POST['cat_id'])       ? intval($_POST['cat_id'])     : 0;
     $old_cat_name        = $_POST['old_cat_name'];
-    $cat['parent_id']    = !empty($_POST['p_id'])    ? intval($_POST['p_id'])  : 0;
+    $cat['parent_id']    = !empty($_POST['parent_id'])    ? intval($_POST['parent_id'])  : 0;
     $cat['sort_order']   = !empty($_POST['sort_order'])   ? intval($_POST['sort_order']) : 0;
     $cat['keywords']     = !empty($_POST['keywords'])     ? trim($_POST['keywords'])     : '';
     $cat['cat_desc']     = !empty($_POST['cat_desc'])     ? $_POST['cat_desc']           : '';
@@ -282,6 +419,83 @@ if ($_REQUEST['act'] == 'update')
     $cat['grade']        = !empty($_POST['grade'])        ? intval($_POST['grade'])      : 0;
     $cat['filter_attr']  = !empty($_POST['filter_attr'])  ? implode(',', array_unique(array_diff($_POST['filter_attr'],array(0)))) : 0;
     $cat['cat_recommend']  = !empty($_POST['cat_recommend'])  ? $_POST['cat_recommend'] : array();
+	 
+	$cat['brand_qq']  = !empty($_POST['brand_hunuo']) ? $_POST['brand_hunuo'] : '';
+	$cat['attr_hunuo']  = !empty($_POST['attr_qq']) ? $_POST['attr_qq'] : '';
+	 
+	
+	
+	
+	
+	$cat['path_name']     = !empty($_POST['path_name'])     ? trim($_POST['path_name'])     : '';
+	if($cat['path_name'] != '')
+	{
+		$is_have = $db->getOne("select count(*)  from ". $ecs->table('category') ." where cat_id !='$cat_id' and path_name='$cat[path_name]' "); 
+		if ($is_have)
+		{
+		   $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
+		   sys_msg('对不起，已经存在同名目录', 0, $link);
+		}
+	}
+	
+	
+	
+	
+	$cat_imgs=$db->getRow("select cat_nameimg, cat_index_rightad, cat_adimg_1, cat_adimg_2  from ".$ecs->table("category")." where cat_id='$cat_id'");
+	if ($_FILES['cat_nameimg']['tmp_name'] != '' && $_FILES['cat_nameimg']['tmp_name'] != 'none')
+	{
+		$cat['cat_nameimg'] = $catimg_dir. '/' .  basename($image->upload_image($_FILES['cat_nameimg'], $catimg_dir));
+		/* 删除旧图片 */
+		if (!empty($cat_imgs['cat_nameimg'])){
+			@unlink(ROOT_PATH . DATA_DIR . '/'. $catimg_dir .'/' . $cat_imgs['cat_nameimg']);
+		}
+	}
+	if ($_FILES['cat_index_rightad']['tmp_name'] != '' && $_FILES['cat_index_rightad']['tmp_name'] != 'none')
+	{
+		$cat['cat_index_rightad'] = $catimg_dir. '/' .  basename($image->upload_image($_FILES['cat_index_rightad'], $catimg_dir));
+		/* 删除旧图片 */
+		if (!empty($cat_imgs['cat_index_rightad'])){
+			@unlink(ROOT_PATH . DATA_DIR . '/'. $catimg_dir .'/' . $cat_imgs['cat_index_rightad']);
+		}
+	}
+	if ($_FILES['cat_adimg_1']['tmp_name'] != '' && $_FILES['cat_adimg_1']['tmp_name'] != 'none')
+	{
+		$cat['cat_adimg_1'] = $catimg_dir. '/' .  basename($image->upload_image($_FILES['cat_adimg_1'], $catimg_dir));
+		/* 删除旧图片 */
+		if (!empty($cat_imgs['cat_adimg_1'])){
+			@unlink(ROOT_PATH . DATA_DIR . '/' .$catimg_dir. '/' . $cat_imgs['cat_adimg_1']);
+		}
+	}
+	if ($_FILES['cat_adimg_2']['tmp_name'] != '' && $_FILES['cat_adimg_2']['tmp_name'] != 'none')
+	{
+		$cat['cat_adimg_2'] = $catimg_dir. '/' .  basename($image->upload_image($_FILES['cat_adimg_2'], $catimg_dir));
+		/* 删除旧图片 */
+		if (!empty($cat_imgs['cat_adimg_2'])){
+			@unlink(ROOT_PATH . DATA_DIR . '/' .$catimg_dir. '/' . $cat_imgs['cat_adimg_2']);
+		}
+	}
+	$cat['cat_adurl_1']        = !empty($_POST['cat_adurl_1'])        ? sanitize_url(trim($_POST['cat_adurl_1']))      : '';
+	$cat['cat_adurl_2']        = !empty($_POST['cat_adurl_2'])        ? sanitize_url(trim($_POST['cat_adurl_2']))      : '';
+	$cat['category_index']       =  !empty($_POST['category_index'])  ? $_POST['category_index'] : '0';
+	$cat['category_index_dwt'] = (!empty($_POST['category_index_dwt']) && $cat['category_index'] != 0 && !empty($_POST['index_dwt_file'])) ? $_POST['category_index_dwt'] : '0';
+	$cat['index_dwt_file']     = (!empty($_POST['index_dwt_file']) && $cat['category_index'] != 0 && $cat['category_index_dwt'] != 0) ? $_POST['index_dwt_file'] : '';
+	$cat['show_in_index']       =  !empty($_POST['show_in_index'])  ? $_POST['show_in_index'] : '0';
+    
+    $cat['show_goods_num']       =  !empty($_POST['show_goods_num'])  ? $_POST['show_goods_num'] : '0';
+    
+    
+
+	
+	$cat['path_name']     = !empty($_POST['path_name'])     ? trim($_POST['path_name'])     : '';
+	if($cat['path_name'] != ''){
+		$is_have = $db->getOne("select count(*)  from ". $ecs->table('category') ." where cat_id !='$cat_id' and path_name='$cat[path_name]' "); 
+		if ($is_have)
+		{
+		   $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
+		   sys_msg('对不起，已经存在同名目录', 0, $link);
+		}
+	}
+	
 
     /* 判断分类名是否重复 */
 
@@ -311,26 +525,9 @@ if ($_REQUEST['act'] == 'update')
     }
 
     $dat = $db->getRow("SELECT cat_name, show_in_nav FROM ". $ecs->table('category') . " WHERE cat_id = '$cat_id'");
-    
- /* 处理图片 */
-    if (isset($_FILES['type_img']) && $_FILES['type_img']['tmp_name'] != '' &&
-        isset($_FILES['type_img']['tmp_name']) &&$_FILES['type_img']['tmp_name'] != 'none')
-    {
-        // 上传了，直接使用，原始大小
-       	$type_img = $image->upload_image($_FILES['type_img']);
-       	if ($type_img === false)
-        {
-            show_message($image->error_msg());
-        }
-    }
-    $cat['type_img'] = $type_img;
 
     if ($db->autoExecute($ecs->table('category'), $cat, 'UPDATE', "cat_id='$cat_id'"))
     {
-		if($type_img != '')
-		{
-			$db->query("update ".$ecs->table('category')." set type_img ='$type_img' where cat_id = '$cat_id'");
-		}
         if($cat['cat_name'] != $dat['cat_name'])
         {
             //如果分类名称发生了改变
@@ -373,31 +570,11 @@ if ($_REQUEST['act'] == 'update')
         admin_log($_POST['cat_name'], 'edit', 'category'); // 记录管理员操作
 
         /* 提示信息 */
-        $link[] = array('text' => $_LANG['back_list'], 'href' => 'category.php?act=list');
+        $link[] = array('text' => $_LANG['back_list'], 'href' => $is_virtual?'category.php?act=virtual_list':'category.php?act=list');
         sys_msg($_LANG['catedit_succed'], 0, $link);
     }
 }
-/*------------------------------------------------------ */
-//-- 删除品牌图片
-/*------------------------------------------------------ */
-elseif ($_REQUEST['act'] == 'drop_thumb')
-{
-    /* 权限判断 */
-    admin_priv('cat_manage');
-    $cat_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-    /* 取得logo名称 */
-    $sql = "SELECT type_img FROM " .$ecs->table('category'). " WHERE cat_id = '$cat_id'";
-    $thumb_name = $db->getOne($sql);
-    if (!empty($thumb_name))
-    {
-        @unlink(ROOT_PATH . DATA_DIR . '/catthumb/' .$thumb_name);
-        $sql = "UPDATE " .$ecs->table('category'). " SET type_img = '' WHERE cat_id = '$cat_id'";
-        $db->query($sql);
-    }
-    $link= array(array('text' => '编辑商品分类', 'href' => 'category.php?act=edit&cat_id=' . $cat_id), array('text' =>'商品分类列表', 'href' => 'category.php?act=list'));
-    sys_msg('删除商品分类小图成功', 0, $link);
-}
 /*------------------------------------------------------ */
 //-- 批量转移商品分类页面
 /*------------------------------------------------------ */
@@ -410,7 +587,7 @@ if ($_REQUEST['act'] == 'move')
 
     /* 模板赋值 */
     $smarty->assign('ur_here',     $_LANG['move_goods']);
-    $smarty->assign('action_link', array('href' => 'category.php?act=list', 'text' => $_LANG['03_category_list']));
+    $smarty->assign('action_link', array('href' => 'category.php?act=list', 'text' => $_LANG['04_category_list']));
 
     $smarty->assign('cat_select', cat_list(0, $cat_id, true));
     $smarty->assign('form_act',   'move_cat');
@@ -418,6 +595,61 @@ if ($_REQUEST['act'] == 'move')
     /* 显示页面 */
     assign_query_info();
     $smarty->display('category_move.htm');
+}
+
+
+/*------------------------------------------------------ */
+//-- 批量转移虚拟商品分类页面
+/*------------------------------------------------------ */
+if ($_REQUEST['act'] == 'move_virtual')
+{
+    /* 权限检查 */
+    admin_priv('cat_drop');
+
+    $cat_id = !empty($_REQUEST['cat_id']) ? intval($_REQUEST['cat_id']) : 0;
+
+    /* 模板赋值 */
+    $smarty->assign('ur_here',     $_LANG['move_goods']);
+    $smarty->assign('action_link', array('href' => 'category.php?act=virtual_list', 'text' => $_LANG['04_category_list']));
+
+    $smarty->assign('cat_select', cat_list1(0, $cat_id, true));
+    $smarty->assign('form_act',   'move_virtual_cat');
+
+    /* 显示页面 */
+    assign_query_info();
+    $smarty->display('category_move.htm');
+}
+
+/*------------------------------------------------------ */
+//-- 处理批量转移虚拟商品分类的处理程序
+/*------------------------------------------------------ */
+if ($_REQUEST['act'] == 'move_virtual_cat')
+{
+    /* 权限检查 */
+    admin_priv('cat_drop');
+
+    $cat_id        = !empty($_POST['cat_id'])        ? intval($_POST['cat_id'])        : 0;
+    $target_cat_id = !empty($_POST['target_cat_id']) ? intval($_POST['target_cat_id']) : 0;
+
+    /* 商品分类不允许为空 */
+    if ($cat_id == 0 || $target_cat_id == 0)
+    {
+        $link[] = array('text' => $_LANG['go_back'], 'href' => 'category.php?act=move_virtual');
+        sys_msg($_LANG['cat_move_empty'], 0, $link);
+    }
+
+    /* 更新商品分类 */
+    $sql = "UPDATE " .$ecs->table('goods'). " SET cat_id = '$target_cat_id' ".
+           "WHERE cat_id = '$cat_id'";
+    if ($db->query($sql))
+    {
+        /* 清除缓存 */
+        clear_cache_files();
+
+        /* 提示信息 */
+        $link[] = array('text' => $_LANG['go_back'], 'href' => 'category.php?act=virtual_list');
+        sys_msg($_LANG['move_cat_success'], 0, $link);
+    }
 }
 
 /*------------------------------------------------------ */
@@ -604,6 +836,9 @@ if ($_REQUEST['act'] == 'remove')
 
     /* 初始化分类ID并取得分类名称 */
     $cat_id   = intval($_GET['id']);
+    $sql = "select is_virtual from ".$ecs->table('category')." where cat_id = $cat_id";
+    $is_virtual = $db -> getOne($sql);
+    
     $cat_name = $db->getOne('SELECT cat_name FROM ' .$ecs->table('category'). " WHERE cat_id='$cat_id'");
 
     /* 当前分类下是否有子分类 */
@@ -629,11 +864,99 @@ if ($_REQUEST['act'] == 'remove')
         make_json_error($cat_name .' '. $_LANG['cat_isleaf']);
     }
 
-    $url = 'category.php?act=query&' . str_replace('act=remove', '', $_SERVER['QUERY_STRING']);
+    $url = 'category.php?act=query&is_virtual='.$is_virtual.'&' . str_replace('act=remove', '', $_SERVER['QUERY_STRING']);
 
     ecs_header("Location: $url\n");
     exit;
 }
+
+/*------------------------------------------------------ */
+//-- 批量导出商品分类
+/*------------------------------------------------------ */
+if ($_REQUEST['act'] == 'export')
+{
+    $is_virtual = empty($_REQUEST['is_virtual']) ? 0 : intval($_REQUEST['is_virtual']);
+
+    // 存在搜索关键字时根据关键字搜索
+    if (isset($_REQUEST['keyword']) && !empty($_REQUEST['keyword']))
+    {
+        // 获取分类列表
+        $cat_list = search_cat($_REQUEST['keyword']);
+    }
+    // 不存在搜索关键字时搜索全部
+    else
+    {
+        $cat_list = $is_virtual ? cat_list1(0, 0, false) : cat_list(0, 0, false);
+    }
+
+    // 引入phpexcel核心类文件
+    require_once ROOT_PATH . '/includes/phpexcel/Classes/PHPExcel.php';
+    // 实例化excel类
+    $objPHPExcel = new PHPExcel();
+    // 操作第一个工作表
+    $objPHPExcel->setActiveSheetIndex(0);
+    // 设置sheet名
+    $objPHPExcel->getActiveSheet()->setTitle('商品分类');
+    // 设置表格宽度
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
+    // 列名表头文字加粗
+    $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getFont()->setBold(true);
+    // 列表头文字居中
+    $objPHPExcel->getActiveSheet()->getStyle('A1:G1')->getAlignment()
+                ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    // 列名赋值
+    $objPHPExcel->getActiveSheet()->setCellValue('A1', '分类名称');
+    $objPHPExcel->getActiveSheet()->setCellValue('B1', '商品数量');
+    $objPHPExcel->getActiveSheet()->setCellValue('C1', '数量单位');
+    $objPHPExcel->getActiveSheet()->setCellValue('D1', '导航栏');
+    $objPHPExcel->getActiveSheet()->setCellValue('E1', '是否显示');
+    $objPHPExcel->getActiveSheet()->setCellValue('F1', '价格分级');
+    $objPHPExcel->getActiveSheet()->setCellValue('G1', '排序');
+
+    // 数据起始行
+    $row_num = 2;
+    // 向每行单元格插入数据
+    foreach($cat_list as $key => $value)
+    {
+        // 设置排序列、是否显示列居中显示
+        $objPHPExcel->getActiveSheet()->getStyle('B' . $row_num . ':' . 'G' . $row_num)->getAlignment()
+            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        // 设置所有垂直居中
+        $objPHPExcel->getActiveSheet()->getStyle('A' . $row_num . ':' . 'F' . $row_num)->getAlignment()
+            ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        // 设置单元格数值
+        $objPHPExcel->getActiveSheet()->setCellValue('A' . $row_num, echo_space($value['level']) . $value['cat_name']);
+        $objPHPExcel->getActiveSheet()->setCellValue('B' . $row_num, $value['goods_num']);
+        $objPHPExcel->getActiveSheet()->setCellValue('C' . $row_num, $value['measure_unit']);
+        $objPHPExcel->getActiveSheet()->setCellValue('D' . $row_num, ($value['nav'] ? '√' : '×'));
+        $objPHPExcel->getActiveSheet()->setCellValue('E' . $row_num, ($value['is_show'] ? '√' : '×'));
+        $objPHPExcel->getActiveSheet()->setCellValue('F' . $row_num, $value['grade']);
+        $objPHPExcel->getActiveSheet()->setCellValue('G' . $row_num, $value['sort_order']);
+        $row_num++;
+    }
+    $outputFileName = '商品分类_' . time() . '.xls';
+    $xlsWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
+    header("Content-Type: application/force-download");
+    header("Content-Type: application/octet-stream");
+    header("Content-Type: application/download");
+    header('Content-Disposition:inline;filename="' . $outputFileName . '"');
+    header("Content-Transfer-Encoding: binary");
+    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Pragma: no-cache");
+    $xlsWriter->save("php://output");
+    echo file_get_contents($outputFileName);
+}
+
+
+
 
 /*------------------------------------------------------ */
 //-- PRIVATE FUNCTIONS
@@ -766,6 +1089,154 @@ function insert_cat_recommend($recommend_type, $cat_id)
     {
         $GLOBALS['db']->query("DELETE FROM ". $GLOBALS['ecs']->table("cat_recommend") . " WHERE cat_id=" . $cat_id);
     }
+}
+
+/**
+ * 根据关键词搜索商品分类
+ *
+ * @access  public
+ *
+ * @return mix
+ */
+
+//function search_cat()
+function search_cat($cat_name)
+{
+//	if(empty($_POST['cat_name']))
+//	{
+//		return;
+//	}
+
+
+	$res = NULL;
+	
+	// 根据类别名称进行模糊查询
+	$sql = "SELECT c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children, 1 AS result ".
+                'FROM ' . $GLOBALS['ecs']->table('category') . " AS c ".
+                "LEFT JOIN " . $GLOBALS['ecs']->table('category') . " AS s ON s.parent_id=c.cat_id ".
+                "GROUP BY c.cat_id ".
+                
+//                "HAVING c.cat_name LIKE '%".$_POST['cat_name']."%' ".
+                "HAVING c.cat_name LIKE '%".$cat_name."%' ".
+                
+                'ORDER BY c.parent_id, c.sort_order ASC';
+    $res = $GLOBALS['db']->getAll($sql);
+    
+    // 查询所有类别
+    $sql = "SELECT c.cat_id, c.cat_name, c.measure_unit, c.parent_id, c.is_show, c.show_in_nav, c.grade, c.sort_order, COUNT(s.cat_id) AS has_children ".
+                'FROM ' . $GLOBALS['ecs']->table('category') . " AS c ".
+                "LEFT JOIN " . $GLOBALS['ecs']->table('category') . " AS s ON s.parent_id=c.cat_id ".
+                "GROUP BY c.cat_id ".
+                'ORDER BY c.parent_id, c.sort_order ASC';
+    $res1 = $GLOBALS['db']->getAll($sql);
+    
+    // 构建一个全分类的Map集合<cat_id, cat>
+    $cat_map = array();
+    foreach ($res1 as $cat)
+    {
+    	if(!empty($cat)){
+    		$cat_id = $cat['cat_id'];
+	    	$cat_map[$cat_id] = $cat;
+    	}
+    }
+    
+    // 对商品类别进行排序
+    $res1 = cat_options(0, $res1);
+    
+    // 获取查询结果的上级所有父类别
+    $parents = array();
+    $cat_result = array();
+    foreach ($res as $cat)
+    {
+    	$cat_result[$cat['cat_id']] = 1;
+    	array_push($parents, $cat);
+    	get_cat_parents($parents, $cat_map, $cat['cat_id']);
+    }
+    
+    // 重构集合，只包含将来返回结果所包含的类别
+    $cat_map = array();
+    foreach ($parents as $cat)
+    {
+    	$cat_map[$cat['cat_id']] = $cat;
+    }
+    
+    // 移除与查询结果无关的类别
+    $res = array();
+    foreach ($res1 as $cat)
+    {
+    	if(!empty($cat_map[$cat['cat_id']])){
+    		// 标识出匹配查询条件的结果
+    		if(empty($cat_result[$cat['cat_id']])){
+    			$cat['is_result'] = 2;
+    		}else{
+    			$cat['is_result'] = 1;
+    		}
+    		array_push($res, $cat);
+    	}
+    }
+
+	return $res;
+}
+
+/**
+ * 
+ * 获取指定类别ID的所有上级类别并存放到指定数组中
+ * 
+ * @access private
+ * @param $parents 存放所有上级类别
+ * @param $cat_map 存放所有类别的Map集合
+ * @param $cat_id 待获取上级类别的类别ID
+ */
+function get_cat_parents(&$parents, $cat_map, $cat_id)
+{
+	
+	if(empty($parents)){
+		$parents = array();
+	}
+	
+	$cat = $cat_map[$cat_id];
+	$parent_id = $cat['parent_id'];
+	
+	$cat = $cat_map[$parent_id];
+	
+	if($parent_id != 0)
+	{
+		// 递归
+		get_cat_parents($parents, $cat_map, $parent_id);
+	}
+	
+	array_push($parents, $cat);
+    
+}
+
+/**
+ * 获取虚拟团购分类一级列表
+ * @return type
+ */
+function get_virtual_cat_select(){
+    $sql = "select cat_id,cat_name from ".$GLOBALS['ecs']->table('category')." where is_virtual = 1 and parent_id = 0";
+    $res = $GLOBALS['db']->getAll($sql);
+    $cat_select = '';
+    foreach($res as $k=>$v){
+        $cat_select .= "<option value='$v[cat_id]]'>$v[cat_name]</option>";
+    }
+    $cat_select .="</option>";
+    return $cat_select;
+}
+
+
+/**
+ * 输出指定数目的空格
+ * @return $text
+ */
+function echo_space($num)
+{
+    $text = '';
+    for ($i = 0; $i < $num; $i++)
+    {
+        $text .= '        ';
+    }
+    return $text;
 }
 
 ?>

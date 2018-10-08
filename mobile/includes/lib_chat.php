@@ -43,12 +43,13 @@ function get_customers($cus_type = CUSTOMER_SERVICE, $supp_id = -1)
 	$sql = "select * from " . $GLOBALS['ecs']->table('chat_customer') . " WHERE cus_enable = 1 AND cus_type in ($cus_type) $where ORDER BY cus_type desc";
 	
 	$list = $GLOBALS['db']->getAll($sql);
+	
 	foreach ($list as &$customer)
 	{
 		$of_username = $customer['of_username'];
 		
 		$exist = check_of_username_exist($of_username);
-
+		
 		if($exist)
 		{
 			$status = trim(get_of_user_status($of_username));

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>我的推荐</title>
+    <meta name="keywords" content="我的推荐" />
+    <meta name="description" content="我的推荐" />
+</head>
+<body data-psd-width="840" >
+<div class="rebate">
+	<div class="header">
+		<div class="back" onclick="history.go(-1)"></div>
+		<h2>我的推荐</h2>
+		<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+	</div>
+	<div class="rebate_num">
+		<p>推荐奖励金额（元）</p>
+		<h1>{$reward_total}</h1>
+	</div>
+</div>
+<div class="content">
+	<div class="reap">
+		<ul class="bgc clearfix">
+			<li style="width: 50%;">
+				<a href="user.php?act=my_recommend">
+					<p>下级业主</p>
+					<span>{$sub_agent_count}</span>
+				</a>
+			</li>
+			<li style="width: 50%; border-left: 1px solid #dbdbdb;">
+				<a href="user.php?act=my_recommend&type=1">
+					<p>分享推荐</p>
+					<span>{$sub_user_count}</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="inter_num bgc">
+		<ul class="inter_much on">
+			{if $sub_agent_list}
+			{foreach from=$sub_agent_list item=agent name=agent}
+			<li class="clearfix">
+				<div class="tit">
+					<h2>{$agent.user_name}</h2>
+					<span><em>{$agent.reg_time}</em>{$agent.level}</span>
+				</div>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+</div>
+{if $sub_agent_list}
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+{else}
+<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+{/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

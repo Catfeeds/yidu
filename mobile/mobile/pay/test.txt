@@ -1,0 +1,8 @@
+Array
+(
+    [service] => alipay.wap.trade.create.direct
+    [sign] => 68e4b66cec57ac62cc2571ab3664e576
+    [sec_id] => MD5
+    [v] => 1.0
+    [notify_data] => <notify><payment_type>1</payment_type><subject>店铺续约</subject><trade_no>2017122121001004150234285351</trade_no><buyer_email>2943297311@qq.com</buyer_email><gmt_create>2017-12-21 15:44:30</gmt_create><notify_type>trade_status_sync</notify_type><quantity>1</quantity><out_trade_no>359105</out_trade_no><notify_time>2017-12-21 15:44:31</notify_time><seller_id>2088801568582573</seller_id><trade_status>TRADE_SUCCESS</trade_status><is_total_fee_adjust>N</is_total_fee_adjust><total_fee>0.01</total_fee><gmt_payment>2017-12-21 15:44:31</gmt_payment><seller_email>pay@hunuo.com</seller_email><price>0.01</price><buyer_id>2088422911158157</buyer_id><notify_id>103fbeb4c2de4dc1f48b350a1ec6957h5q</notify_id><use_coupon>N</use_coupon></notify>
+)

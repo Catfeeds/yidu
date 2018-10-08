@@ -3,21 +3,22 @@
 /**
  * ECSHOP 前台公用文件
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2010 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: init.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liuhui $
+ * $Id: init.php 17153 2010-05-05 09:39:12Z liuhui $
 */
+
 if (!defined('IN_ECS'))
 {
     die('Hacking attempt');
 }
+
 error_reporting(0);
-//error_reporting(E_ALL);
 
 if (__FILE__ == '')
 {
@@ -26,12 +27,12 @@ if (__FILE__ == '')
 
 /* 取得当前ecshop所在的根目录 */
 define('ROOT_PATH', str_replace('includes/init.php', '', str_replace('\\', '/', __FILE__)));
-define('TOKEN', "leileiceshi");
-define('ROOT_PATH_WAP', str_replace('/mobile','',ROOT_PATH));
-if (!file_exists(ROOT_PATH . '../data/install.lock') && !file_exists(ROOT_PATH . '../includes/install.lock')
+define('TOKEN', "qphp");
+
+if (!file_exists(ROOT_PATH . 'data/install.lock') && !file_exists(ROOT_PATH . 'includes/install.lock')
     && !defined('NO_CHECK_INSTALL'))
 {
-    header("Location: ./../install/index.php\n");
+    header("Location: ./install/index.php\n");
 
     exit;
 }
@@ -42,7 +43,11 @@ if (!file_exists(ROOT_PATH . '../data/install.lock') && !file_exists(ROOT_PATH .
 @ini_set('session.use_trans_sid', 0);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-@ini_set('display_errors',        0);//报错提示开启hao2018
+@ini_set('display_errors',        0);//先注释，后开启hao
+
+// 是否开启错误提示：0-不开启 1-开启
+define('MYSQL_ERROR_DISPLAY', 0);
+error_reporting(0);
 
 if (DIRECTORY_SEPARATOR == '\\')
 {
@@ -53,7 +58,7 @@ else
     @ini_set('include_path', '.:' . ROOT_PATH);
 }
 
-require(ROOT_PATH . '../data/config.php');
+require(ROOT_PATH . 'data/config.php');
 
 if (defined('DEBUG_MODE') == false)
 {
@@ -82,6 +87,7 @@ require(ROOT_PATH . 'includes/lib_main.php');
 require(ROOT_PATH . 'includes/lib_insert.php');
 require(ROOT_PATH . 'includes/lib_goods.php');
 require(ROOT_PATH . 'includes/lib_article.php');
+require(ROOT_PATH . 'themes/default/php/init.php');
 
 /* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc())
@@ -104,13 +110,13 @@ $ecs = new ECS($db_name, $prefix);
 define('DATA_DIR', $ecs->data_dir());
 define('IMAGE_DIR', $ecs->image_dir());
 
+
 /* 初始化数据库类 */
 require(ROOT_PATH . 'includes/cls_mysql.php');
+require(ROOT_PATH . 'includes/lib_soap.php');
 $db = new cls_mysql($db_host, $db_user, $db_pass, $db_name);
 $db->set_disable_cache_tables(array($ecs->table('sessions'), $ecs->table('sessions_data'), $ecs->table('cart')));
 $db_host = $db_user = $db_pass = $db_name = NULL;
-
-
 
 /* 创建错误处理对象 */
 $err = new ecs_error('message.dwt');
@@ -128,9 +134,6 @@ if ($_CFG['shop_closed'] == 1)
 
     die('<div style="margin: 150px; text-align: center; font-size: 14px"><p>' . $_LANG['shop_closed'] . '</p><p>' . $_CFG['close_comment'] . '</p></div>');
 }
-
-/* 关闭过期的店铺 henson */
-close_expire_shop();
 
 if (is_spider())
 {
@@ -165,6 +168,44 @@ if(isset($_SERVER['PHP_SELF']))
 {
     $_SERVER['PHP_SELF']=htmlspecialchars($_SERVER['PHP_SELF']);
 }
+if (!defined('INIT_NO_SMARTY'))
+{
+    header('Cache-control: private');
+    header('Content-type: text/html; charset='.EC_CHARSET);
+
+    /* 创建 Smarty 对象。*/
+    require(ROOT_PATH . 'includes/cls_template.php');
+    $smarty = new cls_template;
+
+    $smarty->cache_lifetime = $_CFG['cache_time'];
+    $smarty->template_dir   = ROOT_PATH . 'themes/' . $_CFG['template'];
+    $smarty->cache_dir      = ROOT_PATH . 'temp/caches';
+    $smarty->compile_dir    = ROOT_PATH . 'temp/compiled';
+
+    if ((DEBUG_MODE & 2) == 2)
+    {
+        $smarty->direct_output = true;
+        $smarty->force_compile = true;
+    }
+    else
+    {
+        $smarty->direct_output = false;
+        $smarty->force_compile = false;
+    }
+
+    $smarty->assign('lang', $_LANG);
+    $smarty->assign('ecs_charset', EC_CHARSET);
+    if (!empty($_CFG['stylename']))
+    {
+        $smarty->assign('ecs_css_path', 'themes/' . $_CFG['template'] . '/style_' . $_CFG['stylename'] . '.css');
+    }
+    else
+    {
+        $smarty->assign('ecs_css_path', 'themes/' . $_CFG['template'] . '/style.css');
+    }
+
+}
+
 if (!defined('INIT_NO_USERS'))
 {
     /* 会员信息 */
@@ -173,7 +214,7 @@ if (!defined('INIT_NO_USERS'))
     if (!isset($_SESSION['user_id']))
     {
         /* 获取投放站点的名称 */
-        $site_name = isset($_GET['from'])   ? htmlspecialchars($_GET['from']) : addslashes($_LANG['self_site']);
+        $site_name = isset($_GET['from'])   ? $_GET['from'] : addslashes($_LANG['self_site']);
         $from_ad   = !empty($_GET['ad_id']) ? intval($_GET['ad_id']) : 0;
 
         $_SESSION['from_ad'] = $from_ad; // 用户点击的广告ID
@@ -247,7 +288,6 @@ if (!defined('INIT_NO_USERS'))
         $smarty->assign('ecs_session', $_SESSION);
     }
 }
-
 if ((DEBUG_MODE & 1) == 1)
 {
     error_reporting(E_ALL);
@@ -262,156 +302,35 @@ if ((DEBUG_MODE & 4) == 4)
 }
 
 /* 判断是否支持 Gzip 模式 */
-/*if (!defined('INIT_NO_SMARTY') && gzip_enabled())
+if (!defined('INIT_NO_SMARTY') && gzip_enabled())
 {
     ob_start('ob_gzhandler');
 }
 else
 {
     ob_start();
-}*/
-
-/**
- * 连接处理
- * @param [type] $content [description]
- * @param string $strUrl  [description]
- */
-function PicUrl($content = null, $strUrl = ''){
-    if(empty($strUrl)){
-        $strUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'];
-    }
-    if(is_array($content)){
-        foreach($content as &$v){
-            if(!strstr($v,'http')){
-                $v = $strUrl."/".$v;
-            }
-        }
-    }else{
-        if(!strstr($content,'http')){
-            $content = $strUrl."/".$content;
-        }
-    }
-    return $content;
 }
-if (!defined('INIT_NO_SMARTY'))
+//page_header.lbi page_header_index.lbi  page_shopheader.lbi  页面提取的PHP代码
+function get_brands1($cat = 0, $app = 'brand')
 {
-    header('Cache-control: private');
-    header('Content-type: text/html; charset='.EC_CHARSET);
+    $children = ($cat > 0) ? ' AND ' . get_children($cat) : '';
 
-    /* 创建 Smarty 对象。*/
-    require(ROOT_PATH . 'includes/cls_template.php');
-    $smarty = new cls_template;
+    $sql = "SELECT b.brand_id, b.brand_name, b.brand_logo, b.brand_desc, COUNT(*) AS goods_num, IF(b.brand_logo > '', '1', '0') AS tag ".
+        "FROM " . $GLOBALS['ecs']->table('brand') . "AS b, ".
+        $GLOBALS['ecs']->table('goods') . " AS g ".
+        "WHERE g.brand_id = b.brand_id $children AND is_show = 1 " .
+        " AND g.is_on_sale = 1 AND g.is_alone_sale = 1 AND g.is_delete = 0 ".
+        "GROUP BY b.brand_id HAVING goods_num > 0 ORDER BY tag DESC, b.sort_order ASC";
+    $row = $GLOBALS['db']->getAll($sql);
 
-    $h_uid = $_SESSION['user_id'];
-    $up_uid = get_affiliate();
-    if($up_uid>0&&$h_uid>0){
-        $sql = "SELECT shop_id FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$up_uid'";
-        $p_user = $GLOBALS['db']->getRow($sql);
-
-        $sql = "SELECT parent_id FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id = '$h_uid'";
-        $h_user = $GLOBALS['db']->getRow($sql);
-        if($p_user['shop_id']>0&&$h_user['parent_id']==0){
-            // 设置推荐人
-            $sql = 'UPDATE ' . $GLOBALS['ecs']->table('users') . ' SET parent_id = ' . $up_uid . ' WHERE user_id = ' . $h_uid;
-            $GLOBALS['db']->query($sql);
-        }
-    }
-    
-
-    /*分享*/
-    require_once(ROOT_PATH.'includes/jssdk.php');
-    $jssdk = new JSSDK();
-    $signPackage = $jssdk->GetSignPackage();
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $smarty->assign('signPackage',$signPackage);//微信分享
-    $smarty->assign('ecs_url_name',$protocol.$_SERVER['SERVER_NAME']);//域名链接
-    $h_user_id = isset($_SESSION['user_id'])?$_SESSION['user_id']:0;
-    if(strstr($_SERVER['REQUEST_URI'],'?')){
-        $h_url = $_SERVER['REQUEST_URI'];
-        $h_url = preg_replace('/u=(\d+)/','u='.$h_user_id, $h_url);
-        $ecs_url_fenxian = $protocol.$_SERVER['SERVER_NAME'].$h_url;
-    }else{
-        $ecs_url_fenxian = $protocol.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'].'?u='.$h_user_id;
-    }
-    $smarty->assign('ecs_url_fenxian',$ecs_url_fenxian);//分享链接
-    
-
-
-    $smarty->cache_lifetime = $_CFG['cache_time'];
-    $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
-    $uachar = "/(nokia|sony|ericsson|mot|samsung|sgh|lg|philips|panasonic|alcatel|lenovo|cldc|midp|mobile)/i";
-    if(($ua == '' || preg_match($uachar, $ua))&& !strpos(strtolower($_SERVER['REQUEST_URI']),'wap'))
+    foreach ($row AS $key => $val)
     {
-        $smarty->template_dir   = ROOT_PATH . 'themesmobile/default';
-        $smarty->cache_dir      = ROOT_PATH . 'temp/caches';
-        $smarty->compile_dir    = ROOT_PATH . 'temp/compiled';
-    }
-    else
-    {
-        $smarty->template_dir   = ROOT_PATH . 'themesmobile/default';
-        $smarty->cache_dir      = ROOT_PATH . 'temp/caches';
-        $smarty->compile_dir    = ROOT_PATH . 'temp/compiled';
+        $row[$key]['url'] = build_uri($app, array('cid' => $cat, 'bid' => $val['brand_id']), $val['brand_name']);
+        $row[$key]['brand_desc'] = htmlspecialchars($val['brand_desc'],ENT_QUOTES);
     }
 
-        if ((DEBUG_MODE & 2) == 2)
-        {
-            $smarty->direct_output = true;
-            $smarty->force_compile = true;
-        }
-        else
-        {
-            $smarty->direct_output = false;
-            $smarty->force_compile = false;
-        }
-
-        $smarty->assign('lang', $_LANG);
-        $smarty->assign('ecs_charset', EC_CHARSET);
-    if(($ua == '' || preg_match($uachar, $ua))&& !strpos(strtolower($_SERVER['REQUEST_URI']),'wap'))
-    {
-        if (!empty($_CFG['stylename']))
-        {
-            $smarty->assign('ecs_css_path', 'themesmobile/' . $_CFG['template'] . '/style_' . $_CFG['stylename'] . '.css');
-        }
-        else
-        {
-            $smarty->assign('ecs_css_path', 'themesmobile/' . $_CFG['template'] . '/style.css');
-        }
-    }else
-        {
-        if (!empty($_CFG['stylename']))
-        {
-            $smarty->assign('ecs_css_path', 'themesmobile/' . $_CFG['template'] . '/style_' . $_CFG['stylename'] . '.css');
-        }
-        else
-        {
-            $smarty->assign('ecs_css_path', 'themesmobile/' . $_CFG['template'] . '/style.css');
-        }
-    }
-
-    // 判断是否app打开网页
-    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-    if (strpos($user_agent, 'yidushop') !== false) {
-        $is_app = 1;
-    } else {
-        $is_app = 555;
-    }
-    // 判断安卓还是苹果
-    if (strpos($user_agent, 'yidushopios') !== false) {
-        $from_client = 'ios';
-    } elseif (strpos($user_agent, 'yidushop_android') !== false) {
-        $from_client = 'android';
-    } else {
-        $from_client = 'mobile';
-    }
-    $smarty->assign('is_app', $is_app);
-    $smarty->assign('from_client', $from_client);
+    return $row;
 }
-/*
-$_SERVER['REQUEST_URI'] = $_SERVER['REQUEST_URI'] ? $_SERVER['REQUEST_URI'] : "/moblie/";
-$autoUrl = str_replace($_SERVER['REQUEST_URI'],"",$GLOBALS['ecs']->url());
-
-@file_get_contents($autoUrl."/weixin/auto_do.php");
-*/
 
 /**
  * sql 跨站点脚本解决方案
@@ -430,4 +349,6 @@ foreach($ra as $vo){
         exit('参数有敏感字符，已禁止访问');
     }
 }
+
+
 ?>

@@ -34,7 +34,6 @@ function get_user_orders_1($user_id, $num = 10, $start = 0,$where='')
     	   " ON o.supplier_id=ssc.supplier_id AND ssc.code='shop_name' ".
            " WHERE user_id = '$user_id' $where ORDER BY add_time DESC";
     $res = $GLOBALS['db']->SelectLimit($sql, $num, $start);
-
     while ($row = $GLOBALS['db']->fetchRow($res))
     {
         if ($row['order_status'] == OS_UNCONFIRMED)
@@ -57,11 +56,11 @@ function get_user_orders_1($user_id, $num = 10, $start = 0,$where='')
 				}
 				@$okgoods_time = $GLOBALS['db']->getOne("select value from " . $GLOBALS['ecs']->table('shop_config') . " where code='okgoods_time'");
 				@$row_time = $okgoods_time - (local_date('d',gmtime()) - local_date('d',$row['shipping_time']));
-                @$row['handler'] = "<strong><img src='themesmobile/default/images/time.png' height='30px' style='vertical-align:middle;'/>还剩" . $row_time . "天自动收货</strong><a href=\"user.php?act=affirm_received&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$back_info.$GLOBALS['_LANG']['confirm_received']."')) return false;\" style='display:inline-block; margin-top:12px; width:80px; height:25px; font-size:14px; line-height:25px; border:1px solid #F60; color:#fff; text-align:center;border-radius:5px; background:#F60 '>".$GLOBALS['_LANG']['received']."</a>";
+                @$row['handler'] = "<div class='clearfix'><i class='endtime-icon fl'></i><em class='endtime-text fl'>还剩" . $row_time . "天自动收货</em></div><a href=\"user.php?act=affirm_received&order_id=" .$row['order_id']. "\" onclick=\"if (!confirm('".$back_info.$GLOBALS['_LANG']['confirm_received']."')) return false;\" style='display:inline-block;background:#E31939;color:#fff;padding:3px 5px ;margin:3px 0px;'>".$GLOBALS['_LANG']['received']."</a>";
             }
             elseif ($row['shipping_status'] == SS_RECEIVED)
             {
-                @$row['handler'] = '<span>'.$GLOBALS['_LANG']['ss_received'] .'</span>';
+                @$row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['ss_received'] .'</span>';
             }
             else
             {
@@ -78,17 +77,20 @@ function get_user_orders_1($user_id, $num = 10, $start = 0,$where='')
         }
         else
         {
-            $row['handler'] = '<span>'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
+            $row['handler'] = '<span style="color:red">'.$GLOBALS['_LANG']['os'][$row['order_status']] .'</span>';
         }
 
         $row['shipping_status'] = ($row['shipping_status'] == SS_SHIPPED_ING) ? SS_PREPARING : $row['shipping_status'];
-	$row['order_status1'] = $row['order_status'];
+		$row['order_status1'] = $row['order_status'];
         $row['order_status'] = $GLOBALS['_LANG']['os'][$row['order_status']] . ',' . $GLOBALS['_LANG']['ps'][$row['pay_status']] . ',' . $GLOBALS['_LANG']['ss'][$row['shipping_status']];
-		
+
+		$sql_invoices = "SELECT invoice_no,shipping_name FROM ".$GLOBALS['ecs']->table('delivery_order')." WHERE order_id = ".$row['order_id']." AND status = 0";
+		$row['invoices'] = $GLOBALS['db']->getAll($sql_invoices);
+
         $cod_code = $GLOBALS['db']->getOne("select pay_code from " . $GLOBALS['ecs']->table('payment') . " where pay_id=" . $row['pay_id']);
-		$weixiu_time = $GLOBALS['db']->getOne("select value from " . $GLOBALS['ecs']->table('ecsmart_shop_config') . " where code='weixiu_time'");
+		$weixiu_time = $GLOBALS['db']->getOne("select value from " . $GLOBALS['ecs']->table('shop_config') . " where code='weixiu_time'");
 		$row['weixiu_time'] = ($weixiu_time - (local_date('d',gmtime()) - local_date('d',$order['shipping_time_end'])) <= 0) ? 0 : 1;
-		
+
 		$back_can_a = 1;
 		$comment_s = 0;
 		$shaidan_s = 0;
@@ -108,42 +110,80 @@ function get_user_orders_1($user_id, $num = 10, $start = 0,$where='')
 				$shaidan_s = $g_val['rec_id'];
 			}
 		}
-		$arr[$row['order_id']] = array('order_id'       => $row['order_id'],
-						'order_sn'       => $row['order_sn'],
-						'shopname'       => $row['shopname'],
-						'order_time'     => local_date($GLOBALS['_CFG']['time_format'], $row['add_time']),
-						'order_status'   => str_replace(',',' ',$row['order_status']),
-						'order_status1'  => $row['order_status1'],
-						'back_can_a'     => $back_can_a,
-						'comment_s'      => $comment_s,
-						'shaidan_s'      => $shaidan_s,
-						'total_fee'      => price_format($row['total_fee'], false),
-						'goods_list'     => $goods_list_r,
-						'pay_online'       => $row['pay_online'],
-						'is_suborder' => $row['parent_order_id'] ? "(子订单)" : "",
-						'pay_status'     => $row['pay_status'],
-						'handler'        => $row['handler'],
-						'shipping_id'    => $row['shipping_id'],
-						'shipping_name'  => $row['shipping_name'],
-						'shipping_status'=> $row['shipping_status'],
-						'pay_id'         => ($cod_code == 'cod' ? '' : $row['pay_id']),
-						'invoice_no'     => $row['invoice_no'],
-						'weixiu_time'    => $row['weixiu_time'],
-                                                'supplier_id'    => $row['supplier_id'],
-                                                'count'  => count($goods_list_r));
-    }
 
+		$back_info_num = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('back_order') .
+			" WHERE order_id = " . $row['order_id'] . " AND status_back < 6";
+		if ($GLOBALS['db']->getOne($back_info_num) > 0)
+		{
+			$row['back_can'] = 0;
+		}
+		else
+		{
+			$row['back_can'] = 1;
+		}
+
+		$extension_code = $row['extension_code'];
+
+		/* 预售活动 */
+		if($extension_code == PRE_SALE_CODE)
+		{
+			include_once '/includes/lib_goods.php';
+			$pre_sale = pre_sale_info($row['extension_id']);
+			$pre_sale_status = $pre_sale['status'];
+			if($pre_sale['deposit'] > 0)
+			{
+				$pre_sale_deposit = $pre_sale['deposit'];
+				$pre_sale_deposit_format = $pre_sale['formated_deposit'];
+			}
+
+		}
+
+
+		$arr[$row['order_id']] = array(
+            'order_id'       => $row['order_id'],
+			'order_sn'       => $row['order_sn'],
+			'supplier_id'    => $row['supplier_id'],
+			'shopname'       => $row['shopname'],
+			'order_time'     => local_date($GLOBALS['_CFG']['time_format'], $row['add_time']),
+			'order_status'   => str_replace(',','</br>',$row['order_status']),
+			'order_status1'  => $row['order_status1'],
+			'order_status_text'   => $row['order_status'], //聊天系统-订单状态
+			'consignee'   	 => $row['consignee'], //聊天系统-收货人
+			'pay_name'   	 => $row['pay_name'], //聊天系统-支付方式
+			'back_can'       => $row['back_can'],
+			'back_can_a'     => $back_can_a,
+			'comment_s'      => $comment_s,
+			'shaidan_s'      => $shaidan_s,
+			'total_fee'      => price_format($row['total_fee'], false),
+			'goods_list'     => $goods_list_r,
+			'pay_online'       => $row['pay_online'],
+			'is_suborder' => $row['parent_order_id'] ? "(子订单)" : "",  //代码增加   By  www.68ecshop.com
+			'pay_status'     => $row['pay_status'],
+			'handler'        => $row['handler'],
+			'shipping_id'    => $row['shipping_id'],
+			'shipping_name'  => $row['shipping_name'],
+			'shipping_name_2'=> (strpos($row['shipping_name'],'同城快递') != FALSE ? "同城快递" : $row['shipping_name']),
+			'shipping_status'=> $row['shipping_status'],
+			'pay_id'         => ($cod_code == 'cod' ? '' : $row['pay_id']),
+			'invoice_no'     => $row['invoice_no'],
+			'extension_code'     => $row['extension_code'], // 用于前台辨识预售活动
+			'pre_sale_status'     => $pre_sale_status, // 用于前台辨识预售活动状态
+			'pre_sale_deposit'     => $pre_sale_deposit, // 定金
+			'pre_sale_deposit_format'     => $pre_sale_deposit_format, // 格式化定金
+			'invoices'    => $row['invoices'],
+			'weixiu_time'    => $row['weixiu_time']);
+    }
     return $arr;
 }
 
 
 function get_order_goods($order)
 {
-	
+
 	/* 取得订单商品及货品 */
     $goods_list = array();
     $goods_attr = array();
-    $sql = "SELECT o.*, IF(o.product_id > 0, p.product_number, g.goods_number) AS storage, o.goods_attr, o.goods_attr_id, g.suppliers_id, IFNULL(b.brand_name, '') AS brand_name, p.product_sn, a.attr_value,g.goods_thumb,g.goods_id 
+    $sql = "SELECT o.*, IF(o.product_id > 0, p.product_number, g.goods_number) AS storage, o.goods_attr, o.goods_attr_id, g.suppliers_id, IFNULL(b.brand_name, '') AS brand_name, p.product_sn, a.attr_value,g.goods_thumb,g.goods_id
             FROM " . $GLOBALS['ecs']->table('order_goods') . " AS o
                 LEFT JOIN " . $GLOBALS['ecs']->table('products') . " AS p
                     ON p.product_id = o.product_id
@@ -190,7 +230,7 @@ function get_order_goods($order)
     }
 
 	foreach ($goods_list as $goods_key => $goods_val)
-	{  
+	{
 		$sql_goods = "select bo.*,bg.product_id from ". $GLOBALS['ecs']->table('back_order') . " as bo " .
 					" left join " . $GLOBALS['ecs']->table('back_goods') . " as bg " .
 					" on bo.back_id = bg.back_id and bo.goods_id = bg.goods_id" .
@@ -198,7 +238,7 @@ function get_order_goods($order)
 					" and bg.product_id='$goods_val[product_id]' and bo.status_back < 6";
 		$back_order =$GLOBALS['db']->getRow($sql_goods);
 		$goods_list[$goods_key]['back_can'] =  count($back_order['order_id']) > 0 ? '0' : '1';
-		
+
 		switch ($back_order['status_back'])
 		{
 			case '3' : $sb = "已完成"; break;
@@ -207,7 +247,7 @@ function get_order_goods($order)
 			//case '7' : $sb = ""; break;
 			default : $sb = "正在"; break;
 		}
-		
+
 		switch ($back_order['back_type'])
 		{
 			case '1' : $bt = "退货"; break;
@@ -215,10 +255,9 @@ function get_order_goods($order)
 			case '4' : $bt = "退款"; break;
 			default : break;
 		}
-		
+
 		$goods_list[$goods_key]['back_can_no'] = $sb . " " . $bt;
 	}
-	
 	return $goods_list;
 }
 ?>

@@ -17,10 +17,10 @@
 	<td>{if $item.isopen == 1}启用{else}禁用{/if}</td>
 	<td>{$item.randnum}%</td>
 	<td>{$item.num}</td>
-	<td><a href="weixin_egg.php?act=add&aid={$smarty.get.aid}&lid={$item.lid}">{$lang.edit}</a></td>
+	<td><a href="weixin_egg.php?act=add&lid={$item.lid}">{$lang.edit}</a></td>
   </tr>
   {foreachelse}
-  <tr><td colspan="7"><a href="weixin_egg.php?act=add&aid={$smarty.get.aid}">添加奖项</a></td></tr>
+  <tr><td colspan="6"><a href="weixin_egg.php?act=add">添加奖项</a></td></tr>
   {/foreach}
 </table>
 </div>

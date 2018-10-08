@@ -84,8 +84,9 @@ class captcha
      * @var integer $height
      */
     var $height     = 20;
+    
 
-
+	/* 代码修改_start By  www.68ecshop.com */
 
 	/**
      * 构造函数
@@ -95,7 +96,7 @@ class captcha
      *
      * @return void
      */
-    function __construct($folder = '', $width = 145, $height = 20)
+    function __construct($folder = '', $width = 100, $height = 33)
     {
         $this->captcha($folder, $width, $height);
     }
@@ -130,8 +131,9 @@ class captcha
 
             return (((imagetypes() & IMG_GIF) > 0) || ((imagetypes() & IMG_JPG)) > 0 );
         }
-    }
+    }    
 
+	/* 代码修改_end By  www.68ecshop.com */
 
 
     /**
@@ -139,14 +141,30 @@ class captcha
      *
      * @access  public
      * @param   string  $word   验证码
+     * @param   string  $clear   验证完成后是否清空当前验证码，默认为false
      * @return  bool
      */
-    function check_word($word)
+    function check_word($word, $clear = false)
     {
         $recorded = isset($_SESSION[$this->session_word]) ? base64_decode($_SESSION[$this->session_word]) : '';
         $given    = $this->encrypts_word(strtoupper($word));
+        
+        if($clear)
+        {
+        	$this->clear_captcha();
+        }
 
         return (preg_match("/$given/", $recorded));
+    }
+    
+    /**
+     * 清空验证码，使当前验证码失效
+     */
+    function clear_captcha(){
+    	if($_SESSION[$this->session_word])
+    	{
+    		unset($_SESSION[$this->session_word]);
+    	}
     }
 
     /**
@@ -180,7 +198,7 @@ class captcha
         {
             $theme  = $this->themes_gif[mt_rand(1, count($this->themes_gif))];
         }
-
+        
         if (!file_exists($this->folder . $theme[0]))
         {
             return false;
@@ -215,23 +233,23 @@ class captcha
             /* 获得验证码的高度和宽度 */
             $x = ($this->width - (imagefontwidth(5) * $letters)) / 2;
             $y = ($this->height - imagefontheight(5)) / 2;
-
+            
 			//imagestring($img_org, 5, $x, $y, $word, $clr);
-
+            
             //倾斜角度、X、Y位置
             $position = null;
             if(rand(0, 1) == 0)
             {
-            	$position = array('-'.rand(0, 5), 10, 15);
+            	$position = array('-'.rand(0, 10), 10, 20);
             }
-            else
+            else 
             {
-            	$position = array(rand(0, 5), 10, 18);
+            	$position = array(rand(0, 10), 10, 23);
             }
             //字体
             $ttf_font = $this->folder.'/arial.ttf';
-
-            if(function_exists(ImageTTFText))
+            
+            if(function_exists('ImageTTFText'))
             {
             	ImageTTFText($img_org, 14, $position[0], $position[1], $position[2], $clr, $ttf_font, $word);
             }
@@ -239,7 +257,7 @@ class captcha
             {
             	imagestring($img_org, 14, $x, $y, $word, $clr);
             }
-
+            
             header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
 
             // HTTP/1.1

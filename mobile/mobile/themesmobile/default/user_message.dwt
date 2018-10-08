@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+    <link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/message.css" type="text/css" rel="stylesheet" />
+    <title>我的消息</title>
+    <meta name="keywords" content="我的消息" />
+    <meta name="description" content="我的消息" />
+    
+</head>
+<body data-psd-width="750" class="bdbg2">
+    <div class="header">
+        <div class="back" onclick="history.go(-1)"></div>
+        <h2>我的消息</h2>
+        <!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+    </div>
+    <div class="main news">
+        <ul class="seek">
+            {if $message_list}
+            {foreach from=$message_list item=message name=message}
+            <li>
+                <div class="swiper-container swiper5">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <a href="javascript:void(0)">
+                                <h5 class="nwtit">{$message.title}</h5>
+                                <div class="consult">{$message.content}</div>
+                                <div class="advice clearfix">
+                                    <span class="nwday">{$message.add_time}</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="swiper-slide"><span class="nw_del" data-id='{$message.msg_id}'>删除</span></div>
+                    </div>
+                </div>
+            </li>
+            {/foreach}
+            {/if}
+        </ul>
+    </div>
+    {if $message_list}
+    <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+    {else}
+    <p style="text-align: center; color: #666; font-size: 14px; margin-top: 10px;">暂时没有记录</p>
+    {/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script src="themesmobile/default/js/jquery.dotdotdot.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var swiper5 = new Swiper('.swiper5', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 'auto',
+            paginationClickable: true
+        });
+        $('.consult').dotdotdot();
+
+        $('.nw_del').click(function(event) {
+            var message_id = $(this).attr('data-id');
+            $.ajax({
+                url: 'user.php?act=del_message',
+                type: 'POST',
+                dataType: 'html',
+                data: {message_id: message_id},
+                success: function(res) {
+                    if (res == 1) {
+                        location.reload();
+                    }
+                }
+            });
+        });
+    });
+</script>

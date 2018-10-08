@@ -3,14 +3,14 @@
 /**
  * ECSHOP 管理中心品牌管理
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: brand.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: brand.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 define('IN_ECS', true);
@@ -79,17 +79,14 @@ elseif ($_REQUEST['act'] == 'insert')
 
      /*处理图片*/
     $img_name = basename($image->upload_image($_FILES['brand_logo'],'brandlogo'));
-	
-	 /*处理图片*/
-    $brand_img = basename($image->upload_image($_FILES['brand_img'],'brandimg'));
 
      /*处理URL*/
     $site_url = sanitize_url( $_POST['site_url'] );
 
     /*插入数据*/
 
-    $sql = "INSERT INTO ".$ecs->table('brand')."(brand_name, site_url, wap_brand_desc, brand_logo, brand_img,is_show, sort_order) ".
-           "VALUES ('$_POST[brand_name]', '$site_url', '$_POST[brand_desc]', '$img_name','$brand_img', '$is_show', '$_POST[sort_order]')";
+    $sql = "INSERT INTO ".$ecs->table('brand')."(brand_name, site_url, brand_desc, brand_logo, is_show, sort_order) ".
+           "VALUES ('$_POST[brand_name]', '$site_url', '$_POST[brand_desc]', '$img_name', '$is_show', '$_POST[sort_order]')";
     $db->query($sql);
 
     admin_log($_POST['brand_name'],'add','brand');
@@ -113,7 +110,7 @@ elseif ($_REQUEST['act'] == 'edit')
 {
     /* 权限判断 */
     admin_priv('brand_manage');
-    $sql = "SELECT brand_id, brand_name, site_url, brand_logo, wap_brand_desc, brand_logo, brand_img,is_show, sort_order ".
+    $sql = "SELECT brand_id, brand_name, site_url, brand_logo, brand_desc, brand_logo, is_show, sort_order ".
             "FROM " .$ecs->table('brand'). " WHERE brand_id='$_REQUEST[id]'";
     $brand = $db->GetRow($sql);
 
@@ -150,25 +147,13 @@ elseif ($_REQUEST['act'] == 'updata')
     $site_url = sanitize_url( $_POST['site_url'] );
 
     /* 处理图片 */
-    
-    // duli_brand_logo change_start
-    
-    $img_name = basename($image->upload_image($_FILES['brand_logo'],'brandlogo','',true));
-    
-    // duli_brand_logo change_end
-	
-	 $brand_img = basename($image->upload_image($_FILES['brand_img'],'brandimg','',true));
-    
-    $param = "brand_name = '$_POST[brand_name]',  site_url='$site_url', wap_brand_desc='$_POST[brand_desc]', is_show='$is_show', sort_order='$_POST[sort_order]' ";
+    $img_name = basename($image->upload_image($_FILES['brand_logo'],'brandlogo'));
+    $param = "brand_name = '$_POST[brand_name]',  site_url='$site_url', brand_desc='$_POST[brand_desc]', is_show='$is_show', sort_order='$_POST[sort_order]' ";
     if (!empty($img_name))
     {
         //有图片上传
         $param .= " ,brand_logo = '$img_name' ";
     }
-	if(!empty($brand_img))
-	{
-		$param .= " ,brand_img = '$brand_img'"; 
-	}
 
     if ($exc->edit($param,  $_POST['id']))
     {
@@ -304,6 +289,156 @@ elseif ($_REQUEST['act'] == 'remove')
     ecs_header("Location: $url\n");
     exit;
 }
+/*------------------------------------------------------ */
+//-- 批量删除品牌
+/*------------------------------------------------------ */
+elseif ($_REQUEST['act'] == 'batch_drop')
+{
+    check_authz_json('brand_manage');
+
+    if (isset($_POST['checkboxes']))
+    {
+        $count = 0;
+        foreach ($_POST['checkboxes'] AS $key => $id)
+        {
+            /* 删除该品牌的图标 */
+            $sql = "SELECT brand_logo FROM " .$ecs->table('brand'). " WHERE brand_id = '$id'";
+            $logo_name = $db->getOne($sql);
+            if (!empty($logo_name))
+            {
+                @unlink(ROOT_PATH . DATA_DIR . '/brandlogo/' .$logo_name);
+            }
+
+            $exc->drop($id);
+
+            /* 更新商品的品牌编号 */
+            $sql = "UPDATE " .$ecs->table('goods'). " SET brand_id=0 WHERE brand_id='$id'";
+            $db->query($sql);
+
+            $count++;
+        }
+
+        /* 提示信息 */
+        $link[] = array('text' => $_LANG['back_list'], 'href'=>'brand.php?act=list');
+        sys_msg(sprintf($_LANG['drop_success'], $count), 0, $link);
+    }
+    else
+    {
+        $link[] = array('text' => $_LANG['back_list'], 'href'=>'brand.php?act=list');
+        sys_msg($_LANG['no_select_tag'], 0, $link);
+    }
+}
+
+/*------------------------------------------------------ */
+//-- 批量导出品牌
+/*------------------------------------------------------ */
+elseif ($_REQUEST['act'] == 'export')
+{
+    // 存在搜索关键字时根据关键字搜索
+    if (isset($_REQUEST['keyword']) && !empty($_REQUEST['keyword']))
+    {
+        $sql = "SELECT brand_name, brand_logo, site_url, brand_desc, sort_order, is_show FROM "
+            .$GLOBALS['ecs']->table('brand')." WHERE brand_name LIKE '%{$_REQUEST['keyword']}%' ORDER BY sort_order ASC";
+    }
+    // 不存在搜索关键字时搜索全部
+    else
+    {
+        $sql = "SELECT brand_name, brand_logo, site_url, brand_desc, sort_order, is_show FROM "
+            .$GLOBALS['ecs']->table('brand')." ORDER BY sort_order ASC";
+    }
+    // 取得导出数据
+    $brands = $db->getAll($sql);
+
+    // 引入phpexcel核心类文件
+    require_once ROOT_PATH . '/includes/phpexcel/Classes/PHPExcel.php';
+    // 实例化excel类
+    $objPHPExcel = new PHPExcel();
+    // 实例化excel图片处理类
+    $objDrawing = new PHPExcel_Worksheet_Drawing();
+    // 操作第一个工作表
+    $objPHPExcel->setActiveSheetIndex(0);
+    // 设置sheet名
+    $objPHPExcel->getActiveSheet()->setTitle('商品品牌');
+    // 表格宽度
+    $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(40);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(50);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(10);
+    $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(10);
+
+    // 列名表头加粗
+    $objPHPExcel->getActiveSheet()->getStyle('A1:F1')->getFont()->setBold(true);
+    // 列名赋值
+    $objPHPExcel->getActiveSheet()->setCellValue('A1', '品牌名称');
+    $objPHPExcel->getActiveSheet()->setCellValue('B1', '品牌logo');
+    $objPHPExcel->getActiveSheet()->setCellValue('C1', '品牌网址');
+    $objPHPExcel->getActiveSheet()->setCellValue('D1', '品牌描述');
+    $objPHPExcel->getActiveSheet()->setCellValue('E1', '排序');
+    $objPHPExcel->getActiveSheet()->setCellValue('F1', '是否显示');
+
+    // 数据起始行
+    $row_num = 2;
+    // 向每行单元格插入数据
+    foreach($brands as $key => $value)
+    {
+        // 设置单元格高度
+        $objPHPExcel->getActiveSheet()->getRowDimension($row_num)->setRowHeight(32);
+        // 设置排序列、是否显示列居中显示
+        $objPHPExcel->getActiveSheet()->getStyle('E' . $row_num . ':' . 'F' . $row_num)->getAlignment()
+            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        // 设置所有垂直居中
+        $objPHPExcel->getActiveSheet()->getStyle('A' . $row_num . ':' . 'F' . $row_num)->getAlignment()
+            ->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+        // 设置品牌描述折行显示
+        $objPHPExcel->getActiveSheet()->getStyle('D' . $row_num)->getAlignment()->setWrapText(true);
+
+        // 取得商品logo路径
+        $file = ROOT_PATH . DATA_DIR . '/brandlogo/' . $value['brand_logo'];
+        // 存在商品logo
+        if (file_exists($file))
+        {
+            // 实例化插入图片类
+            $objDrawing = new PHPExcel_Worksheet_Drawing();
+            // 设置图片路径
+            $objDrawing->setPath($file);
+            // 设置图片高度
+            $objDrawing->setHeight(40);
+            // 设置图片宽度
+            $objDrawing->setWidth(100);
+            // 设置图片要插入的单元格
+            $objDrawing->setCoordinates('B' . $row_num);
+            $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
+        }
+        // 不存在商品logo
+        else
+        {
+            // 输出空白
+            $objPHPExcel->getActiveSheet()->setCellValue('B' . $row_num, '');
+        }
+
+        // 设置单元格数值
+        $objPHPExcel->getActiveSheet()->setCellValue('A' . $row_num, $value['brand_name']);
+        $objPHPExcel->getActiveSheet()->setCellValue('C' . $row_num, $value['site_url']);
+        $objPHPExcel->getActiveSheet()->setCellValue('D' . $row_num, $value['brand_desc']);
+        $objPHPExcel->getActiveSheet()->setCellValue('E' . $row_num, $value['sort_order']);
+        $objPHPExcel->getActiveSheet()->setCellValue('F' . $row_num, ($value['is_show'] ? '是' : '否'));
+        $row_num++;
+    }
+    $outputFileName = '商品品牌_' . time() . '.xls';
+    $xlsWriter = new \PHPExcel_Writer_Excel5($objPHPExcel);
+    header("Content-Type: application/force-download");
+    header("Content-Type: application/octet-stream");
+    header("Content-Type: application/download");
+    header('Content-Disposition:inline;filename="' . $outputFileName . '"');
+    header("Content-Transfer-Encoding: binary");
+    header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Pragma: no-cache");
+    $xlsWriter->save("php://output");
+    echo file_get_contents($outputFileName);
+}
 
 /*------------------------------------------------------ */
 //-- 删除品牌图片
@@ -320,47 +455,12 @@ elseif ($_REQUEST['act'] == 'drop_logo')
 
     if (!empty($logo_name))
     {
-    
-    // duli_brand_logo change_start
-    
-        @unlink(ROOT_PATH . '../' . DATA_DIR . '/brandlogo/' .$logo_name);
-    
-    // duli_brand_logo change_end
-    
+        @unlink(ROOT_PATH . DATA_DIR . '/brandlogo/' .$logo_name);
         $sql = "UPDATE " .$ecs->table('brand'). " SET brand_logo = '' WHERE brand_id = '$brand_id'";
         $db->query($sql);
     }
     $link= array(array('text' => $_LANG['brand_edit_lnk'], 'href' => 'brand.php?act=edit&id=' . $brand_id), array('text' => $_LANG['brand_list_lnk'], 'href' => 'brand.php?act=list'));
     sys_msg($_LANG['drop_brand_logo_success'], 0, $link);
-}
-
-/*------------------------------------------------------ */
-//-- 删除品牌图片
-/*------------------------------------------------------ */
-elseif ($_REQUEST['act'] == 'drop_img')
-{
-    /* 权限判断 */
-    admin_priv('brand_manage');
-    $brand_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-    /* 取得logo名称 */
-    $sql = "SELECT brand_img FROM " .$ecs->table('brand'). " WHERE brand_id = '$brand_id'";
-    $logo_name = $db->getOne($sql);
-
-    if (!empty($logo_name))
-    {
-    
-    // duli_brand_logo change_start
-    
-        @unlink(ROOT_PATH . '../' . DATA_DIR . '/brandimg/' .$logo_name);
-    
-    // duli_brand_logo change_end
-    
-        $sql = "UPDATE " .$ecs->table('brand'). " SET brand_img = '' WHERE brand_id = '$brand_id'";
-        $db->query($sql);
-    }
-    $link= array(array('text' => $_LANG['brand_edit_lnk'], 'href' => 'brand.php?act=edit&id=' . $brand_id), array('text' => $_LANG['brand_list_lnk'], 'href' => 'brand.php?act=list'));
-    sys_msg($_LANG['drop_brand_img_success'], 0, $link);
 }
 
 /*------------------------------------------------------ */
@@ -393,7 +493,8 @@ function get_brandlist()
         $filter = array();
 
         /* 记录总数以及页数 */
-        if (isset($_POST['brand_name']))
+//        if (isset($_POST['brand_name']))
+        if (isset($_POST['brand_name']) && !empty($_POST['brand_name']))
         {
             $sql = "SELECT COUNT(*) FROM ".$GLOBALS['ecs']->table('brand') .' WHERE brand_name = \''.$_POST['brand_name'].'\'';
         }
@@ -437,7 +538,7 @@ function get_brandlist()
     while ($rows = $GLOBALS['db']->fetchRow($res))
     {
         $brand_logo = empty($rows['brand_logo']) ? '' :
-            '<a href="../../' . DATA_DIR . '/brandlogo/'.$rows['brand_logo'].'" target="_brank"><img src="images/picflag.gif" width="16" height="16" border="0" alt='.$GLOBALS['_LANG']['brand_logo'].' /></a>';
+            '<a href="../' . DATA_DIR . '/brandlogo/'.$rows['brand_logo'].'" target="_brank"><img src="images/picflag.gif" width="16" height="16" border="0" alt='.$GLOBALS['_LANG']['brand_logo'].' /></a>';
         $site_url   = empty($rows['site_url']) ? 'N/A' : '<a href="'.$rows['site_url'].'" target="_brank">'.$rows['site_url'].'</a>';
 
         $rows['brand_logo'] = $brand_logo;

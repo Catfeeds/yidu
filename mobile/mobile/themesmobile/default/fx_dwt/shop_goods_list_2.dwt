@@ -1,0 +1,94 @@
+<!DOCTYPE html >
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+    <meta name="Keywords" content="商品管理" />
+    <meta name="Description" content="商品管理" />
+    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>商品管理</title>
+    <link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="themesmobile/default/css/shop_list.css">
+</head>
+<body style=" background:#e5e5e5">
+    <div class="header">
+        <div class="h-left">
+            <a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+        </div>
+        <div class="h-mid">商品管理</div>
+        <div class="h-right">
+            <aside class="top_bar">
+                <div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+                    <a href="javascript:;"></a>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/mobile.js" ></script>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+    <ul class="Navigation">
+        <li class="bian_r on">
+            <a href="shop.php?act=goods_list&goods_type=1">
+                <span>普通商品</span>
+            </a>
+        </li>
+        <li class="bian_r">
+            <a href="supplier.php?go=activity&suppId={$supplier_id}&keywords=">
+                <span>优惠活动</span>
+            </a>
+        </li>
+    </ul>
+
+    <div id="scrollimg" class="scrollimg"></div>
+
+    <div class="product_value">
+        <ul>
+            <li>
+                <a href="goods.php?id=298">
+                    <span>
+                        <img src="images/298_thumb_g_1511573767598.jpg" srcset="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" srcd="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" loaded="no">
+                    </span>
+                </a>
+                <a href="goods.php?id=298"><span class="p_info">测试1</span></a>
+                <span class="price">￥100</span>
+                <a class="stay" href="http://baidu.com" style="float: right;width: 3.5rem;height: 1.5rem;line-height: 1.5rem;font-size: .25rem;color: #fff;background: #a4a4a4;border-radius: .05rem;text-align: center;padding-bottom: 0;margin-top: -20px;">商品下架</a>
+            </li>
+            <li>
+                <a href="goods.php?id=298">
+                    <span>
+                        <img src="images/298_thumb_g_1511573767598.jpg" srcset="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" srcd="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" loaded="no">
+                    </span>
+                </a>
+                <a href="goods.php?id=298"><span class="p_info">测试1</span></a>
+                <span class="price">￥100</span>
+                <a class="stay" href="http://baidu.com" style="float: right;width: 3.5rem;height: 1.5rem;line-height: 1.5rem;font-size: .25rem;color: #fff;background: #a4a4a4;border-radius: .05rem;text-align: center;padding-bottom: 0;margin-top: -20px;">商品下架</a>
+            </li>
+            <li>
+                <a href="goods.php?id=298">
+                    <span>
+                        <img src="images/298_thumb_g_1511573767598.jpg" srcset="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" srcd="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" loaded="no">
+                    </span>
+                </a>
+                <a href="goods.php?id=298"><span class="p_info">测试1</span></a>
+                <span class="price">￥100</span>
+                <a class="stay" href="http://baidu.com" style="float: right;width: 3.5rem;height: 1.5rem;line-height: 1.5rem;font-size: .25rem;color: #fff;background: #a4a4a4;border-radius: .05rem;text-align: center;padding-bottom: 0;margin-top: -20px;">商品下架</a>
+            </li>
+            <li>
+                <a href="goods.php?id=298">
+                    <span>
+                        <img src="images/298_thumb_g_1511573767598.jpg" srcset="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" srcd="./../images/201711/thumb_img/298_thumb_G_1511573767598.jpg" loaded="no">
+                    </span>
+                </a>
+                <a href="goods.php?id=298"><span class="p_info">测试1</span></a>
+                <span class="price">￥100</span>
+                <a class="stay" href="http://baidu.com" style="float: right;width: 3.5rem;height: 1.5rem;line-height: 1.5rem;font-size: .25rem;color: #fff;background: #a4a4a4;border-radius: .05rem;text-align: center;padding-bottom: 0;margin-top: -20px;">商品下架</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

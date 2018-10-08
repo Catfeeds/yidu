@@ -17,18 +17,16 @@ if (defined('WEBSITE') || defined('GETINFO'))
 	$web[$i]['type'] = 'qq';
 	
 	$web[$i]['className'] = 'qq';
-	
 	// 作者信息
-	$web[$i]['author'] = '`hunuo\'';
-	
+	$web[$i]['author'] = '`68ecshop\'';
 	// 作者QQ
-	$web[$i]['qq'] = '';
+	$web[$i]['qq'] = '800007396';
 	
 	// 作者邮箱
-	$web[$i]['email'] = 'service@hunuo.com';
+	$web[$i]['email'] = '68ecshop@68ecshop.com';
 	
 	// 申请网址
-	$web[$i]['website'] = 'http://connect.qq.com';
+	$web[$i]['website'] = 'http://open.qq.com';
 	
 	// 版本号
 	$web[$i]['version'] = '2.0v';

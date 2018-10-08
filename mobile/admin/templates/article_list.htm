@@ -19,7 +19,9 @@
 <!-- start cat list -->
 <div class="list-div" id="listDiv">
 {/if}
-
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+  <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;">文章列表中出现空白文章名称并且文章分类为保留的文章，删除可能会影响微信商城菜单或自定义回复功能!</li>
+</ul>
 <table cellspacing='1' cellpadding='3' id='list-table'>
   <tr>
     <th><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
@@ -44,8 +46,8 @@
     <td align="center" nowrap="true"><span>
       <a href="../article.php?id={$list.article_id}" target="_blank" title="{$lang.view}"><img src="images/icon_view.gif" border="0" height="16" width="16" /></a>&nbsp;
       <a href="article.php?act=edit&id={$list.article_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" border="0" height="16" width="16" /></a>&nbsp;
-      <!--yyy修改start-->
-     <a href="javascript:;" onclick="listTable.remove({$list.article_id}, '{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16"></a><!--yyy修改end--></span>
+
+     <a href="javascript:;" onclick="listTable.remove({$list.article_id}, '{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16"></a></span>
     </td>
    </tr>
    {foreachelse}

@@ -1,0 +1,205 @@
+<!DOCTYPE html >
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>订单管理</title>
+<meta name="keywords" content="订单管理" />
+<meta name="description" content="订单管理" />
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/public.css"/>
+<link rel="stylesheet" type="text/css" href="themesmobile/default/css/user.css"/>
+<script type="text/javascript" src="themesmobile/default/js/jquery.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,utils.js','shopping_flow.js'}
+<style>
+    .order_listtop li{
+        width: 33.3%;
+    }
+</style>
+</head>
+<body class="body_bj">
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+                <div class="h-mid">订单管理</div>
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- #BeginLibraryItem "/library/up_menu.lbi" --><!-- #EndLibraryItem --> <!--弹出菜单-->
+    <div class="order">
+    <!--详情顶部-->
+    <div class="order_up">
+        <div class="lan">
+            <dl>
+                <dd>
+                    {if $order.order_status eq '已取消'}
+                    <span style=" line-height:50px;">订单已取消</span>
+                    {else}
+                    <span>{$order.pay_status}&nbsp;&nbsp;&nbsp;&nbsp;{$order.shipping_status}</span>
+                    <span style=" font-size:14px">{$lang.shipping_fee}{$lang.colon}&nbsp;:{$order.formated_shipping_fee}</span>
+                    {/if}
+                </dd>
+            </dl>
+        </div>
+        <!--支付方式-->
+        <div class="order_zhifu">
+            <dl>
+                {if $order.order_status eq '已取消'}
+                <dd>
+                    <span style=" margin-top:15px">订单状态：已取消</span>
+                    <span>订单已取消</span>
+                </dd>
+                {else}
+                <dd>
+                    {if $order.pay_time || $order.topay}
+                        <span>{$lang.select_payment}&nbsp;:&nbsp;{$lang.colon}{$order.pay_name}</span>
+                        <span>{$lang.order_amount}&nbsp;:&nbsp;{$lang.colon}{$order.formated_order_amount}</span>
+                        <span>{$order.pay_time}</span>
+                    {else}
+                        <span>{$lang.select_payment}&nbsp;:&nbsp;{$lang.colon}{$order.pay_name}</span>
+                        <span>{$lang.order_amount}&nbsp;:&nbsp;{$lang.colon}{$order.formated_order_amount}</span>
+                    {/if}
+                </dd>
+            </dl>
+                {/if}
+            </dl>
+        </div>
+        <!--收货人信息-->
+        <div class="information">
+            <dl>
+                <dd>
+                    <span>{$lang.consignee_name}&nbsp;:{$lang.colon}&nbsp;{$order.consignee}<em>{$order.mobile}</em></span>
+                    {if $order.exist_real_goods}
+                    <p>
+                    {$lang.detailed_address}{$lang.colon}&nbsp;:&nbsp;{$order.address}
+                    {if $order.zipcode}[{$lang.postalcode}{$lang.colon}{$order.zipcode}]{/if}
+                    </p>
+                    {/if}
+                </dd>
+            </dl>
+        </div>
+        <!--物流信息-->
+        {if $kuaidi_list}
+        {foreach from=$kuaidi_list item=kuaidi}
+        <div class="Logistics">
+            <dl>
+                <dd>
+                    <span>{$kuaidi.shipping_name}</span>
+                    {if $kuaidi.data.context}<p>{$kuaidi.data.context}</p>{/if}
+                    {if $kuaidi.data.ftime}<i>{$kuaidi.data.ftime}</i>{else}<i>{$kuaidi.data.time}</i>{/if}
+                </dd>
+            </dl>
+        </div>
+        {/foreach}
+        {else}
+        <div class="Logistics">
+            <dl>
+                <dd style=" line-height:30px; color:#359A2B; font-size:16px;">还没有物流信息</dd>
+            </dl>
+        </div>
+        {/if}
+    </div>
+    <!---订单-->
+    <div class="ord_list1">
+        <h2><span>{$order.referer}</span></h2>
+        {foreach from=$goods_list item=goods name=goods_list}
+        <div class="good_list">
+            <a {if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'}href="goods.php?id={$goods.goods_id}"{/if}>
+                <dl>
+                    <dt><img src="{if $goods.goods_id gt 0 && $goods.extension_code neq 'package_buy'}{$goods.goods_thumb}{else}./themesmobile/default/images/flow/libao.png{/if}"></dt>
+                    <dd class="good_name">
+                        <strong>{$goods.goods_name}</strong>
+                        {if $goods.goods_attr} <span>{$goods.goods_attr}</span>{/if}
+                        {if $goods.is_shipping} <span>{$lang.carriage_free}</span>{/if}
+                        {if $goods.parent_id gt 0} <span>{$lang.accessories}</span>{/if}
+                        {if $goods.is_gift gt 0} <span>{$lang.largess}</span>{/if}
+                    </dd>
+                    <dd class="good_pice"><strong>{$goods.goods_price}</strong><em>x{$goods.goods_number}</em></dd>
+                </dl>
+            </a>
+            <div class="pic"><span>小计：</span><strong>{$goods.subtotal}</strong></div>
+        </div>
+        {/foreach}
+
+        <!--价格信息-->
+        <div class="jiage">
+            <ul>
+                <li>
+                    {$lang.goods_all_price}
+                    {if $order.extension_code eq "group_buy"}{$lang.gb_deposit}{/if}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_goods_amount}</span>
+                    {if $order.discount gt 0}<br>
+                    - {$lang.discount}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_discount}</span>
+                    {/if}
+                    {if $order.tax gt 0}<br>
+                    + {$lang.tax}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_tax}</span>
+                    {/if}
+                    {if $order.shipping_fee > 0}<br>
+                    + {$lang.shipping_fee}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_shipping_fee}</span>
+                    {/if}
+                    {if $order.insure_fee > 0}<br>
+                    + {$lang.insure_fee}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_insure_fee}</span>
+                    {/if}
+                    {if $order.pay_fee > 0}<br>
+                    + {$lang.pay_fee}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_pay_fee}</span>
+                    {/if}
+                    {if $order.pack_fee > 0}<br>
+                    + {$lang.pack_fee}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_pack_fee}</span>
+                    {/if}
+                    {if $order.card_fee > 0}<br>
+                    + {$lang.card_fee}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_card_fee}</span>
+                    {/if}
+                    {if $order.money_paid > 0}<br> - {$lang.order_money_paid}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_money_paid}</span>{/if}
+                    {if $order.surplus > 0}<br> - {$lang.use_surplus}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_surplus}</span>{/if}
+                    {if $order.integral_money > 0}<br> - {$lang.use_integral}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_integral_money}</span>{/if}
+                    {if $order.bonus > 0}<br> - {$lang.use_bonus}{$lang.colon}&nbsp;:&nbsp;<span>{$order.formated_bonus}</span>{/if}
+                </li>
+                <li>{$lang.order_amount}{$lang.colon}&nbsp;:&nbsp;<span style=" color:#EE0A3B; font-weight:bold">{$order.formated_order_amount}</span>{if $order.extension_code eq "group_buy"}{$lang.notice_gb_order_amount}{/if}</li>
+            </ul>
+        </div>
+    </div>
+    <!--其他信息-->
+    <div class="navContent">
+        <ul>
+            <li>{$lang.detail_order_sn}&nbsp;:&nbsp;{$lang.colon}{$order.order_sn}</li>
+            {if $order.shipping_id > 0}<li>{$lang.shipping}{$lang.colon}&nbsp;:&nbsp;{$order.shipping_name}</li>{/if}
+            {if $order.pay_name}<li>{$lang.payment}{$lang.colon}&nbsp;:&nbsp;{$order.pay_name}</li>{/if}
+            {if $order.pack_name}<li>{$lang.use_pack}{$lang.colon}&nbsp;:&nbsp;{$order.pack_name}</li>{/if}
+            {if $order.card_name}<li>{$lang.use_card}{$lang.colon}&nbsp;:&nbsp;{$order.card_name}</li>{/if}
+            {if $order.card_message}<li>{$lang.bless_note}{$lang.colon}&nbsp;:&nbsp;{$order.card_message}</li>{/if}
+            {if $order.integral > 0}<li>{$lang.use_integral}{$lang.colon}&nbsp;:&nbsp;{$order.integral}</li>{/if}
+            {if $order.inv_payee && $order.inv_content}
+                <li>{$lang.invoice_title}{$lang.colon}&nbsp;:&nbsp;{$order.inv_payee}</li>
+                <li>{$lang.invoice_content}{$lang.colon}&nbsp;:&nbsp;{$order.inv_content}</li>
+            {/if}
+            {if $order.postscript}<li>{$lang.order_postscript}{$lang.colon}&nbsp;:&nbsp;{$order.postscript}</li>{/if}
+            {if $order.how_oos_name}<li>{$lang.booking_process}{$lang.colon}&nbsp;:&nbsp;{$order.how_oos_name}</li>{/if}
+        </ul>
+    </div>
+    <!--底部按钮-->
+    {if $handler.handler}
+    <div style=" height:60px;"></div>
+    <div class="detail_dowm">
+        <ul>
+            <li>{$handler.handler}</li>
+        </ul>
+    </div>
+    {/if}
+    <!--end-->
+</div>
+<!---返回顶部-->
+<script>
+function goTop(){
+    $('html,body').animate({'scrollTop':0},600);
+}
+</script>
+<!-- <a href="javascript:goTop();" class="gotop"><img src="themesmobile/default/images/topup.png"></a> -->
+</body>
+</html>

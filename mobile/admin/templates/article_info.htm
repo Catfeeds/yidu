@@ -1,6 +1,6 @@
 <!-- $Id: article_info.htm 16780 2009-11-09 09:28:30Z sxc_shop $ -->
-{include file="pageheader.htm"}
-{insert_scripts files="../js/utils.js,selectzone.js,validator.js"}
+{include file="pageheader_bd.htm"}
+{insert_scripts files="../js/utils.js,selectzone_bd.js,validator.js"}
 <!-- start goods form -->
 <div class="tab-div">
   <div id="tabbar-div">
@@ -67,7 +67,7 @@
       </tr>
       <tr>
         <td class="narrow-label">{$lang.external_links}</td>
-        <td><input name="link_url" type="text" id="link_url" value="{if $article.link neq ''}{$article.link|escape}{else}http://{/if}" maxlength="120" /></td>
+        <td><input name="link_url" type="text" id="link_url" value="{if $article.link neq ''}{$article.link|escape}{else}http://{/if}" maxlength="60" /></td>
       </tr>
       <tr>
         <td class="narrow-label">{$lang.upload_file}</td>
@@ -152,9 +152,9 @@ function validate()
   var validator = new Validator('theForm');
   validator.required('title', no_title);
 {/literal}
-{if $article.cat_id >= 0}
-  validator.isNullOption('article_cat',no_cat);
-{/if}
+// {if $article.cat_id >= 0}
+//   validator.isNullOption('article_cat',no_cat);
+// {/if}
 {literal}
 
   return validator.passed();

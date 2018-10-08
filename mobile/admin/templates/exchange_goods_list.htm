@@ -1,0 +1,103 @@
+<!-- $Id: exchange_goods_list.htm 15544 2009-01-09 01:54:28Z zblikai $ -->
+{if $full_page}
+{include file="pageheader.htm"}
+{insert_scripts files="../js/utils.js,listtable.js"}
+<div class="form-div">
+  <form action="javascript:searchArticle()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    {$lang.title} <input type="text" name="keyword" id="keyword" />
+    <input type="submit" value="{$lang.button_search}" class="button" />
+    
+  </form>
+
+  <form method="post" action="exchange_goods.php" name="searchForm2">
+    当日收盘指数 <input type="text" name="closing_index" id="closing_index" />(提交后将开奖当天2:30分前满人单位抽奖订单)
+    <input type="hidden" name="act" value="lottery">
+    <input type="submit" name="colsing" value="提交" class="button" />
+  </form>
+</div>
+
+<form method="POST" action="exchange_goods.php?act=batch_remove" name="listForm">
+  <!-- start cat list -->
+  <div class="list-div" id="listDiv">
+    {/if}
+
+    <table cellspacing='1' cellpadding='3' id='list-table'>
+      <tr>
+        <th><input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
+          <a href="javascript:listTable.sort('goods_id'); ">{$lang.goods_id}</a>{$sort_goods_id}</th>
+        <th><a href="javascript:listTable.sort('goods_name'); ">{$lang.goods_name}</a>{$sort_goods_name}</th>
+        <th>抽奖价格</th>
+        <th><a href="javascript:listTable.sort('is_exchange'); ">是否可抽奖</a>{$sort_is_exchange}</th>
+        <th><a href="javascript:listTable.sort('is_hot'); ">{$lang.is_hot}</a>{$sort_is_hot}</th>
+        <th>是否推荐</th>
+        <!-- <th>参与人数</th> -->
+        <!-- <th>得奖幸运数</th> -->
+        <!-- <th>收盘指数</th> -->
+        <th>{$lang.handler}</th>
+      </tr>
+      {foreach from=$goods_list item=list}
+      <tr>
+        <td><span><input name="checkboxes[]" type="checkbox" value="{$list.goods_id}"/>{$list.goods_id}</span></td>
+        <td class="first-cell"><span>{$list.goods_name|escape:html}</span></td>
+        <td align="center"><span>{$list.exchange_integral}</span></td>
+        <td align="center"><img src="images/{if $list.is_exchange eq 1}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_exchange', {$list.goods_id})" /></td>
+        <td align="center"><img src="images/{if $list.is_hot eq 1}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_hot', {$list.goods_id})" /></td>
+        <td align="center"><img src="images/{if $list.is_best eq 1}yes{else}no{/if}.gif" onclick="listTable.toggle(this, 'toggle_best', {$list.goods_id})" /></td>
+        <!-- <td align="center"><span>{$list.exchange_number}/28</span></td> -->
+        <!-- <td align="center">{if $list.exchange_lucky}<span style="color: red">{$list.exchange_lucky}</span>{else}<span>未开奖</span>{/if}</td> -->
+        <!-- <td align="center">
+          {if $list.closing_index}
+          <span style="color: red">{$list.closing_index}</span>
+          {else}
+          {if $list.exchange_number eq 28 && $no eq ''}
+          <span style="color: #24a0d6">可开盘</span>
+          {else}
+          <span>未开盘</span>
+          {/if}
+          {/if}
+        </td> -->
+        <td align="center" nowrap="true"><span>
+      <!-- <a href="../exchange.php?id={$list.goods_id}&act=view" target="_blank" title="{$lang.view}"><img src="images/icon_view.gif" border="0" height="16" width="16" /></a>&nbsp; -->
+      <a href="exchange_goods.php?act=edit&id={$list.goods_id}" title="{$lang.edit}"><img src="images/icon_edit.gif" border="0" height="16" width="16" /></a>&nbsp;
+      <a href="javascript:;" onclick="listTable.remove({$list.goods_id}, '{$lang.drop_confirm}')" title="{$lang.remove}"><img src="images/icon_drop.gif" border="0" height="16" width="16"></a></span>
+        </td>
+      </tr>
+      {foreachelse}
+      <tr><td class="no-records" colspan="12">{$lang.no_records}</td></tr>
+      {/foreach}
+      <tr>
+        <td colspan="2"><input type="submit" class="button" id="btnSubmit" value="{$lang.button_remove}" disabled="true" /></td>
+        <td align="right" nowrap="true" colspan="8">{include file="page.htm"}</td>
+      </tr>
+    </table>
+
+    {if $full_page}
+  </div>
+  <!-- end cat list -->
+  <script type="text/javascript" language="JavaScript">
+    listTable.recordCount = {$record_count};
+    listTable.pageCount = {$page_count};
+
+    {foreach from=$filter item=item key=key}
+    listTable.filter.{$key} = '{$item}';
+    {/foreach}
+    {literal}
+
+    onload = function()
+    {
+      // 开始检查订单
+      startCheckOrder();
+    }
+
+    /* 搜索文章 */
+    function searchArticle()
+    {
+      listTable.filter.keyword = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+      listTable.filter.page = 1;
+      listTable.loadList();
+    }
+    {/literal}
+  </script>
+  {include file="pagefooter.htm"}
+  {/if}

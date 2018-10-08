@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no, email=no" />
+  <link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+  <link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+  <script src="themesmobile/default/js/jquery.js"></script>
+  <script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+  <title>抽奖列表</title>
+</head>
+<style type="text/css">
+    .more_loader_spinner{
+      text-align: center;
+    }
+    .more_loader_spinner img{
+      width: 25px
+    }
+    #J_ItemList ul {
+    width: 50%;
+    float: left;
+    
+   
+}
+</style>
+<body data-psd-width="840" style="background: #fff;"> 
+<div class="header">
+  <a class="back" href="index.php"></a>
+  <h2>抽奖列表</h2>
+  <div class="list"></div>
+  <!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+
+<div class="content">
+
+<script type="text/javascript">
+var url = 'exchange.php?act=ajax_list';
+$(function(){
+  $('#J_ItemList').more({
+        'address': url,
+        'data':{'sort':'{$sort}','order':'{$order}'},
+});
+});
+</script> 
+
+  <div id="J_ItemList" class="jiang_box pa3">
+    <ul class="single_item info jiang clearfix">
+
+    </ul>
+    <a href="javascript:;" class="get_more" style="text-align:center; display:block;"> </a> 
+  </div>
+</div>
+
+
+
+
+
+</body>
+</html>
+
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+  //单独页面上的js
+  $('.danx label').click(function(){
+    $(this).toggleClass('on')
+  })
+  $('.us2_t span').click(function(){
+    var num=$(this).index();
+    $(this).siblings().removeClass('on');
+    $(this).addClass('on');
+    $('.us_b ul').removeClass('on');
+    $('.us_b ul').eq(num).addClass('on');
+  })
+  $('.cj a').click(function(){
+    $('.zz3').fadeIn();
+  })
+  $('.zz3 .close3').click(function(){
+    $('.zz3').fadeOut();
+  })
+</script>

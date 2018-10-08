@@ -8,9 +8,9 @@
 
  * ============================================================================
 
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
+ * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
 
- * 网站地址: http://www.hunuo.com;
+ * 网站地址: http://www.ecshop.com；
 
  * ----------------------------------------------------------------------------
 
@@ -20,9 +20,9 @@
 
  * ============================================================================
 
- * $Author: derek $
+ * $Author: liubo $
 
- * $Id: lib_order.php 17217 2011-01-19 06:29:08Z derek $
+ * $Id: lib_order.php 17217 2011-01-19 06:29:08Z liubo $
 
  */
 
@@ -162,8 +162,6 @@ function available_shipping_list($region_id_list,$suppid=0,$is_default_show=1,$s
 
 	$where = ' AND s.supplier_id='.$suppid.' and r.region_id ' . db_create_in($region_id_list);
 
-
-
 	if($is_default_show == 0 || $is_default_show == 1){
 
 		$where .= ' and s.is_default_show=' . $is_default_show;
@@ -219,6 +217,10 @@ function available_shipping_list($region_id_list,$suppid=0,$is_default_show=1,$s
     return $GLOBALS['db']->getAll($sql);
 
 }
+
+
+
+
 
 /**
 
@@ -334,7 +336,7 @@ function shipping_fee($shipping_code, $shipping_config, $goods_weight, $goods_am
 
 
 
-    $filename = ROOT_PATH . '../includes/modules/shipping/' . $shipping_code . '.php';
+    $filename = ROOT_PATH . 'includes/modules/shipping/' . $shipping_code . '.php';
 
     if (file_exists($filename))
 
@@ -400,7 +402,7 @@ function shipping_insure_fee($shipping_code, $goods_amount, $insure)
 
     {
 
-        $path = ROOT_PATH . '../includes/modules/shipping/' . $shipping_code . '.php';
+        $path = ROOT_PATH . 'includes/modules/shipping/' . $shipping_code . '.php';
 
 
 
@@ -574,7 +576,7 @@ function pay_fee($payment_id, $order_amount, $cod_fee=null)
 
  */
 
-function available_payment_list($support_cod, $cod_fee = 0, $is_online = false)
+function available_payment_list($support_cod, $cod_fee = 0, $is_online = false, $is_virtual = 0)
 
 {
 
@@ -582,11 +584,9 @@ function available_payment_list($support_cod, $cod_fee = 0, $is_online = false)
 
             ' FROM ' . $GLOBALS['ecs']->table('payment') .
 
-            " WHERE enabled = 1  ";
+            ' WHERE enabled = 1 ';
 
-
-
-    if (!$support_cod)
+    if (!$support_cod || $is_virtual)
 
     {
 
@@ -624,9 +624,9 @@ function available_payment_list($support_cod, $cod_fee = 0, $is_online = false)
 
 
 
-        $row['format_pay_fee'] = strpos($row['pay_fee'], '%') !== false ? $row['pay_fee'] : floatval($row['pay_fee'])>0?
+        $row['format_pay_fee'] = strpos($row['pay_fee'], '%') !== false ? $row['pay_fee'] :
 
-        price_format($row['pay_fee'], false):'';
+        price_format($row['pay_fee'], false);
 
         $modules[] = $row;
 
@@ -634,7 +634,7 @@ function available_payment_list($support_cod, $cod_fee = 0, $is_online = false)
 
 
 
-    include_once(ROOT_PATH.'includes/lib_compositor.php');
+    //include_once(ROOT_PATH.'includes/lib_compositor.php');
 
 
 
@@ -872,9 +872,9 @@ function order_info($order_id, $order_sn = '')
 
     {
 
-        $sql = "SELECT *, " . $total_fee . " FROM " . $GLOBALS['ecs']->table('order_info') .
+       $sql = "SELECT o.*, p.shop_name, p.address as zt_address, p.phone, p.contact, " . $total_fee . " FROM " . $GLOBALS['ecs']->table('order_info') .
 
-                " WHERE order_id = '$order_id'";
+               " as o left join " . $GLOBALS['ecs']->table('pickup_point') . " as p on o.pickup_point = p.id WHERE o.order_id = '$order_id'";
 
     }
 
@@ -882,9 +882,9 @@ function order_info($order_id, $order_sn = '')
 
     {
 
-        $sql = "SELECT *, " . $total_fee . "  FROM " . $GLOBALS['ecs']->table('order_info') .
+	   $sql = "SELECT o.*, p.shop_name, p.address as zt_address, p.phone, p.contact, " . $total_fee . " FROM " . $GLOBALS['ecs']->table('order_info') .
 
-                " WHERE order_sn = '$order_sn'";
+               " as o left join " . $GLOBALS['ecs']->table('pickup_point')." as p on o.pickup_point = p.id WHERE o.order_sn = '$order_sn'";
 
     }
 
@@ -926,9 +926,67 @@ function order_info($order_id, $order_sn = '')
 
         $order['formated_order_amount']   = price_format(abs($order['order_amount']), false);
 
-	    $order['formated_order_amount_wap']   = $order['order_amount'];
-
         $order['formated_add_time']       = local_date($GLOBALS['_CFG']['time_format'], $order['add_time']);
+
+
+
+		$sql_invoices = "SELECT invoice_no,shipping_name FROM ".$GLOBALS['ecs']->table('delivery_order')." WHERE order_id = ".$order['order_id']." AND status = 0";
+
+		$order['invoices'] = $GLOBALS['db']->getAll($sql_invoices);
+
+
+
+        $sql = "select region_id, region_name from " . $GLOBALS['ecs']->table('region') . " where region_id in (" . $order['country'] . "," . $order['province'] . "," . $order['city'] . "," . $order['district'] . ")";
+
+
+
+        $rows = $GLOBALS['db']->getAll($sql);
+
+
+
+        foreach($rows as $row)
+
+        {
+
+        	$region_id = $row['region_id'];
+
+        	$region_name = $row['region_name'];
+
+
+
+        	if($region_id == $order['country'])
+
+        	{
+
+        		$order['country_name'] = $region_name;
+
+        	}
+
+        	else if($region_id == $order['province'])
+
+        	{
+
+        		$order['province_name'] = $region_name;
+
+        	}
+
+        	else if($region_id == $order['city'])
+
+        	{
+
+        		$order['city_name'] = $region_name;
+
+        	}
+
+        	else if($region_id == $order['district'])
+
+        	{
+
+        		$order['district_name'] = $region_name;
+
+        	}
+
+        }
 
     }
 
@@ -978,15 +1036,21 @@ function order_goods($order_id)
 
 {
 
-    $sql = "SELECT rec_id, goods_id, goods_name, goods_sn, market_price, goods_number, " .
+	//$sql = "SELECT rec_id, og.goods_id, og.product_id, og.goods_name, g.goods_thumb, og.goods_sn, og.market_price, og.goods_number, " .
 
-            "goods_price, goods_attr, is_real, parent_id, is_gift, " .
+	//手机专享价格  app  jx
 
-            "goods_price * goods_number AS subtotal, extension_code, package_attr_id   " .
+	$sql = "SELECT rec_id, og.goods_id, og.product_id,og.goods_name, g.goods_thumb, og.goods_sn, og.market_price,og.exclusive, og.goods_number, " .
 
-            "FROM " . $GLOBALS['ecs']->table('order_goods') .
+            "og.goods_price, og.goods_attr, og.is_real, og.parent_id, og.is_gift, " .
 
-            " WHERE order_id = '$order_id'";
+            "og.goods_price * og.goods_number AS subtotal, og.extension_code, og.order_id, package_attr_id  " .
+
+            "FROM " . $GLOBALS['ecs']->table('order_goods') . "as og right join" . $GLOBALS['ecs']->table('goods') .
+
+			"as g on og.goods_id = g.goods_id" .
+
+            " WHERE order_id = '$order_id'";// 修改 by www.ecshop68.com 增加 package_attr_id 字段
 
 
 
@@ -1002,13 +1066,31 @@ function order_goods($order_id)
 
         {
 
-            $row['package_goods_list'] = get_package_goods($row['goods_id'], $row['package_attr_id']);
+            $row['package_goods_list'] = get_package_goods($row['goods_id'], $row['package_attr_id']); // 修改 by www.ecshop68.com
 
         }
 
-       // $row['goods_thumb'] = $GLOBALS['db']->getOne("select goods_thumb from ". $GLOBALS['ecs']->table('goods') ." where goods_id = ".$row['goods_id']);
+		//手机专享价格  app
 
-        $row['goods_thumb'] = get_pc_url().'/'.get_image_path($row['goods_id'], $GLOBALS['db']->getOne("select goods_thumb from ". $GLOBALS['ecs']->table('goods') ." where goods_id = ".$row['goods_id']));
+		if($row['exclusive'] != '-1')
+
+		{
+
+			if($row['exclusive'] > $row['goods_price'])
+
+			{
+
+				$row['subtotal'] = price_format($row['goods_price'] * $row['goods_number']);
+
+			}else
+
+			{
+
+				$row['subtotal'] =  price_format($row['exclusive'] * $row['goods_number']);
+
+			}
+
+		}
 
         $goods_list[] = $row;
 
@@ -1040,11 +1122,15 @@ function order_amount($order_id, $include_gift = true)
 
 {
 
-    $sql = "SELECT SUM(goods_price * goods_number) " .
+	//手机专享价格  app
+
+   /* $sql = "SELECT SUM(goods_price * goods_number) " .
 
             "FROM " . $GLOBALS['ecs']->table('order_goods') .
 
-            " WHERE order_id = '$order_id'";
+            " WHERE order_id = '$order_id'";*/
+
+	$sql = "SELECT goods_price,goods_number,exclusive FROM ". $GLOBALS['ecs']->table('order_goods') ." WHERE order_id = '$order_id'";
 
     if (!$include_gift)
 
@@ -1054,9 +1140,47 @@ function order_amount($order_id, $include_gift = true)
 
     }
 
+	$order_info = $GLOBALS['db']->query($sql);
 
+	while ($row = $GLOBALS['db']->fetchRow($order_info))
 
-    return floatval($GLOBALS['db']->getOne($sql));
+	{
+
+		if($row['exclusive'] != '-1')
+
+		{
+
+			if($row['exclusive'] > $row['goods_price'])
+
+			{
+
+				$order_amount = $row['goods_price'] * $row['goods_number'];
+
+			}else
+
+			{
+
+				$order_amount = $row['exclusive'] * $row['goods_number'];
+
+			}
+
+		}else
+
+		{
+
+			$order_amount = $row['goods_price'] * $row['goods_number'];
+
+		}
+
+		$amount['amount'] += $order_amount;
+
+	}
+
+	$o_amount = $amount['amount'];
+
+   return $o_amount;
+
+   //手机专享价格  app
 
 }
 
@@ -1490,6 +1614,8 @@ function order_fee($order, $goods, $consignee)
 
 
 
+	/* 代码增加_start  By  www.68ecshop.com */
+
 	if (count($order['shipping_pay']) > 0 && $total['real_goods_count'] > 0){
 
 
@@ -1502,9 +1628,25 @@ function order_fee($order, $goods, $consignee)
 
 		{
 
-			$sql_supp = "select g.supplier_id, IF(g.supplier_id='0', '本网站', s.supplier_name) AS supplier_name2 from ".$GLOBALS['ecs']->table('goods').
+			if ($val['extension_code'] == 'package_buy')
 
-								  " AS g left join ".$GLOBALS['ecs']->table('supplier')." AS s on g.supplier_id=s.supplier_id where g.goods_id='". $val['goods_id'] ."' ";
+			{
+
+				$sql_supp = "select g.supplier_id, IF(g.supplier_id='0', '本网站', s.supplier_name) AS supplier_name2 from ".$GLOBALS['ecs']->table('goods_activity').
+
+				" AS g left join ".$GLOBALS['ecs']->table('supplier')." AS s on g.supplier_id=s.supplier_id where g.act_id='". $val['goods_id'] ."' ";
+
+			}
+
+			else
+
+			{
+
+				$sql_supp = "select g.supplier_id, IF(g.supplier_id='0', '本网站', s.supplier_name) AS supplier_name2 from ".$GLOBALS['ecs']->table('goods').
+
+				" AS g left join ".$GLOBALS['ecs']->table('supplier')." AS s on g.supplier_id=s.supplier_id where g.goods_id='". $val['goods_id'] ."' ";
+
+			}
 
 			$row_supp = $GLOBALS['db']->getRow($sql_supp);
 
@@ -1560,13 +1702,35 @@ function order_fee($order, $goods, $consignee)
 
 		   $sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " : "c.session_id = '" . SESS_ID . "' AND c.user_id=0 ";
 
-		   if($_SESSION['sel_cartgoods']){
+		   //zhouhui
 
-            $sql_plus = " AND c.rec_id in (".$_SESSION['sel_cartgoods'].") ";
+           if($_SESSION['sel_cartgoods'])
+
+           {
+
+                $sql_plus = " AND c.rec_id in (".$_SESSION['sel_cartgoods'].")";
 
            }
 
-           $sql = 'SELECT count(*) FROM ' . $GLOBALS['ecs']->table('cart') . " AS c left join ". $GLOBALS['ecs']->table('goods') ." AS g on c.goods_id=g.goods_id WHERE g.supplier_id = '". $row_supp['supplier_id'] ."' AND $sql_where AND c.extension_code != 'package_buy' AND c.is_shipping = 0 ".$sql_plus;  //jx
+
+
+           if ($val['extension_code'] == 'package_buy')
+
+		   {
+
+			   $sql = 'SELECT count(*) FROM ' . $GLOBALS['ecs']->table('cart') . " AS c left join ". $GLOBALS['ecs']->table('goods_activity') ." AS g on c.goods_id=g.act_id WHERE g.supplier_id = '". $row_supp['supplier_id'] ."' AND $sql_where AND c.extension_code != 'package_buy' AND c.is_shipping = 0 ".$sql_plus;  //jx
+
+		   }
+
+		   else
+
+		   {
+
+			   $sql = 'SELECT count(*) FROM ' . $GLOBALS['ecs']->table('cart') . " AS c left join ". $GLOBALS['ecs']->table('goods') ." AS g on c.goods_id=g.goods_id WHERE g.supplier_id = '". $row_supp['supplier_id'] ."' AND $sql_where AND c.extension_code != 'package_buy' AND c.is_shipping = 0 ".$sql_plus;  //jx
+
+		   }
+
+
 
 		   $shipping_count_supp = $GLOBALS['db']->getOne($sql);
 
@@ -1599,6 +1763,8 @@ function order_fee($order, $goods, $consignee)
 	}
 
 
+
+	/* 代码增加_end  By  www.68ecshop.com */
 
 
 
@@ -1786,7 +1952,7 @@ function order_fee($order, $goods, $consignee)
 
 
 
-    $total['amount']           += $total['pay_fee']; // 订单总额累加上支付费用
+	//$total['amount']           += $total['pay_fee']; // 订单总额累加上支付费用
 
     $total['amount_formated']  = price_format($total['amount'], false);
 
@@ -1861,8 +2027,6 @@ function order_fee($order, $goods, $consignee)
         $total['exchange_integral'] = $exchange_integral;
 
     }
-
-
 
     return $total;
 
@@ -2500,25 +2664,7 @@ function get_order_sn()
 
 }
 
-/**
 
- * 得到新唯一订单号
-
- * @return  string
-
- */
-
-function get_order_sn2(){
-    /* 选择一个随机的方案 */
-    mt_srand((double) microtime() * 1000000);
-    $order_sn = date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
-    $on = $GLOBALS['db']->getOne("SELECT order_sn FROM ".$GLOBALS['ecs']->table('order_info')." WHERE order_sn='".$order_sn."'");
-    if($on){
-        $order_sn = get_order_sn2();
-    }
-    return $order_sn;
-
-}
 
 /**
 
@@ -2534,6 +2680,10 @@ function cart_goods($type = CART_GENERAL_GOODS)
 
 {
 
+	/* 代码增加_start  By  www.68ecshop.com */
+
+
+
 	$id_ext = "";
 
 	if ($_SESSION['sel_cartgoods'])
@@ -2543,6 +2693,8 @@ function cart_goods($type = CART_GENERAL_GOODS)
 		$id_ext = " AND c.rec_id in (". $_SESSION['sel_cartgoods'] .") ";
 
 	}
+
+/* 代码增加_end  By www.68ecshop.com */
 
 $sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " : "c.session_id = '" . SESS_ID . "' AND c.user_id=0 ";
 
@@ -2570,7 +2722,7 @@ $sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " 
 
 			" WHERE $sql_where " .
 
-            " AND c.rec_type = '$type' $id_ext ";
+            " AND c.rec_type = '$type' $id_ext ";  //代码修改 By  www.68ecshop.com  增加一个 $id_ext , package_attr_id
 
 
 
@@ -2592,23 +2744,31 @@ $sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " 
 
 
 
-	$arr[$key]['goods_thumb']  = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`='{$value['goods_id']}'");
+		/* 代码增加_start  By  www.68ecshop.com */
 
-        $arr[$key]['goods_thumb'] = get_pc_url().'/'.get_image_path($value['goods_id'], $arr[$key]['goods_thumb'], true);
+		$arr[$key]['goods_thumb']  = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`='{$value['goods_id']}'");
+
+        $arr[$key]['goods_thumb'] = get_image_path($value['goods_id'], $arr[$key]['goods_thumb'], true);
+
+		/* 代码增加_end   By  www.68ecshop.com */
+
+
 
         if ($value['extension_code'] == 'package_buy')
 
         {
 
-            $arr[$key]['package_goods_list'] = get_package_goods($value['goods_id'], $value['package_attr_id']);
+            $arr[$key]['package_goods_list'] = get_package_goods($value['goods_id'], $value['package_attr_id']); //修改 by www.ecshop68.com
 
         }
 
     }
 
-
-
     return $arr;
+
+
+
+
 
 }
 
@@ -2940,9 +3100,9 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
                 "g.market_price, g.cost_price, g.shop_price AS org_price, g.promote_price, g.promote_start_date, ".
 
-                "g.promote_end_date, g.goods_weight, g.integral, g.extension_code, g.is_best, ".
+                "g.promote_end_date, g.goods_weight, g.integral, g.extension_code, ".
 
-                "g.goods_number, g.is_alone_sale, g.is_shipping,".
+                "g.goods_number, g.is_alone_sale,g.exclusive, g.is_shipping,".
 
                 "IFNULL(mp.user_price, g.shop_price * '$_SESSION[discount]') AS shop_price ".
 
@@ -3142,17 +3302,13 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
         'goods_name'    => addslashes($goods['goods_name']),
 
-    	'cost_price'    => $goods['cost_price'],
-
-    	'promote_price' => $goods['promote_price'],
-
         'market_price'  => $goods['market_price'],
-
-		'split_money'	=> get_split_money_by_id($goods_id,$num,$spec), /*微分销新增$num.$spec*/
 
         'goods_attr'    => addslashes($goods_attr),
 
         'goods_attr_id' => $goods_attr_id,
+
+	'cost_price'	=> $goods['cost_price'],//代码增加--cb--推荐分成
 
         'is_real'       => $goods['is_real'],
 
@@ -3160,17 +3316,19 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
         'is_gift'       => 0,
 
+		'exclusive'     => $goods['exclusive'],//手机专享价格  app  jx
+
         'is_shipping'   => $goods['is_shipping'],
 
-	    'add_time'   => gmtime(),
+	'add_time'   => gmtime(),   //代码增加   By  www.68ecshop.com
 
-        'rec_type'      => CART_GENERAL_GOODS,
-
-        'is_recommend'      => $goods['is_best']    //是否推荐区商品   下单后修改为非推荐区商品不影响奖励
+        'rec_type'      => CART_GENERAL_GOODS
 
     );
 
+    //初始化为普通商品
 
+       $_SESSION['flow_type'] = CART_GENERAL_GOODS;
 
     /* 如果该配件在添加为基本件的配件时，所设置的“配件价格”比原价低，即此配件在价格上提供了优惠， */
 
@@ -3350,21 +3508,23 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
         /* 检查该商品是否已经存在在购物车中 */
 
-        $sql = "SELECT a.goods_number, b.is_best FROM " .$GLOBALS['ecs']->table('cart').
+        $sql = "SELECT goods_number FROM " .$GLOBALS['ecs']->table('cart').
 
-                " a LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " b ON a.goods_id = b.goods_id".
+                " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
 
-                " WHERE a.session_id = '" .SESS_ID. "' AND a.goods_id = '$goods_id' ".
+                " AND parent_id = 0 AND goods_attr = '" .get_goods_attr_info($spec). "' " .
 
-                " AND a.parent_id = 0 AND a.goods_attr = '" .get_goods_attr_info($spec). "' " .
+                " AND extension_code <> 'package_buy' " .
 
-                " AND a.user_id= '".$_SESSION['user_id']."'".
+				" AND user_id= '".$_SESSION['user_id']."'". //代码增加  By  www.68ecshop.com
 
-                " AND a.rec_type = 'CART_GENERAL_GOODS'";
+                " AND rec_type = 'CART_GENERAL_GOODS'";
 
 
 
         $row = $GLOBALS['db']->getRow($sql);
+
+
 
         if($row) //如果购物车已经有此物品，则更新
 
@@ -3398,8 +3558,6 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
                        " , goods_price = '$goods_price'".
 
-                       " , is_recommend = '$row[is_best]'".
-
                        " WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ".
 
                        " AND parent_id = 0 AND goods_attr = '" .get_goods_attr_info($spec). "' " .
@@ -3430,7 +3588,83 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
         {
 
-            $goods_price = get_final_price($goods_id, $num, true, $spec);
+
+
+        	// 判断是否为预售商品
+
+            $pre_sale_id = is_pre_sale_goods($goods_id);
+
+            if(!empty($pre_sale_id))
+
+            {
+
+
+
+            	/* 更新：记录购物流程类型：预售 */
+
+            	$_SESSION['flow_type'] = CART_PRE_SALE_GOODS;
+
+            	$_SESSION['extension_code'] = PRE_SALE_CODE;
+
+            	$_SESSION['extension_id'] = $pre_sale_id;
+
+
+
+            	$parent['extension_code'] = PRE_SALE_CODE;
+
+            	$parent['rec_type']    = CART_PRE_SALE_GOODS;
+
+
+
+            	//获取预售信息
+
+            	$pre_sale = pre_sale_info($pre_sale_id, $num);
+
+            	if($pre_sale['deposit'] > 0)
+
+            	{
+
+            		//定金大于0则使用定金金额
+
+            		$goods_price = $pre_sale['deposit'];
+
+            	}
+
+            	else
+
+            	{
+
+            		//计算当前价格
+
+            		$goods_price = $pre_sale['cur_price'];
+
+
+
+            		//加入规格价格
+
+            		if (!empty($spec))
+
+            		{
+
+            			$spec_price   = spec_price($spec);
+
+            			$goods_price += $spec_price;
+
+            		}
+
+            	}
+
+
+
+            }
+
+            else
+
+            {
+
+            	$goods_price = get_final_price($goods_id, $num, true, $spec);
+
+            }
 
             $parent['goods_price']  = max($goods_price, 0);
 
@@ -3441,6 +3675,34 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
             $GLOBALS['db']->autoExecute($GLOBALS['ecs']->table('cart'), $parent, 'INSERT');
 
         }
+
+
+
+        /**
+
+        * 判断是否为虚拟团购商品
+
+        */
+
+        $virtual_sale_id  = is_virtual_sale_goods($goods_id);
+
+        if(!empty($virtual_sale_id))
+
+        {
+
+            /* 更新：记录购物流程类型：预售 */
+
+            $_SESSION['flow_type'] = CART_VIRTUAL_GROUP_GOODS;
+
+            $_SESSION['extension_code'] = VIRTUAL_SALE_CODE;
+
+            $_SESSION['extension_id'] = $virtual_sale_id;
+
+        	$GLOBALS['db']->query("update ".$GLOBALS['ecs']->table('cart')." set rec_type=".CART_VIRTUAL_GROUP_GOODS." WHERE session_id = '" .SESS_ID. "' AND goods_id = '$goods_id' ");
+
+		}
+
+
 
     }
 
@@ -3460,79 +3722,51 @@ function addto_cart($goods_id, $num = 1, $spec = array(), $parent = 0)
 
 
 
-//获取商品分成金额
-
-function get_split_money_by_id($goods_id,$num,$spec)/*微分销方法调整，全部替换即可*/
-
-{
-
-	$sql = "SELECT * FROM " . $GLOBALS['ecs']->table('ecsmart_distrib_goods') . " WHERE goods_id = '$goods_id' AND (distrib_time = 0 OR (start_time <= " . gmtime() . " AND end_time >= " .gmtime()."))";
-
-	$rows = $GLOBALS['db']->getRow($sql);
-
-	if($rows)
-
-	{
-
-		if($rows['distrib_type'] == 1 && $rows['distrib_money'] > 0)
-
-		{
-
-			 $split_money = $rows['distrib_money'];
-
-		}
-
-
-
-		if($rows['distrib_type'] == 2 && $rows['distrib_money'] > 0)
-
-		{
-
-			$shop_price = get_final_price($goods_id, $num, true, $spec);
-
-			$split_money = $shop_price*$rows['distrib_money']/100;
-
-		}
-
-		return $split_money;
-
-	}
-
-	else
-
-	{
-
-		return 0;
-
-	}
-
-}
-
-
+/* 重写方法_start  By  www.68ecshop.com */
 
 /**
 
  * 清空购物车
 
- * @param   int     $type   类型：默认普通商品
+ * @param   int     $type   类型：默认为NULL
 
  * @param   string  $other  需要扩展的条件字符串
 
  */
 
-function clear_cart($type = CART_GENERAL_GOODS,$other='')
+function clear_cart($type = null,$other='')
 
 {
 
+
+
+    //$sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
+
+      //      " WHERE session_id = '" . SESS_ID . "' AND rec_type = '$type'";
+
+
+
+
+
 	$sql_where = $_SESSION['user_id']>0 ? "user_id='". $_SESSION['user_id'] ."' " : "session_id = '" . SESS_ID . "' ";
+
+	if($type != null)
+
+	{
+
+		$sql_where = $sql_where . "AND rec_type = '$type'";
+
+	}
 
 	$sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
 
-            " WHERE $sql_where  AND rec_type = '$type' $other";
+            " WHERE $sql_where $other";
 
     $GLOBALS['db']->query($sql);
 
 }
+
+/* 代码增加_end  By  www.68ecshop.com */
 
 
 
@@ -3620,9 +3854,13 @@ function user_info($user_id)
 
 {
 
-    $sql = "SELECT * FROM " . $GLOBALS['ecs']->table('users') .
+    //$sql = "SELECT * FROM " . $GLOBALS['ecs']->table('users') .
 
-            " WHERE user_id = '$user_id'";
+    //        " WHERE user_id = '$user_id'";
+
+	$sql = "SELECT u.*,ifnull(s.supplier_name,'') as supplier_name FROM " . $GLOBALS['ecs']->table('users') .
+
+            " as u left join ".$GLOBALS['ecs']->table('supplier')." as s on u.user_id=s.user_id WHERE u.user_id = '$user_id'";
 
     $user = $GLOBALS['db']->getRow($sql);
 
@@ -3752,11 +3990,11 @@ function address_info($address_id)
 
 function user_bonus($user_id, $goods_amount = 0)
 
-	{
+{
 
-    	$day    = getdate();
+    $day    = getdate();
 
-    	$today  = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
+    $today  = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
 
 
 
@@ -3792,9 +4030,43 @@ function user_bonus($user_id, $goods_amount = 0)
 
 	}
 
-    	return $res;
+    return $res;
 
-	}
+}
+
+/*function user_bonus($user_id, $goods_amount = 0)
+
+{
+
+    $day    = getdate();
+
+    $today  = local_mktime(23, 59, 59, $day['mon'], $day['mday'], $day['year']);
+
+
+
+    $sql = "SELECT t.type_id, t.type_name, t.type_money, b.bonus_id, t.supplier_id " .
+
+            "FROM " . $GLOBALS['ecs']->table('bonus_type') . " AS t," .
+
+                $GLOBALS['ecs']->table('user_bonus') . " AS b " .
+
+            "WHERE t.type_id = b.bonus_type_id " .
+
+            "AND t.use_start_date <= '$today' " .
+
+            "AND t.use_end_date >= '$today' " .
+
+            "AND t.min_goods_amount <= '$goods_amount' " .
+
+            "AND b.user_id<>0 " .
+
+            "AND b.user_id = '$user_id' " .
+
+            "AND b.order_id = 0";
+
+    return $GLOBALS['db']->getAll($sql);
+
+}*/
 
 
 
@@ -3839,8 +4111,6 @@ function bonus_info($bonus_id, $bonus_sn = '')
         $sql .= "AND b.bonus_sn in(".$bonus_sn.")";
 
     }
-
-
 
     return $GLOBALS['db']->getRow($sql);
 
@@ -4136,6 +4406,8 @@ function order_refund($order, $refund_type, $refund_note, $refund_amount = 0)
 
 
 
+/* 重构方法_start  By  www.68ecshop.com */
+
 /**
 
  * 获得购物车中的商品
@@ -4174,9 +4446,13 @@ function get_cart_goods($other='')
 
     /* 循环、统计 */
 
+
+
+    /* 代码增加_start    By   www.68ecshop.com */
+
 	$sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " : "c.session_id = '" . SESS_ID . "' AND c.user_id=0 ";
 
-	$sql = "SELECT c.*, g.cat_id, g.brand_id, c.extension_code, IF(ga.act_id, ga.supplier_id, g.supplier_id) as supplier_id, IF(c.parent_id, c.parent_id, c.goods_id) AS pid  " .
+	$sql = "SELECT c.*, g.cat_id, g.brand_id, IF(ga.act_id, ga.supplier_id, g.supplier_id) as supplier_id, IF(c.parent_id, c.parent_id, c.goods_id) AS pid  " .
 
             " FROM " . $GLOBALS['ecs']->table('cart') . " AS c left join " .$GLOBALS['ecs']->table('goods')." AS g ".
 
@@ -4191,6 +4467,8 @@ function get_cart_goods($other='')
             " ORDER BY pid, c.parent_id";
 
 
+
+	/* 代码增加_end    By   www.68ecshop.com */
 
     $res = $GLOBALS['db']->query($sql);
 
@@ -4274,7 +4552,7 @@ function get_cart_goods($other='')
 
             $goods_thumb = $GLOBALS['db']->getOne("SELECT `goods_thumb` FROM " . $GLOBALS['ecs']->table('goods') . " WHERE `goods_id`='{$row['goods_id']}'");
 
-            $row['goods_thumb'] = get_pc_url().'/'.get_image_path($row['goods_id'], $goods_thumb, true);
+            $row['goods_thumb'] = get_image_path($row['goods_id'], $goods_thumb, true);
 
         }
 
@@ -4282,47 +4560,57 @@ function get_cart_goods($other='')
 
         {
 
-            $row['package_goods_list'] = get_package_goods($row['goods_id'], $row['package_attr_id'] );
+            $row['package_goods_list'] = get_package_goods($row['goods_id'], $row['package_attr_id'] ); //修改 by www.ecshop68.com 增加一个变量
 
         }
 
-	$row['is_cansel'] = is_cansel($row['goods_id'], $row['product_id'], $row['package_buy']);
+
+
+/* 代码增加_start  By  www.68ecshop.com */
+
+		$row['is_cansel'] = is_cansel($row['goods_id'], $row['product_id'], $row['extension_code']);
 
 
 
-	if($row['supplier_id'])
+		if($row['supplier_id'])
 
-	{
+		{
 
-		$supplier_name = $GLOBALS['db']->getOne("select supplier_name from ". $GLOBALS['ecs']->table('supplier') ." where supplier_id='". $row['supplier_id']."' ");
+			$supplier_name = $GLOBALS['db']->getOne("select supplier_name from ". $GLOBALS['ecs']->table('supplier') ." where supplier_id='". $row['supplier_id']."' ");
 
-		$supplier_name = $supplier_name;
+			$supplier_name = '店铺：'. $supplier_name;
 
-	}
+		}
 
-	else
+		else
 
-	{
+		{
 
-		$supplier_name = '网站自营';
+			$supplier_name = '网站自营';
 
-	}
-
-
-
-	$keyname = $row['supplier_id'] ? $row['supplier_id'] : '0' ;
-
-	$goods_list[$keyname]['goods_list'][] = $row;
-
-	$goods_list[$keyname]['supplier_name'] = $supplier_name;
-
-	ksort($goods_list);
+		}
 
 
 
-	//$goods_list[] = $row;
+		$keyname = $row['supplier_id'] ? $row['supplier_id'] : '0' ;
+
+		$goods_list[$keyname]['goods_list'][] = $row;
+
+		$goods_list[$keyname]['supplier_name'] = $supplier_name;
+
+		ksort($goods_list);
+
+
+
+		//$goods_list[] = $row;
+
+
+
+		/* 代码修改_end  By  www.68ecshop.com */
 
     }
+
+
 
     $total['goods_amount'] = $total['goods_price'];
 
@@ -4338,8 +4626,6 @@ function get_cart_goods($other='')
 
     }
 
-
-
     $total['goods_price']  = price_format($total['goods_price'], false);
 
     $total['market_price'] = price_format($total['market_price'], false);
@@ -4347,6 +4633,8 @@ function get_cart_goods($other='')
     $total['real_goods_count']    = $real_goods_count;
 
     $total['virtual_goods_count'] = $virtual_goods_count;
+
+
 
     return array('goods_list' => $goods_list, 'total' => $total);
 
@@ -4372,11 +4660,39 @@ function get_consignee($user_id)
 
     {
 
-        /* 如果存在session，则直接返回session中的收货人信息 */
+        	//如果在用户中心首次新增地址，去结算时获得的session只有$_SESSION['flow_consignee']['country']
+
+			if(!isset($_SESSION['flow_consignee']['province']))
+
+			{
+
+				if ($user_id > 0)
+
+				{
+
+					/* 取默认地址 */
+
+					$sql = "SELECT * FROM ".$GLOBALS['ecs']->table('user_address')." WHERE user_id='$user_id'";
+
+					$arr = $GLOBALS['db']->getRow($sql);
+
+					return $arr;
+
+        		}
 
 
 
-        return $_SESSION['flow_consignee'];
+			}
+
+			else
+
+			{
+
+				return $_SESSION['flow_consignee'];
+
+			}
+
+
 
     }
 
@@ -4408,8 +4724,6 @@ function get_consignee($user_id)
 
         }
 
-
-
         return $arr;
 
     }
@@ -4438,11 +4752,9 @@ function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS)
 
     {
 
-		$sql_where = $_SESSION['user_id']>0 ? "user_id='". $_SESSION['user_id'] ."' " : "session_id = '" . SESS_ID . "' AND user_id=0 ";
-
         $sql = "SELECT COUNT(*) FROM " . $GLOBALS['ecs']->table('cart') .
 
-                " WHERE " . $sql_where . " AND is_real = 1 " .
+                " WHERE session_id = '" . SESS_ID . "' AND is_real = 1 " .
 
                 "AND rec_type = '$flow_type'";
 
@@ -4478,9 +4790,15 @@ function exist_real_goods($order_id = 0, $flow_type = CART_GENERAL_GOODS)
 
  */
 
+
+
+/* 代码修改_start  By  www.68ecshop.com */
+
 function check_consignee_info($consignee, $flow_type)
 
 {
+
+
 
     if (exist_real_goods(0, $flow_type))
 
@@ -4544,6 +4862,12 @@ function check_consignee_info($consignee, $flow_type)
 
     {
 
+        if($_SESSION['extension_code']=='virtual_good'){
+
+            return true;
+
+        }
+
         /* 如果不存在实体商品 */
 
         return !empty($consignee['consignee']) ;
@@ -4551,6 +4875,8 @@ function check_consignee_info($consignee, $flow_type)
     }
 
 }
+
+/* 代码修改_end   By  www.68ecshop.com */
 
 
 
@@ -4636,7 +4962,7 @@ function get_total_bonus($supplier_money_info)
 
         if($_SESSION['sel_cartgoods']){
 
-            $sql_plus = "AND c.rec_id in (".$_SESSION['sel_cartgoods'].") ";
+            $sql_plus = " AND c.rec_id in (".$_SESSION['sel_cartgoods'].") ";
 
         }
 
@@ -4662,21 +4988,21 @@ function get_total_bonus($supplier_money_info)
 
 				"AND t.send_end_date >= '$today' " .
 
-				$sql_plus.
+				$sql_plus .
 
-				"AND c.rec_type = '" . CART_GENERAL_GOODS . "'";
+				" AND c.rec_type = '" . CART_GENERAL_GOODS . "'";
 
 		$goods_total = floatval($GLOBALS['db']->getOne($sql));
 
 
 
-        if($_SESSION['sel_cartgoods']){
+		if($_SESSION['sel_cartgoods']){
 
             $sql_plus = " AND rec_id in (".$_SESSION['sel_cartgoods'].") ";
 
         }
 
-		$sql = "SELECT SUM(goods_price * goods_number) " .
+        $sql = "SELECT SUM(goods_price * goods_number) " .
 
 				"FROM " . $GLOBALS['ecs']->table('cart') .
 
@@ -4684,7 +5010,7 @@ function get_total_bonus($supplier_money_info)
 
 				" AND is_gift = 0 " .
 
-				$sql_plus .
+				$sql_plus.
 
 				" AND rec_type = '" . CART_GENERAL_GOODS . "'";
 
@@ -4752,7 +5078,7 @@ function get_total_bonus($supplier_money_info)
 
 					$sql_plus.
 
-					"AND c.rec_type = '" . CART_GENERAL_GOODS . "'";
+					" AND c.rec_type = '" . CART_GENERAL_GOODS . "'";
 
 			$goods_total += $GLOBALS['db']->getOne($sql);
 
@@ -5130,7 +5456,15 @@ function merge_order($from_order_sn, $to_order_sn)
 
     }
 
+    /* 检查订单商家是否相同 */
 
+    if ($from_order['referer'] != $to_order['referer'])
+
+    {
+
+    	return "订单的商家不一样！";
+
+    }
 
     /* 合并订单 */
 
@@ -5482,7 +5816,7 @@ function &get_shipping_object($shipping_id)
 
 
 
-    $file_path = ROOT_PATH.'../includes/modules/shipping/' . $shipping['shipping_code'] . '.php';
+    $file_path = ROOT_PATH.'includes/modules/shipping/' . $shipping['shipping_code'] . '.php';
 
 
 
@@ -5788,7 +6122,7 @@ function order_query_sql($type = 'finished', $alias = '')
 
 {
 
-  /* 已完成订单 */
+    /* 已完成订单 */
 
     if ($type == 'finished')
 
@@ -5796,7 +6130,7 @@ function order_query_sql($type = 'finished', $alias = '')
 
         return " AND {$alias}order_status " . db_create_in(array(OS_CONFIRMED, OS_SPLITED)) .
 
-               " AND {$alias}shipping_status " . db_create_in(array(SS_RECEIVED)) .
+               " AND {$alias}shipping_status " . db_create_in(array(SS_SHIPPED, SS_RECEIVED)) .
 
                " AND {$alias}pay_status " . db_create_in(array(PS_PAYED, PS_PAYING)) . " ";
 
@@ -5808,7 +6142,9 @@ function order_query_sql($type = 'finished', $alias = '')
 
     {
 
-        return " AND   {$alias}order_status " .
+        //wenjun start  在这添加了AND is_lucky =0 是为了在查询的时候，没中奖的订单也会出现未发货的状态 因为支付了抽奖订单成功后的状态都是1 0 2。     //wenjun end
+
+        return " AND is_lucky =0 AND  {$alias}order_status " .
 
                  db_create_in(array(OS_CONFIRMED, OS_SPLITED, OS_SPLITING_PART)) .
 
@@ -5826,7 +6162,7 @@ function order_query_sql($type = 'finished', $alias = '')
 
     {
 
-        return " AND   {$alias}order_status " . db_create_in(array(OS_CONFIRMED, OS_UNCONFIRMED)) .
+        return " AND   {$alias}order_status " . db_create_in(array(OS_CONFIRMED, OS_SPLITED)) .
 
                " AND   {$alias}pay_status = '" . PS_UNPAYED . "'" .
 
@@ -5881,56 +6217,6 @@ function order_query_sql($type = 'finished', $alias = '')
         return " AND {$alias}order_status = '" . OS_CONFIRMED . "'" .
 
                " AND {$alias}shipping_status " . db_create_in(array(SS_SHIPPED, SS_RECEIVED)) . " ";
-
-    }
-
-    /* 已取消订单 */
-
-    elseif ($type == 'canceled')
-
-    {
-
-        return " AND {$alias}order_status " . db_create_in(array(OS_CANCELED, OS_INVALID)) . " ";
-
-    }
-
-    /* 退款中订单 */
-
-    elseif ($type == 'payback')
-
-    {
-
-        return " AND {$alias}pay_status = '" . PS_PAYBACK . "' ";
-
-    }
-
-    /* 待评论订单 */
-
-    elseif ($type == 'await_comment')
-
-    {
-
-		$a_comment = implode(',',$GLOBALS['db']->getRow("select distinct(order_id) from " . $GLOBALS['ecs']->table('order_goods') . " where comment_state = 0 or shaidan_state = 0"));
-
-		if (!empty($a_comment))
-
-		{
-
-			return " AND {$alias}shipping_status = '" . SS_RECEIVED . "' " .
-
-				   " AND {$alias}order_id in (" . $a_comment . ") ";
-
-		}
-
-    }
-
-    /* 待收货订单 */
-
-    elseif ($type == 'await_receipt'){
-
-        return " AND {$alias}order_status ". db_create_in(array(OS_CONFIRMED, OS_SPLITED)) .
-
-               " AND {$alias}shipping_status = '" . SS_SHIPPED . "' ";
 
     }
 
@@ -6044,25 +6330,71 @@ function compute_discount($supplierid=-1)
 
     $sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " : "c.session_id = '" . SESS_ID . "' AND c.user_id=0 ";
 
-    $sql = "SELECT c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id, g.supplier_id " .
 
-            "FROM " . $GLOBALS['ecs']->table('cart') . " AS c, " . $GLOBALS['ecs']->table('goods') . " AS g " .
 
-            "WHERE c.goods_id = g.goods_id " .
+	if ($supplierid >= 0)
 
-            "AND " .$sql_where.
+	{
 
-            "AND c.parent_id = 0 " .
+		$sql = "SELECT c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id, " .
 
-            "AND c.is_gift = 0 " .
+			" IF(c.extension_code = 'package_buy', ga.supplier_id, g.supplier_id) AS supplier_id " .
 
-            "AND rec_type = '" . CART_GENERAL_GOODS . "'";
+            " FROM " . $GLOBALS['ecs']->table('cart') . " AS c " .
 
-    $sql .= (isset($_REQUEST['sel_goods']) && !empty($_REQUEST['sel_goods'])) ? " AND c.rec_id in (". $_REQUEST['sel_goods'] .") " : "";
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS g " .
 
-    $sql .= ($supplierid>=0) ? " AND g.supplier_id=".$supplierid : "";
+            " ON c.goods_id = g.goods_id AND g.supplier_id = " . $supplierid .
+
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods_activity') . " AS ga " .
+
+			" ON c.goods_id = ga.act_id AND ga.supplier_id = " . $supplierid .
+
+            " WHERE " .$sql_where.
+
+            " AND c.parent_id = 0 " .
+
+            " AND c.is_gift = 0 " .
+
+            " AND rec_type = '" . CART_GENERAL_GOODS . "'";
+
+	}
+
+	else
+
+	{
+
+		$sql = "SELECT c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id, " .
+
+			" IF(c.extension_code = 'package_buy', ga.supplier_id, g.supplier_id) AS supplier_id " .
+
+            " FROM " . $GLOBALS['ecs']->table('cart') . " AS c " .
+
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS g " .
+
+            " ON c.goods_id = g.goods_id " .
+
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods_activity') . " AS ga " .
+
+			" ON c.goods_id = ga.act_id " .
+
+            " WHERE " .$sql_where.
+
+            " AND c.parent_id = 0 " .
+
+            " AND c.is_gift = 0 " .
+
+            " AND rec_type = '" . CART_GENERAL_GOODS . "'";
+
+	}
+
+    $sql .= (isset($_SESSION['sel_cartgoods']) && !empty($_SESSION['sel_cartgoods'])) ? " AND c.rec_id in (". $_SESSION['sel_cartgoods'] .") " : "";
+
+
 
     $goods_list = $GLOBALS['db']->getAll($sql);
+
+
 
     if (!$goods_list)
 
@@ -6250,23 +6582,39 @@ function get_give_integral()
 
 {
 
-        $sql = "SELECT SUM(c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price))" .
+	$sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " : "c.session_id = '" . SESS_ID . "' AND c.user_id=0 ";
 
-                "FROM " . $GLOBALS['ecs']->table('cart') . " AS c, " .
+    if($_SESSION['sel_cartgoods']){
 
-                          $GLOBALS['ecs']->table('goods') . " AS g " .
+        $sql_plus = " AND c.rec_id in (".$_SESSION['sel_cartgoods'].")" ;
 
-                "WHERE c.goods_id = g.goods_id " .
+    }
 
-                "AND c.session_id = '" . SESS_ID . "' " .
+    $sql = "SELECT " .
 
-                "AND c.goods_id > 0 " .
+		" SUM(IF(c.extension_code = 'package_buy', 0, c.goods_number * IF(g.give_integral > -1, g.give_integral, c.goods_price))) " .
 
-                "AND c.parent_id = 0 " .
+		" FROM " . $GLOBALS['ecs']->table('cart') . " AS c " .
 
-                "AND c.rec_type = 0 " .
+        " LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS g " .
 
-                "AND c.is_gift = 0";
+		" ON c.goods_id = g.goods_id " .
+
+        " LEFT JOIN " . $GLOBALS['ecs']->table('goods_activity') . " AS ga " .
+
+		" ON c.goods_id = ga.goods_id " .
+
+		" WHERE " . $sql_where .
+
+		$sql_plus.
+
+		" AND c.goods_id > 0 " .
+
+		" AND c.parent_id = 0 " .
+
+		" AND c.rec_type = 0 " .
+
+		" AND c.is_gift = 0";
 
 
 
@@ -6292,7 +6640,7 @@ function integral_to_give($order)
 
     /* 判断是否团购 */
 
-    if ($order['extension_code'] == 'group_buy')
+    if ($order['extension_code'] == GROUP_BUY_CODE)
 
     {
 
@@ -6303,6 +6651,22 @@ function integral_to_give($order)
 
 
         return array('custom_points' => $group_buy['gift_integral'], 'rank_points' => $order['goods_amount']);
+
+    }
+
+    /* 判断是否预售 */
+
+    else if ($order['extension_code'] == PRE_SALE_CODE)
+
+    {
+
+    	include_once(ROOT_PATH . 'includes/lib_goods.php');
+
+    	$pre_sale = pre_sale_info(intval($order['extension_id']));
+
+
+
+    	return array('custom_points' => $group_buy['gift_integral'], 'rank_points' => $order['goods_amount']);
 
     }
 
@@ -6388,9 +6752,11 @@ function send_order_bonus($order_id,$supplier_id)
 
 {
 
-   	/* 取得订单应该发放的红包 */
+    /* 取得订单应该发放的红包 */
 
-   	$bonus_list = order_bonus($order_id,$supplier_id);
+    $bonus_list = order_bonus($order_id,$supplier_id);
+
+
 
     /* 如果有红包，统计并发送 */
 
@@ -6432,7 +6798,9 @@ function send_order_bonus($order_id,$supplier_id)
 
             /* 修改用户红包 */
 
-             $sql = "INSERT INTO " . $GLOBALS['ecs']->table('user_bonus') . " (bonus_type_id, user_id, supplier_id ) " ."VALUES('$bonus[type_id]', '$user[user_id]', '$supplier_id')";
+            $sql = "INSERT INTO " . $GLOBALS['ecs']->table('user_bonus') . " (bonus_type_id, user_id, supplier_id) " .
+
+                    "VALUES('$bonus[type_id]', '$user[user_id]', '$supplier_id')";
 
 
 
@@ -6696,25 +7064,63 @@ function compute_discount_amount($suppid=-1)
 
     $sql_where = $_SESSION['user_id']>0 ? "c.user_id='". $_SESSION['user_id'] ."' " : "c.session_id = '" . SESS_ID . "' AND c.user_id=0 ";
 
-	if($suppid>-1){
+	$where_suppid = (isset($_SESSION['sel_cartgoods']) && !empty($_SESSION['sel_cartgoods'])) ? " AND c.rec_id in (". $_SESSION['sel_cartgoods'] .") " : "";
 
-    	$where_suppid = " AND g.supplier_id=".$suppid." ";
+	if($suppid>-1)
 
-    }
+	{
 
-    $sql = "SELECT c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id, g.supplier_id " .
+		$sql = "SELECT c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id, " .
 
-            "FROM " . $GLOBALS['ecs']->table('cart') . " AS c, " . $GLOBALS['ecs']->table('goods') . " AS g " .
+			" IF(c.extension_code = 'package_buy', ga.supplier_id, g.supplier_id) AS supplier_id " .
 
-            "WHERE c.goods_id = g.goods_id " .
+            " FROM " . $GLOBALS['ecs']->table('cart') . " AS c " .
 
-            "AND $sql_where " .$where_suppid.
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS g " .
 
-            "AND c.parent_id = 0 " .
+            " ON c.goods_id = g.goods_id AND g.supplier_id = " . $suppid .
 
-            "AND c.is_gift = 0 " .
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS ga " .
 
-            "AND rec_type = '" . CART_GENERAL_GOODS . "'";
+            " ON c.goods_id = ga.goods_id AND ga.supplier_id = " . $suppid .
+
+            " WHERE $sql_where " .$where_suppid.
+
+            " AND c.parent_id = 0 " .
+
+            " AND c.is_gift = 0 " .
+
+            " AND rec_type = '" . CART_GENERAL_GOODS . "'";
+
+	}
+
+	else
+
+	{
+
+		$sql = "SELECT c.goods_id, c.goods_price * c.goods_number AS subtotal, g.cat_id, g.brand_id, " .
+
+			" IF(c.extension_code = 'package_buy', ga.supplier_id, g.supplier_id) AS supplier_id " .
+
+            " FROM " . $GLOBALS['ecs']->table('cart') . " AS c " .
+
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS g " .
+
+            " ON c.goods_id = g.goods_id " .
+
+			" LEFT JOIN " . $GLOBALS['ecs']->table('goods') . " AS ga " .
+
+            " ON c.goods_id = ga.goods_id " .
+
+            " WHERE $sql_where " .$where_suppid.
+
+            " AND c.parent_id = 0 " .
+
+            " AND c.is_gift = 0 " .
+
+            " AND rec_type = '" . CART_GENERAL_GOODS . "'";
+
+	}
 
     $goods_list = $GLOBALS['db']->getAll($sql);
 
@@ -6898,19 +7304,25 @@ function compute_discount_amount($suppid=-1)
 
  */
 
+/* 代码修改_start By www.ecshop68.com  提示：增加了两个参数 */
+
 function add_package_to_cart($package_id, $num = 1, $package_attr_id='', $package_prices='')
 
 {
 
     $GLOBALS['err']->clean();
 
-    if($package_prices)
 
-    {
 
-	$package_pricea=explode("-", $package_prices);
+	//增加 By www.ecshop68.com
 
-    }
+	if($package_prices)
+
+	{
+
+		$package_pricea=explode("-", $package_prices);
+
+	}
 
 
 
@@ -6966,21 +7378,21 @@ function add_package_to_cart($package_id, $num = 1, $package_attr_id='', $packag
 
 
 
-    /* 检查库存
+    /* 检查库存 */
 
-    if ($GLOBALS['_CFG']['use_storage'] == 1 && $num > $package['goods_number'])
+//    if ($GLOBALS['_CFG']['use_storage'] == 1 && $num > $package['goods_number'])
 
-    {
+//    {
 
-        $num = $goods['goods_number'];
+//        $num = $goods['goods_number'];
 
-        $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['shortage'], $num), ERR_OUT_OF_STOCK);
+//        $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['shortage'], $num), ERR_OUT_OF_STOCK);
 
+//
 
+//        return false;
 
-        return false;
-
-    }*/
+//    }
 
 
 
@@ -6998,11 +7410,11 @@ function add_package_to_cart($package_id, $num = 1, $package_attr_id='', $packag
 
         'goods_name'    => addslashes($package['package_name']),
 
-        'market_price'  => $package_pricea[0] ? $package_pricea[0] :  $package['market_package'],
+        'market_price'  => $package_pricea[0] ? $package_pricea[0] :  $package['market_package'], //修改 by www.ecshop68.com
 
-        'goods_price'   => $package_pricea[1] ? $package_pricea[1] :  $package['package_price'],
+        'goods_price'   => $package_pricea[1] ? $package_pricea[1] :  $package['package_price'], //修改 by www.ecshop68.com
 
-	'package_attr_id' =>$package_attr_id,
+		'package_attr_id' =>$package_attr_id, //增加 by www.ecshop68.com
 
         'goods_number'  => $num,
 
@@ -7036,7 +7448,7 @@ function add_package_to_cart($package_id, $num = 1, $package_attr_id='', $packag
 
                 " AND parent_id = 0 AND extension_code = 'package_buy' " .
 
-                " AND package_attr_id = '$package_attr_id'  AND rec_type = '" . CART_GENERAL_GOODS . "'";
+                " AND package_attr_id = '$package_attr_id'  AND rec_type = '" . CART_GENERAL_GOODS . "'";   //修改 by www.ecshop68.com 增加一条件
 
 
 
@@ -7060,7 +7472,7 @@ function add_package_to_cart($package_id, $num = 1, $package_attr_id='', $packag
 
                        " AND parent_id = 0 AND extension_code = 'package_buy' " .
 
-                       " AND package_attr_id = '$package_attr_id' AND rec_type = '" . CART_GENERAL_GOODS . "'";
+                       " AND package_attr_id = '$package_attr_id' AND rec_type = '" . CART_GENERAL_GOODS . "'";   //修改 by www.ecshop68.com 增加一条件
 
                 $GLOBALS['db']->query($sql);
 
@@ -7102,7 +7514,7 @@ function add_package_to_cart($package_id, $num = 1, $package_attr_id='', $packag
 
 }
 
-
+/* 代码修改_end By www.ecshop68.com */
 
 /**
 
@@ -7258,6 +7670,14 @@ function judge_package_stock($package_id, $package_num = 1)
 
 
 
+
+
+/* 代码增加_start  By  www.68ecshop.com */
+
+
+
+/* 代码增加_start   By   www.68ecshop.com  */
+
 function cart_weight_price2($type = CART_GENERAL_GOODS, $supplier_id)
 
 {
@@ -7274,9 +7694,19 @@ function cart_weight_price2($type = CART_GENERAL_GOODS, $supplier_id)
 
 
 
+	$sql_where = $_SESSION['user_id']>0 ? "user_id='". $_SESSION['user_id'] ."' " : "session_id = '" . SESS_ID . "' AND user_id=0 ";
+
+
+
     /* 计算超值礼包内商品的相关配送参数 */
 
-    $sql = 'SELECT goods_id, goods_number, goods_price FROM ' . $GLOBALS['ecs']->table('cart') . " WHERE extension_code = 'package_buy' AND session_id = '" . SESS_ID . "'";
+    if($_SESSION['sel_cartgoods']){
+
+        $sql_plus = "AND rec_id in (".$_SESSION['sel_cartgoods'].")";
+
+    }
+
+	$sql = 'SELECT goods_id, goods_number, goods_price FROM ' . $GLOBALS['ecs']->table('cart') . " WHERE extension_code = 'package_buy' AND ".$sql_where." ".$sql_plus;
 
     $row = $GLOBALS['db']->getAll($sql);
 
@@ -7394,610 +7824,6 @@ function cart_weight_price2($type = CART_GENERAL_GOODS, $supplier_id)
 
 
 
-/*
-
- * 获取订单对应的佣金记录id(只有店铺才计算)
-
- * @param int $suppid  店铺id
-
- */
-
-function get_order_rebate($suppid){
-
-	$spkey = intval($suppid);
-
-	if($spkey<=0){
-
-		return 0;
-
-	}
-
-	$sql = "select rebate_id, rebate_paytime_start, rebate_paytime_end from ". $GLOBALS['ecs']->table('supplier_rebate') ." where supplier_id='$spkey' and is_pay_ok=0 order by rebate_id desc limit 0,1";
-
-	$row = $GLOBALS['db']->getRow($sql);
-
-	$nowtime = gmtime();
-
-	if (  $nowtime >=  $row['rebate_paytime_start']  && $nowtime <= $row['rebate_paytime_end'] )
-
-	{
-
-		$rebate_id= $row['rebate_id'];
-
-	}
-
-	else
-
-	{
-
-		$kkk='yes';
-
-		while($kkk=='yes')
-
-		{
-
-			insert_id_rebate($spkey);
-
-			$sql2 = "select rebate_id, rebate_paytime_start, rebate_paytime_end from ". $GLOBALS['ecs']->table('supplier_rebate') ." where supplier_id='$spkey' and is_pay_ok=0 order by rebate_id desc limit 0,1";
-
-			$row2 = $GLOBALS['db']->getRow($sql2);
-
-			if (  $nowtime >=  $row2['rebate_paytime_start']  && $nowtime <= $row2['rebate_paytime_end'] )
-
-			{
-
-				$rebate_id= $row2['rebate_id'];
-
-				$kkk='no';
-
-			}
-
-		}
-
-	  }
-
-	  return $rebate_id;
-
-}
-
-
-
-function split_order($new_order_id)
-
-{
-
-	$sql = "select IF(g.supplier_id, g.supplier_id,0) AS supplier_id, og.rec_id, og.goods_number, og.goods_price from ". $GLOBALS['ecs']->table("order_goods") .
-
-				" AS og left join ". $GLOBALS['ecs']->table("goods") ." AS g on og.goods_id=g.goods_id ".
-
-				" where og.order_id = '$new_order_id' ";
-
-	$res = $GLOBALS['db']->query($sql);
-
-	$split_orders = array();
-
-	$all_amount = 0;
-
-	while ($row=$GLOBALS['db']->fetchRow($res))
-
-	{
-
-		$split_orders[$row['supplier_id']]['goods_amount'] += $row['goods_number'] * $row['goods_price'];
-
-		$split_orders[$row['supplier_id']]['goods_reclist'][] = $row['rec_id'];
-
-		$split_orders[$row['supplier_id']]['order_sn'] =  $split_orders[$row['supplier_id']]['order_sn'] ? $split_orders[$row['supplier_id']]['order_sn'] : get_order_sn();
-
-		$split_orders[$row['supplier_id']]['shipping_fee'] = $GLOBALS['total']['supplier_shipping'][$row['supplier_id']]['shipping_fee'];
-
-		$split_orders[$row['supplier_id']]['order_amount'] = $split_orders[$row['supplier_id']]['goods_amount'] + $split_orders[$row['supplier_id']]['shipping_fee'];
-
-		$split_orders[$row['supplier_id']]['order_amount_formated'] = price_format($split_orders[$row['supplier_id']]['order_amount']);
-
-		$all_amount += $split_orders[$row['supplier_id']]['order_amount'];
-
-	}
-
-
-
-	//下单来源
-
-	$order_from = WEB_FROM;
-
-
-
-	$count_split_orders =count($split_orders);
-
-
-
-	foreach ($split_orders AS $spkey => $split)
-
-	{
-
-		//获的返佣ID
-
-		if($spkey>0)
-
-		{
-
-			$sql = "select rebate_id, rebate_paytime_start, rebate_paytime_end from ". $GLOBALS['ecs']->table('supplier_rebate') ." where supplier_id='$spkey' and is_pay_ok=0 order by rebate_id desc limit 0,1";
-
-			$row = $GLOBALS['db']->getRow($sql);
-
-			$nowtime = gmtime();
-
-			if (  $nowtime >=  $row['rebate_paytime_start']  && $nowtime <= $row['rebate_paytime_end'] )
-
-			{
-
-				$rebate_id= $row['rebate_id'];
-
-			}
-
-			else
-
-			{
-
-				$kkk='yes';
-
-				while($kkk=='yes')
-
-				{
-
-					insert_id_rebate($spkey);
-
-					$sql2 = "select rebate_id, rebate_paytime_start, rebate_paytime_end from ". $GLOBALS['ecs']->table('supplier_rebate') ." where supplier_id='$spkey' and is_pay_ok=0 order by rebate_id desc limit 0,1";
-
-					$row2 = $GLOBALS['db']->getRow($sql2);
-
-					if (  $nowtime >=  $row2['rebate_paytime_start']  && $nowtime <= $row2['rebate_paytime_end'] )
-
-					{
-
-						$rebate_id= $row2['rebate_id'];
-
-						$kkk='no';
-
-					}
-
-				}
-
-			  }
-
-	  }
-
-	  else
-
-	  {
-
-		   $rebate_id=0;
-
-	  }
-
-
-
-	  $order_sn = $split['order_sn'];
-
-	  if ($count_split_orders ==1)
-
-	  {
-
-		  $sql = "update ". $GLOBALS['ecs']->table('order_info') .
-
-					  " set order_sn='$order_sn', supplier_id='$spkey', parent_order_id='0', rebate_id='$rebate_id', froms='$order_from'   where order_id='$new_order_id' ";
-
-		  $GLOBALS['db']->query($sql);
-
-	  }
-
-	  else
-
-	  {
-
-		$sql = "insert into ".$GLOBALS['ecs']->table('order_info') . "( ".
-
-					" order_sn, user_id,	order_status,	shipping_status, pay_status, consignee, country,	province,	city,	district, address, zipcode, tel,	mobile	, email, best_time	,sign_building,	postscript,	shipping_id,	shipping_name,	 pay_id,	pay_name,	how_oos, how_surplus, pack_name,	card_name,	card_message,	inv_payee,	inv_content, goods_amount,	shipping_fee,	insure_fee,	pay_fee,	pack_fee,	card_fee, money_paid,	surplus,	integral,	integral_money,	bonus,	order_amount,	from_ad,	referer,	add_time,	confirm_time,	pay_time,	shipping_time,	pack_id,	card_id,	bonus_id,	invoice_no,	extension_code,	extension_id,	to_buyer,	pay_note,	agency_id,	inv_type,	tax,	is_separate,	parent_id,	discount,	 supplier_id,	parent_order_id, rebate_id, froms, pickup_point, is_pickup) ".
-
-					"select '$order_sn', user_id,	order_status,	shipping_status, pay_status, consignee, country,	province,	city,	district, address, zipcode, tel,	mobile	, email, best_time	,sign_building,	postscript,	shipping_id,	shipping_name,	 pay_id,	pay_name,	how_oos, how_surplus, pack_name,	card_name,	card_message,	inv_payee,	inv_content	, '". $split['goods_amount']. "',	'" . $split['shipping_fee'] ."',	insure_fee,	pay_fee,	pack_fee,	card_fee,	money_paid,	surplus,	integral,	integral_money,	bonus,	'". $split['order_amount'] ."',	from_ad,	referer,	add_time,	confirm_time,	pay_time,	shipping_time,	pack_id,	card_id,	bonus_id,	invoice_no,	extension_code,	extension_id,	to_buyer,	pay_note,	agency_id,	inv_type,	tax,	is_separate,	parent_id,	discount,	'$spkey',	'$new_order_id', '$rebate_id', '$order_from', pickup_point, is_pickup from ".$GLOBALS['ecs']->table('order_info')." where order_id= '$new_order_id' ";
-
-			$GLOBALS['db']->query($sql);
-
-			$order_id_new = $GLOBALS['db']->insert_id();
-
-			foreach ($split['goods_reclist'] AS $rec)
-
-			{
-
-					$sql= "update ". $GLOBALS['ecs']->table('order_goods') ." set order_id='$order_id_new' where rec_id='$rec' ";
-
-					$GLOBALS['db']->query($sql);
-
-			}
-
-
-
-	   }
-
-
-
-	}
-
-
-
-	if ($count_split_orders>1)
-
-	{
-
-		$sql="delete from ".$GLOBALS['ecs']->table('order_info')." where order_id='$new_order_id' ";
-
-		$GLOBALS['db']->query($sql);
-
-	}
-
-
-
-	$arr=array();
-
-	$arr['suborder_list'] = $split_orders;
-
-	$arr['all_amount'] = $all_amount;
-
-	$arr['sub_order_count'] = $count_split_orders;
-
-	return  $arr;
-
-}
-
-
-
-function  insert_id_rebate($supplier_id)
-
-{
-
-		$sql="select supplier_rebate_paytime from ". $GLOBALS['ecs']->table('supplier') ." where supplier_id='$supplier_id'";
-
-		$supplier_rebate_paytime = $GLOBALS['db']->getOne($sql);
-
-
-
-		$sql = "select rebate_paytime_start, rebate_paytime_end from ". $GLOBALS['ecs']->table('supplier_rebate') ." where supplier_id= '$supplier_id' and is_pay_ok=0 order by rebate_id DESC LIMIT 0,1";
-
-		$row = $GLOBALS['db']->getRow($sql);
-
-		if (!$row['rebate_paytime_start'])
-
-		{
-
-			$rebate_paytime_start = local_mktime(0,0,0,local_date('m'), local_date('d'), local_date('Y'));
-
-		}
-
-		if (!$row['rebate_paytime_end'])
-
-		{
-
-			switch($supplier_rebate_paytime)
-
-			{
-
-				case '1':
-
-					$rebate_paytime_end= local_strtotime("this Sunday") + 24*60*60-1;
-
-					break;
-
-				case '2':
-
-					$rebate_paytime_end= local_mktime(23,59,59,local_date("m"),local_date("t"),local_date("Y"));
-
-					break;
-
-				case '3':
-
-					if (local_date("m")=='1' || local_date("m")=='2' || local_date("m")=='3')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59,3,31,local_date("Y"));
-
-					}
-
-					elseif (local_date("m")=='4' || local_date("m")=='5' || local_date("m")=='6')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59, 6,30,local_date("Y"));
-
-					}
-
-					elseif(local_date("m")=='7' || local_date("m")=='8' || local_date("m")=='9')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59, 9, 30,local_date("Y"));
-
-					}
-
-					elseif(local_date("m")=='10' || local_date("m")=='11' || local_date("m")=='12')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59, 12,31,local_date("Y"));
-
-					}
-
-					break;
-
-				case '4':
-
-					$rebate_paytime_end= local_mktime(23,59,59,12,31,local_date("Y"));
-
-					break;
-
-			}
-
-		}
-
-		if ( $row['rebate_paytime_start']  &&  $row['rebate_paytime_end'] )
-
-		{
-
-			$rebate_paytime_start = $row['rebate_paytime_end'] + 1;
-
-			switch($supplier_rebate_paytime)
-
-			{
-
-				case '1':
-
-					$rebate_paytime_end= $row['rebate_paytime_end'] + 24*60*60*7;
-
-					break;
-
-				case '2':
-
-					$rebate_paytime_end= local_mktime(23,59,59,local_date("m",$rebate_paytime_start),local_date("t",$rebate_paytime_start),local_date("Y",$rebate_paytime_start));
-
-					break;
-
-				case '3':
-
-					if (local_date("m",$rebate_paytime_start)=='1' || local_date("m")=='2' || local_date("m")=='3')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59,3,31,local_date("Y"));
-
-					}
-
-					elseif (local_date("m")=='4' || local_date("m")=='5' || local_date("m")=='6')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59, 6,30,local_date("Y"));
-
-					}
-
-					elseif(local_date("m")=='7' || local_date("m")=='8' || local_date("m")=='9')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59, 9, 30,local_date("Y"));
-
-					}
-
-					elseif(local_date("m")=='10' || local_date("m")=='11' || local_date("m")=='12')
-
-					{
-
-						$rebate_paytime_end= local_mktime(23,59,59, 12,31,local_date("Y"));
-
-					}
-
-					break;
-
-				case '4':
-
-					$rebate_paytime_end= local_mktime(23,59,59,12,31,local_date("Y"));
-
-					break;
-
-			}
-
-		}
-
-
-
-		$sql="insert into ". $GLOBALS['ecs']->table('supplier_rebate') ."(rebate_paytime_start, rebate_paytime_end, supplier_id) value('$rebate_paytime_start', '$rebate_paytime_end', '$supplier_id') ";
-
-		$GLOBALS['db']->query($sql);
-
-}
-
-
-
-/*
-
- * 获取订单对应季度的消费记录id(所有购物会员都有)
-
- * @param int $user_id  会员id
-
- */
-
-function get_quarter_consume($user_id){
-
-    $spkey = intval($user_id);
-
-    if($spkey<=0){
-
-        return 0;
-
-    }
-
-    $sql = "select consume_id, consume_paytime_start, consume_paytime_end from ". $GLOBALS['ecs']->table('user_quarter_consume') ." where user_id='$spkey' and is_pay_ok=0 order by consume_id desc limit 0,1";
-
-    $row = $GLOBALS['db']->getRow($sql);
-
-    $nowtime = gmtime();
-
-    // 已经生成季度消费记录
-
-    if (  $nowtime >=  $row['consume_paytime_start']  && $nowtime <= $row['consume_paytime_end'] )
-
-    {
-
-        $consume_id= $row['consume_id'];
-
-    }
-
-    else
-
-    {
-
-        // 生成佣金记录
-
-        $kkk='yes';
-
-        while($kkk=='yes')
-
-        {
-
-            insert_id_consume($spkey);
-
-            $sql2 = "select consume_id, consume_paytime_start, consume_paytime_end from ". $GLOBALS['ecs']->table('user_quarter_consume') ." where user_id='$spkey' and is_pay_ok=0 order by consume_id desc limit 0,1";
-
-            $row2 = $GLOBALS['db']->getRow($sql2);
-
-            if (  $nowtime >=  $row2['consume_paytime_start']  && $nowtime <= $row2['consume_paytime_end'] )
-
-            {
-
-                $consume_id= $row2['consume_id'];
-
-                $kkk='no';
-
-            }
-
-        }
-
-      }
-
-      return $consume_id;
-
-}
-
-
-
-/**
-
- * 添加会员季度消费记录
-
- */
-
-function insert_id_consume($user_id)
-
-{
-
-    $sql = "select consume_paytime_start, consume_paytime_end from ". $GLOBALS['ecs']->table('user_quarter_consume') ." where user_id= '$user_id' and is_pay_ok=0 order by consume_id DESC LIMIT 0,1";
-
-    $row = $GLOBALS['db']->getRow($sql);
-
-    if (!$row['consume_paytime_start'])
-
-    {
-
-        $consume_paytime_start = local_mktime(0,0,0,local_date('m'), local_date('d'), local_date('Y'));
-
-    }
-
-    if (!$row['consume_paytime_end'])
-
-    {
-
-        if (local_date("m")=='1' || local_date("m")=='2' || local_date("m")=='3')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59,3,31,local_date("Y"));
-
-        }
-
-        elseif (local_date("m")=='4' || local_date("m")=='5' || local_date("m")=='6')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59, 6,30,local_date("Y"));
-
-        }
-
-        elseif(local_date("m")=='7' || local_date("m")=='8' || local_date("m")=='9')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59, 9, 30,local_date("Y"));
-
-        }
-
-        elseif(local_date("m")=='10' || local_date("m")=='11' || local_date("m")=='12')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59, 12,31,local_date("Y"));
-
-        }
-
-    }
-
-    if ( $row['consume_paytime_start']  &&  $row['consume_paytime_end'] )
-
-    {
-
-        $consume_paytime_start = $row['consume_paytime_end'] + 1;
-
-        if (local_date("m",$consume_paytime_start)=='1' || local_date("m")=='2' || local_date("m")=='3')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59,3,31,local_date("Y"));
-
-        }
-
-        elseif (local_date("m")=='4' || local_date("m")=='5' || local_date("m")=='6')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59, 6,30,local_date("Y"));
-
-        }
-
-        elseif(local_date("m")=='7' || local_date("m")=='8' || local_date("m")=='9')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59, 9, 30,local_date("Y"));
-
-        }
-
-        elseif(local_date("m")=='10' || local_date("m")=='11' || local_date("m")=='12')
-
-        {
-
-            $consume_paytime_end= local_mktime(23,59,59, 12,31,local_date("Y"));
-
-        }
-
-    }
-
-
-
-    $sql="insert into ". $GLOBALS['ecs']->table('user_quarter_consume') ."(consume_paytime_start, consume_paytime_end, user_id) value('$consume_paytime_start', '$consume_paytime_end', '$user_id') ";
-
-    $GLOBALS['db']->query($sql);
-
-}
-
-
-
 function is_cansel($goods_id, $product_id, $package_buy)
 
 {
@@ -8010,11 +7836,11 @@ function is_cansel($goods_id, $product_id, $package_buy)
 
 	}
 
-	$sql = "select is_on_sale, goods_number from ". $GLOBALS['ecs']->table('goods') ." where goods_id='$goods_id' ";
+	$sql = "select is_on_sale, is_delete, goods_number from ". $GLOBALS['ecs']->table('goods') ." where goods_id='$goods_id' ";
 
 	$row = $GLOBALS['db']->getRow($sql);
 
-	if (!$row['is_on_sale'])
+	if (!$row['is_on_sale'] || ($row['is_delete'] == 1))
 
 	{
 
@@ -8094,6 +7920,10 @@ function get_region_info($region_id)
 
 }
 
+/* 代码增加_end  By  www.68ecshop.com */
+
+
+
 /**
 
 判断是否是门店自提配送方式
@@ -8132,6 +7962,8 @@ function is_pups($id){
 
 }
 
+
+
 /**
 
  * 根据自提点的城市获取自提点列表
@@ -8156,6 +7988,8 @@ function get_pickup_info($cityid,$suppid=0){
 
 }
 
+
+
 /**
 
  * 根据自提点的主键获取
@@ -8178,7 +8012,41 @@ function get_pickup_one_info($id){
 
 }
 
+/**
 
+ * 虚拟商品发放虚拟卡
+
+ * @param type $order_id
+
+ */
+
+function put_virtual_cart($order_id){
+
+    /* 代码增加_虚拟团购_START  www.68ecshop.com */
+
+    $order = $GLOBALS['db']->getRow("select * from ".$GLOBALS['ecs']->table('order_info')." where order_id=$order_id");
+
+    $goods = $GLOBALS['db']->getRow("select o.goods_id, o.goods_number,g.valid_date from ".$GLOBALS['ecs']->table('order_goods')." as o left join ".$GLOBALS['ecs']->table('goods')." as g on o.goods_id = g.goods_id where order_id=$order_id");
+
+    for($i=0;$i<$goods['goods_number'];$i++){
+
+        $coded_card_sn   = (rand(1000,9999).$i.gmtime());
+
+        $add_date = gmtime();
+
+        $end_date = $goods['valid_date'];
+
+        $supplier_id = $order['supplier_id'];
+
+        $sql = "INSERT INTO ".$GLOBALS['ecs']->table('virtual_goods_card')." (goods_id, card_sn, end_date, add_date, is_saled, order_sn, supplier_id, is_verification) ".
+
+                   "VALUES ('$goods[goods_id]', '$coded_card_sn', '$end_date', '$add_date', '1', '$order[order_sn]', '$supplier_id', '0')";
+
+        $GLOBALS['db']->query($sql);
+
+    }
+
+}
 
 function update_order_shipping($order_id){
 
@@ -8188,180 +8056,5 @@ function update_order_shipping($order_id){
 
 }
 
-
-
-//根据商品id获取购物车中的商品信息
-
-function get_cart_goods_info($rec_id){
-
-    $sql = "select * from ". $GLOBALS['ecs']->table('cart') ." where rec_id = $rec_id";
-
-    $cart_goods = $GLOBALS['db']->getRow($sql);
-
-    $cart_goods['goods_attr_arr'] = explode(",",$cart_goods['goods_attr_id']);
-
-    return $cart_goods;
-
-}
-
-/**
-
- * 根据goodsid获取商品(属性-产品)数量
-
- * @param type $goods_id
-
- * @param type $attr_id
-
- * @return int
-
- */
-
-function get_goods_attr_number($goods_id,$attr_id=array()){
-
-    $product_number  = $GLOBALS['db']->getOne("select goods_number from ".$GLOBALS['ecs']->table('goods')." where goods_id = $goods_id");
-
-    if(!empty($attr_id)){
-
-        $attr_id_s =  is_array($attr_id)?implode('|',$attr_id):$attr_id;
-
-        $sql = "select product_number from ".$GLOBALS['ecs']->table('products')." where goods_id = $goods_id and goods_attr = '$attr_id_s'";
-
-        $product_number = $GLOBALS['db']->getOne($sql);
-
-        $is_products = $GLOBALS['db']->getOne("select count(*) from ".$GLOBALS['ecs']->table('products')." where goods_id = $goods_id");
-
-        if($product_number>0 && $is_products>0){
-
-                return $product_number;
-
-        }else{
-
-             return 0;
-
-        }
-
-    }
-
-    return $product_number;
-
-}
-
-
-
-/**
-
- * 同城快递
-
- * @param type $invoice_no
-
- * @return type
-
- */
-
-function getkosorder($invoice_no){
-
-    $kos_order_id = $GLOBALS['db']->getOne("select order_id from " . $GLOBALS['ecs']->table('kuaidi_order') . " where order_sn='$invoice_no'");
-
-    $sql = "select * from " . $GLOBALS['ecs']->table('kuaidi_order_status') . " where order_id='" . $kos_order_id . "'  order by status_id desc";
-
-    $res_status = $GLOBALS['db']->query($sql);
-
-    $have_shipping_info = 0;
-
-    $result = array('message'=>'ok','nu'=>$invoice_no,'ischeck'=>'1','com'=>'tongcheng','data'=>array());//初始化数据
-
-    while($row_status = $GLOBALS['db']->fetchRow($res_status)){
-
-	if($row_status['status_display'] == 1){
-
-            switch($row_status['status_id']){
-
-		case 1:
-
-		$row_status['context'] = "您提交了订单，请等待确认。";
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-		break;
-
-		case 2:
-
-		$row_status['context'] = "您的快件已经确认，等待快递员揽收。";
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                break;
-
-		case 3:
-
-		$postman_id = $GLOBALS['db']->getOne("select postman_id from " . $GLOBALS['ecs']->table('kuaidi_order') . " where order_sn='$invoice_no'");
-
-		$postman_info = $GLOBALS['db']->getRow("select postman_name, mobile from " . $GLOBALS['ecs']->table('postman') . " where postman_id=" . $postman_id);
-
-		$row_status['context'] = "您的快件正在派送，快递员：" . $postman_info['postman_name'] . "，电话：" . $postman_info['mobile'];
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-		break;
-
-                case 4:
-
-		$row_status['context'] = "您的快件已经签收。";
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-		break;
-
-		case 5:
-
-		$row_status['context'] = "您的快件已被拒收。";
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-		break;
-
-		case 6:
-
-		$row_status['context'] = "您拒收的快件已被退回。";
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-		break;
-
-		case 7:
-
-		$row_status['context'] = "您的快件已经取消。";
-
-                $row_status['time']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-                $row_status['ftime']   = local_date('Y-m-d H:i:s', $row_status['status_time']);
-
-		break;
-
-            }
-
-              $result['data'][] = $row_status;
-
-        }
-
-
-
-    }
-
-    return $result;
-
-}
-
 ?>
+

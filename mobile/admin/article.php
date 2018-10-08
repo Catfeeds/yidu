@@ -3,20 +3,20 @@
 /**
  * ECSHOP 管理中心文章处理程序文件
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: article.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: article.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 define('IN_ECS', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
-require_once(ROOT_PATH . "includes/fckeditor/fckeditor.php");
+//require_once(ROOT_PATH . "includes/fckeditor/fckeditor.php");
 require_once(ROOT_PATH . 'includes/cls_image.php');
 
 /*初始化数据交换对象 */
@@ -204,7 +204,8 @@ if ($_REQUEST['act'] == 'edit')
     $article = $db->GetRow($sql);
 
     /* 创建 html editor */
-    create_html_editor('FCKeditor1',$article['content']);
+   create_html_editor('FCKeditor1',htmlspecialchars($article['content']));
+
 
     /* 取得分类、品牌 */
     $smarty->assign('goods_cat_list', cat_list());
@@ -229,12 +230,16 @@ if ($_REQUEST['act'] =='update')
     /* 权限判断 */
     admin_priv('article_manage');
 
+    $id = intval($_POST['id']);
+    $article_cat = intval($_POST['article_cat']);
+    $title = trim($_POST['title']);
+
     /*检查文章名是否相同*/
-    $is_only = $exc->is_only('title', $_POST['title'], $_POST['id'], "cat_id = '$_POST[article_cat]'");
+    $is_only = $exc->is_only('title', $title, $id, "cat_id = '$article_cat'");
 
     if (!$is_only)
     {
-        sys_msg(sprintf($_LANG['title_exist'], stripslashes($_POST['title'])), 1);
+        sys_msg(sprintf($_LANG['title_exist'], stripslashes($title)), 1);
     }
 
 
@@ -277,23 +282,25 @@ if ($_REQUEST['act'] =='update')
     }
 
     /* 如果 file_url 跟以前不一样，且原来的文件是本地文件，删除原来的文件 */
-    $sql = "SELECT file_url FROM " . $ecs->table('article') . " WHERE article_id = '$_POST[id]'";
+    $sql = "SELECT file_url FROM " . $ecs->table('article') . " WHERE article_id = '$id'";
     $old_url = $db->getOne($sql);
     if ($old_url != '' && $old_url != $file_url && strpos($old_url, 'http://') === false && strpos($old_url, 'https://') === false)
     {
         @unlink(ROOT_PATH . $old_url);
     }
 
-    if ($exc->edit("title='$_POST[title]', cat_id='$_POST[article_cat]', article_type='$_POST[article_type]', is_open='$_POST[is_open]', author='$_POST[author]', author_email='$_POST[author_email]', keywords ='$_POST[keywords]', file_url ='$file_url', open_type='$open_type', content='$_POST[FCKeditor1]', link='$_POST[link_url]', description = '$_POST[description]'", $_POST['id']))
+    if ($exc->edit("title='$title', cat_id='$article_cat', article_type='$_POST[article_type]', is_open='$_POST[is_open]', author='$_POST[author]', author_email='$_POST[author_email]', keywords ='$_POST[keywords]', file_url ='$file_url', open_type='$open_type', content='$_POST[FCKeditor1]', link='$_POST[link_url]', description = '$_POST[description]'", $id))
     {
         $link[0]['text'] = $_LANG['back_list'];
         $link[0]['href'] = 'article.php?act=list&' . list_link_postfix();
 
-        $note = sprintf($_LANG['articleedit_succeed'], stripslashes($_POST['title']));
-        admin_log($_POST['title'], 'edit', 'article');
+        $note = sprintf($_LANG['articleedit_succeed'], stripslashes($title));
+        admin_log($title, 'edit', 'article');
 
         clear_cache_files();
 
+        clearhtml_file('article', $article_cat, $id);
+        
         sys_msg($note, 0, $link);
     }
     else

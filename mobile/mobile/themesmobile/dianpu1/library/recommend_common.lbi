@@ -1,0 +1,40 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+    .product_value h2 i {
+        display: block;
+        float: right;
+        line-height: 25px;
+        padding-right: 15px;
+        margin-right: 10px;
+        background: url(../images/index_r.png) no-repeat right 40%;
+        background-size: auto 25px;
+    }
+    .product_value h2 i a {
+        font-style: normal;
+        font-size: 14px;
+        line-height: 34px;
+        color: #999;
+        font-weight: normal;
+    }
+</style>
+<!-- {if $recommend_goods} -->
+<div class="product_value">
+    <h2><em></em>推荐商品<i><a href="../search.php?intro=best">更多</a></i></h2>
+    <ul>
+        <!--{foreach from=$recommend_goods item=goods}-->
+        <li>
+            <a href="{$goods.url}">
+            <span>
+                <img src="{$option.static_path}{$goods.thumb}" srcset="{$option.static_path}{$goods.thumb}" srcd="{$option.static_path}{$goods.thumb}" loaded="no">
+            </span>
+            <span class="p_info">{$goods.name|truncate:15}</span>
+            <span class="price">
+                {if $goods.is_exclusive} <div class="best_phone">手机专享</div>{/if}
+                {if $goods.final_price}{$goods.final_price}{elseif  $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}
+            </span>
+            </a>
+        </li>
+        <!-- {/foreach} -->
+    </ul>
+</div>
+<!-- {/if} -->

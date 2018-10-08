@@ -3,14 +3,14 @@
 /**
  * ECSHOP 基础函数库
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: lib_base.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: lib_base.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -24,6 +24,7 @@ if (!defined('IN_ECS'))
  * @param   string      $str        被截取的字符串
  * @param   int         $length     截取的长度
  * @param   bool        $append     是否附加省略号
+ *
  *
  * @return  string
  */
@@ -199,6 +200,11 @@ function get_crlf()
  */
 function send_mail($name, $email, $subject, $content, $type = 0, $notification=false)
 {
+//    $arr = array(
+//        $name, $email, $subject, $content, $type = 0, $notification=false
+//    );
+//    print_r($arr);die;
+
     /* 如果邮件编码不是EC_CHARSET，创建字符集转换对象，转换编码 */
     if ($GLOBALS['_CFG']['mail_charset'] != EC_CHARSET)
     {
@@ -624,7 +630,7 @@ function make_dir($folder)
 
             $base .= '/';
 
-            if (!file_exists($base))
+            if (@!file_exists($base))
             {
                 /* 尝试创建目录，如果创建失败则继续循环 */
                 if (@mkdir(rtrim($base, '/'), 0777))
@@ -775,7 +781,7 @@ function make_semiangle($str)
  */
 function compile_str($str)
 {
-    $arr = array('<' => '＜', '>' => '＞','"'=>'”',"'"=>'’');
+    $arr = array('<' => '＜', '>' => '＞');
 
     return strtr($str, $arr);
 }
@@ -820,7 +826,7 @@ function check_file_type($filename, $realname = '', $limit_ext_types = '')
             if ($extname == 'jpg' || $extname == 'jpeg' || $extname == 'gif' || $extname == 'png' || $extname == 'doc' ||
                 $extname == 'xls' || $extname == 'txt'  || $extname == 'zip' || $extname == 'rar' || $extname == 'ppt' ||
                 $extname == 'pdf' || $extname == 'rm'   || $extname == 'mid' || $extname == 'wav' || $extname == 'bmp' ||
-                $extname == 'swf' || $extname == 'chm'  || $extname == 'sql' || $extname == 'cert'|| $extname == 'pptx' ||
+                $extname == 'swf' || $extname == 'chm'  || $extname == 'sql' || $extname == 'cert'|| $extname == 'pptx' || 
                 $extname == 'xlsx' || $extname == 'docx')
             {
                 $format = $extname;
@@ -1294,5 +1300,246 @@ function write_static_cache($cache_name, $caches)
     $content .= "?>";
     file_put_contents($cache_file_path, $content, LOCK_EX);
 }
+
+
+/**
+ * 邮件发送
+ *
+ * @param: $name[string]        接收人姓名
+ * @param: $email[string]       接收人邮件地址
+ * @param: $subject[string]     邮件标题
+ * @param: $content[string]     邮件内容
+ * @param: $type[int]           0 普通邮件， 1 HTML邮件
+ * @param: $notification[bool]  true 要求回执， false 不用回执
+ *
+ * @return boolean
+ */
+function send_mail_1($arr)
+{
+//    error_log('123',3,'1.txt');
+    $name = $arr[0];
+    $email = $arr[1];
+    $subject = $arr[2];
+    $content = $arr[3];
+    $type = $arr[4];
+    $notification = $arr[5];
+
+    /* 如果邮件编码不是EC_CHARSET，创建字符集转换对象，转换编码 */
+    if ($GLOBALS['_CFG']['mail_charset'] != EC_CHARSET)
+    {
+        $name      = ecs_iconv(EC_CHARSET, $GLOBALS['_CFG']['mail_charset'], $name);
+        $subject   = ecs_iconv(EC_CHARSET, $GLOBALS['_CFG']['mail_charset'], $subject);
+        $content   = ecs_iconv(EC_CHARSET, $GLOBALS['_CFG']['mail_charset'], $content);
+        $shop_name = ecs_iconv(EC_CHARSET, $GLOBALS['_CFG']['mail_charset'], $GLOBALS['_CFG']['shop_name']);
+    }
+    $charset   = $GLOBALS['_CFG']['mail_charset'];
+    /**
+     * 使用mail函数发送邮件
+     */
+
+    if ($GLOBALS['_CFG']['mail_service'] == 0 && function_exists('mail'))
+    {
+        /* 邮件的头部信息 */
+        $content_type = ($type == 0) ? 'Content-Type: text/plain; charset=' . $charset : 'Content-Type: text/html; charset=' . $charset;
+        $headers = array();
+        $headers[] = 'From: "' . '=?' . $charset . '?B?' . base64_encode($shop_name) . '?='.'" <' . $GLOBALS['_CFG']['smtp_mail'] . '>';
+        $headers[] = $content_type . '; format=flowed';
+        if ($notification)
+        {
+            $headers[] = 'Disposition-Notification-To: ' . '=?' . $charset . '?B?' . base64_encode($shop_name) . '?='.'" <' . $GLOBALS['_CFG']['smtp_mail'] . '>';
+        }
+
+        $res = @mail($email, '=?' . $charset . '?B?' . base64_encode($subject) . '?=', $content, implode("\r\n", $headers));
+
+        if (!$res)
+        {
+            $GLOBALS['err'] ->add($GLOBALS['_LANG']['sendemail_false']);
+
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    /**
+     * 使用smtp服务发送邮件
+     */
+    else
+    {
+        /* 邮件的头部信息 */
+        $content_type = ($type == 0) ?
+            'Content-Type: text/plain; charset=' . $charset : 'Content-Type: text/html; charset=' . $charset;
+        $content   =  base64_encode($content);
+
+        $headers = array();
+        $headers[] = 'Date: ' . gmdate('D, j M Y H:i:s') . ' +0000';
+        $headers[] = 'To: "' . '=?' . $charset . '?B?' . base64_encode($name) . '?=' . '" <' . $email. '>';
+        $headers[] = 'From: "' . '=?' . $charset . '?B?' . base64_encode($shop_name) . '?='.'" <' . $GLOBALS['_CFG']['smtp_mail'] . '>';
+        $headers[] = 'Subject: ' . '=?' . $charset . '?B?' . base64_encode($subject) . '?=';
+        $headers[] = $content_type . '; format=flowed';
+        $headers[] = 'Content-Transfer-Encoding: base64';
+        $headers[] = 'Content-Disposition: inline';
+        if ($notification)
+        {
+            $headers[] = 'Disposition-Notification-To: ' . '=?' . $charset . '?B?' . base64_encode($shop_name) . '?='.'" <' . $GLOBALS['_CFG']['smtp_mail'] . '>';
+        }
+
+        /* 获得邮件服务器的参数设置 */
+        $params['host'] = $GLOBALS['_CFG']['smtp_host'];
+        $params['port'] = $GLOBALS['_CFG']['smtp_port'];
+        $params['user'] = $GLOBALS['_CFG']['smtp_user'];
+        $params['pass'] = $GLOBALS['_CFG']['smtp_pass'];
+
+        if (empty($params['host']) || empty($params['port']))
+        {
+            // 如果没有设置主机和端口直接返回 false
+            $GLOBALS['err'] ->add($GLOBALS['_LANG']['smtp_setting_error']);
+
+            return false;
+        }
+        else
+        {
+            // 发送邮件
+            if (!function_exists('fsockopen'))
+            {
+                //如果fsockopen被禁用，直接返回
+                $GLOBALS['err']->add($GLOBALS['_LANG']['disabled_fsockopen']);
+
+                return false;
+            }
+
+            include_once(ROOT_PATH . 'includes/cls_smtp.php');
+            static $smtp;
+
+            $send_params['recipients'] = $email;
+            $send_params['headers']    = $headers;
+            $send_params['from']       = $GLOBALS['_CFG']['smtp_mail'];
+            $send_params['body']       = $content;
+
+            if (!isset($smtp))
+            {
+                $smtp = new smtp($params);
+            }
+
+            if ($smtp->connect() && $smtp->send($send_params))
+            {
+                echo 1;die;
+                return true;
+            }
+            else
+            {
+                echo 2;die;
+                $err_msg = $smtp->error_msg();
+                if (empty($err_msg))
+                {
+                    $GLOBALS['err']->add('Unknown Error');
+                }
+                else
+                {
+                    if (strpos($err_msg, 'Failed to connect to server') !== false)
+                    {
+                        $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['smtp_connect_failure'], $params['host'] . ':' . $params['port']));
+                    }
+                    else if (strpos($err_msg, 'AUTH command failed') !== false)
+                    {
+                        $GLOBALS['err']->add($GLOBALS['_LANG']['smtp_login_failure']);
+                    }
+                    elseif (strpos($err_msg, 'bad sequence of commands') !== false)
+                    {
+                        $GLOBALS['err']->add($GLOBALS['_LANG']['smtp_refuse']);
+                    }
+                    else
+                    {
+                        $GLOBALS['err']->add($err_msg);
+                    }
+                }
+
+                return false;
+            }
+        }
+    }
+}
+
+
+
+/**
+ * 邮件发送
+ *
+ * @param: $name[string]        接收人姓名
+ * @param: $email[string]       接收人邮件地址
+ * @param: $subject[string]     邮件标题
+ * @param: $content[string]     邮件内容
+ * @param: $type[int]           0 普通邮件， 1 HTML邮件
+ * @param: $notification[bool]  true 要求回执， false 不用回执
+ *
+ * @return boolean
+ */
+function send_mail_2($arr)
+{
+//    echo 111;
+//    var_dump($arr);
+//    echo 222;
+//    die;
+// 发送邮件
+if (!function_exists('fsockopen'))
+{
+    //如果fsockopen被禁用，直接返回
+    $GLOBALS['err']->add($GLOBALS['_LANG']['disabled_fsockopen']);
+    return false;
+}
+
+include_once(ROOT_PATH . 'includes/cls_smtp.php');
+static $smtp;
+
+$send_params['recipients'] = $arr[0];
+$send_params['headers']    = $arr[1];
+$send_params['from']       = $arr[2];
+$send_params['body']       = $arr[3];
+$params = $arr[4];
+
+if (!isset($smtp))
+{
+    $smtp = new smtp($params);
+}
+if ($smtp->connect() && $smtp->send($send_params))
+{
+//    echo 1;die;
+    return true;
+}
+else
+{
+//    echo 333;die;
+    $err_msg = $smtp->error_msg();
+    if (empty($err_msg))
+    {
+        $GLOBALS['err']->add('Unknown Error');
+    }
+    else
+    {
+        if (strpos($err_msg, 'Failed to connect to server') !== false)
+        {
+            $GLOBALS['err']->add(sprintf($GLOBALS['_LANG']['smtp_connect_failure'], $params['host'] . ':' . $params['port']));
+        }
+        else if (strpos($err_msg, 'AUTH command failed') !== false)
+        {
+            $GLOBALS['err']->add($GLOBALS['_LANG']['smtp_login_failure']);
+        }
+        elseif (strpos($err_msg, 'bad sequence of commands') !== false)
+        {
+            $GLOBALS['err']->add($GLOBALS['_LANG']['smtp_refuse']);
+        }
+        else
+        {
+            $GLOBALS['err']->add($err_msg);
+        }
+    }
+
+    return false;
+}
+}
+
+
+
 
 ?>

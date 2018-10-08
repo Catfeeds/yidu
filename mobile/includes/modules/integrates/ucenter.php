@@ -3,7 +3,7 @@
 /**
  * UCenter 会员数据处理类
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
+ * * 版权所有 2008-2015 秦皇岛商之翼网络科技有限公司，并保留所有权利。
  * 网站地址: http://www.ecshop.com
  * ----------------------------------------------------------------------------
  * 这是一个免费开源的软件；这意味着您可以在不用于商业目的的前提下对程序代码
@@ -116,7 +116,6 @@ class ucenter extends integrate
             define('UC_APPID', isset($cfg['uc_id'])?$cfg['uc_id']:'');
             define('UC_PPP', '20');
         }
-        
     }
 
     /**
@@ -130,7 +129,6 @@ class ucenter extends integrate
      */
     function login($username, $password, $rember=0)
     {
-	
     	//如果是手机号则先登录老系统里获取用户名
     	if(is_mobile_phone($username)){
     		if(parent::login($username, $password)){
@@ -190,7 +188,7 @@ class ucenter extends integrate
         	
         	//如果用户名无效要判断在系统中是否存在
         	$result = parent::login($username, $password, $rember);
-        	 
+        	
         	if($result){
         		$username = $_SESSION['user_name'];
         		$email = $_SESSION['email'];
@@ -283,6 +281,7 @@ class ucenter extends integrate
         }
         else
         {
+        	
         	if(parent::check_user($username) > 0){
         		return true;
         	}
@@ -292,10 +291,10 @@ class ucenter extends integrate
             $ip = real_ip();
             $password = $this->compile_password(array('password'=>$password));
             if(isset($mobile_phone)){
-            	//$this->db->query('INSERT INTO ' . $GLOBALS['ecs']->table("users") . "(`user_id`, `email`, `mobile_phone`, `user_name`, `password`, `reg_time`, `last_login`, `last_ip`) VALUES ('$uid', '$email', '$mobile_phone', '$username', '$password', '$reg_date', '$reg_date', '$ip')");
+//             	$this->db->query('INSERT INTO ' . $GLOBALS['ecs']->table("users") . "(`user_id`, `email`, `mobile_phone`, `user_name`, `password`, `reg_time`, `last_login`, `last_ip`) VALUES ('$uid', '$email', '$mobile_phone', '$username', '$password', '$reg_date', '$reg_date', '$ip')");
             	$this->db->query('INSERT INTO ' . $GLOBALS['ecs']->table("users") . "(`email`, `mobile_phone`, `user_name`, `password`, `reg_time`, `last_login`, `last_ip`) VALUES ('$email', '$mobile_phone', '$username', '$password', '$reg_date', '$reg_date', '$ip')");
             }else{
-            	//$this->db->query('INSERT INTO ' . $GLOBALS['ecs']->table("users") . "(`user_id`, `email`, `user_name`, `password`, `reg_time`, `last_login`, `last_ip`) VALUES ('$uid', '$email', '$username', '$password', '$reg_date', '$reg_date', '$ip')");
+//             	$this->db->query('INSERT INTO ' . $GLOBALS['ecs']->table("users") . "(`user_id`, `email`, `user_name`, `password`, `reg_time`, `last_login`, `last_ip`) VALUES ('$uid', '$email', '$username', '$password', '$reg_date', '$reg_date', '$ip')");
             	$this->db->query('INSERT INTO ' . $GLOBALS['ecs']->table("users") . "(`email`, `user_name`, `password`, `reg_time`, `last_login`, `last_ip`) VALUES ('$email', '$username', '$password', '$reg_date', '$reg_date', '$ip')");
             }
             return true;
@@ -379,6 +378,8 @@ class ucenter extends integrate
             $GLOBALS['db']->query($sql);
             $flag  = true;
         }
+        
+        parent::edit_user($cfg);
 
         if (!empty($cfg['email']))
         {
@@ -566,7 +567,7 @@ class ucenter extends integrate
      */
     function get_profile_by_id($id)
     {
-        $sql = "SELECT user_id, user_name, email, sex, birthday, reg_time FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id='$id'";
+        $sql = "SELECT user_id, user_name, email, sex, birthday, reg_time,mobile_phone,password,ec_salt FROM " . $GLOBALS['ecs']->table('users') . " WHERE user_id='$id'";
         $row = $this->db->getRow($sql);
 
         return $row;
@@ -599,7 +600,7 @@ class ucenter extends integrate
         {
             $post_id = $id;
         }
-
+        
         //删除UCenter的会员
         $info = uc_call('uc_get_user', $post_id);
         if($info != 0){

@@ -3,14 +3,14 @@
 /**
  * ECSHOP 管理中心公用函数库
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: lib_main.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: lib_main.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -151,10 +151,10 @@ function insert_config($parent, $code, $value)
 {
     global $ecs, $db, $_LANG;
 
-    $sql = 'SELECT id FROM ' . $ecs->table('ecsmart_shop_config') . " WHERE code = '$parent' AND type = 1";
+    $sql = 'SELECT id FROM ' . $ecs->table('shop_config') . " WHERE code = '$parent' AND type = 1";
     $parent_id = $db->getOne($sql);
 
-    $sql = 'INSERT INTO ' . $ecs->table('ecsmart_shop_config',1) . ' (parent_id, code, value) ' .
+    $sql = 'INSERT INTO ' . $ecs->table('shop_config') . ' (parent_id, code, value) ' .
             "VALUES('$parent_id', '$code', '$value')";
     $db->query($sql);
 }
@@ -292,6 +292,25 @@ function get_position_list()
 {
     $position_list = array();
     $sql = 'SELECT position_id, position_name, ad_width, ad_height '.
+           'FROM ' . $GLOBALS['ecs']->table('ad_position');
+    $res = $GLOBALS['db']->query($sql);
+
+    while ($row = $GLOBALS['db']->fetchRow($res))
+    {
+        $position_list[$row['position_id']] = addslashes($row['position_name']). ' [' .$row['ad_width']. 'x' .$row['ad_height']. ']';
+    }
+
+    return $position_list;
+}
+/**
+ * 取得广告位置数组（用于生成下拉列表）
+ *
+ * @return  array       分类数组 position_id => position_name
+ */
+function get_mposition_list()
+{
+    $position_list = array();
+    $sql = 'SELECT position_id, position_name, ad_width, ad_height '.
            'FROM ' . $GLOBALS['ecs']->table('ecsmart_ad_position');
     $res = $GLOBALS['db']->query($sql);
 
@@ -302,7 +321,6 @@ function get_position_list()
 
     return $position_list;
 }
-
 /**
  * 生成编辑器
  * @param   string  input_name  输入框名称
@@ -311,17 +329,26 @@ function get_position_list()
 function create_html_editor($input_name, $input_value = '')
 {
     global $smarty;
+    $HTML='
+    <script type="text/javascript" charset="utf-8"
 
-    $editor = new FCKeditor($input_name);
-    $editor->BasePath   = '../includes/fckeditor/';
-    $editor->ToolbarSet = 'Normal';
-    $editor->Width      = '100%';
-    $editor->Height     = '320';
-    $editor->Value      = $input_value;
-    $FCKeditor = $editor->CreateHtml();
-    $smarty->assign('FCKeditor', $FCKeditor);
+src="../includes/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8"
+
+src="../includes/ueditor/ueditor.all.js"></script>
+    <textarea name="'.$input_name.'" id="'.$input_name.'" style="width:100%;">'.
+
+$input_value.'</textarea>
+    <script type="text/javascript">
+    UE.getEditor("'.$input_name.'",{
+    theme:"default", //皮肤
+    lang:"zh-cn",    //语言
+    initialFrameWidth:1000,  //初始化编辑器宽度,默认650
+    initialFrameHeight:350  //初始化编辑器高度,默认180
+    });
+    </script>';
+    $smarty->assign('FCKeditor', $HTML);
 }
-
 /**
  * 取得商品列表：用于把商品添加到组合、关联类、赠品类
  * @param   object  $filters    过滤条件
@@ -330,43 +357,16 @@ function get_goods_list($filter)
 {
     $filter->keyword = json_str_iconv($filter->keyword);
     $where = get_where_sql($filter); // 取得过滤条件
-
+    
     /* 取得数据 */
     $sql = 'SELECT goods_id, goods_name, shop_price '.
            'FROM ' . $GLOBALS['ecs']->table('goods') . ' AS g ' . $where .
-           'LIMIT 50';
+           ' and g.is_on_sale = 1 LIMIT 50';
+    // print_r($sql);exit;
     $row = $GLOBALS['db']->getAll($sql);
 
     return $row;
 }
-
-/**
- * 取得商品列表：用于把商品添加到分销商品
- * @param   object  $filters    过滤条件
- */
-function get_distrib_goods_list($filter)
-{
-    $filter->keyword = json_str_iconv($filter->keyword);
-    $where = get_where_sql($filter); // 取得过滤条件
-	$where .= " AND g.is_on_sale = 1 ";
-	//入驻商的商品是否可加入到分销商品中
-	if($GLOBALS['_CFG']['is_add_distrib'] == 0)
-	{
-		$where .= " AND g.supplier_id = 0 "; 
-	}
-	//可搜索条数
-	if($GLOBALS['_CFG']['search_goods_count'] > 0)
-	{
-		$where .= " LIMIT " . $GLOBALS['_CFG']['search_goods_count']; 
-	}
-    /* 取得数据 */
-    $sql = 'SELECT goods_id, goods_name, shop_price '.
-           'FROM ' . $GLOBALS['ecs']->table('goods') . ' AS g ' . $where;
-    $row = $GLOBALS['db']->getAll($sql);
-
-    return $row;
-}
-
 
 /**
  * 取得文章列表：用于商品关联文章
@@ -414,7 +414,7 @@ function get_where_sql($filter)
     $time = date('Y-m-d');
 
     $where  = isset($filter->is_delete) && $filter->is_delete == '1' ?
-        ' WHERE is_delete = 1 ' : ' WHERE is_delete = 0 ';
+        ' WHERE supplier_id=0 AND is_delete = 1 ' : ' WHERE supplier_id=0 AND is_delete = 0 ';
     $where .= (isset($filter->real_goods) && ($filter->real_goods > -1)) ? ' AND is_real = ' . intval($filter->real_goods) : '';
     $where .= isset($filter->cat_id) && $filter->cat_id > 0 ? ' AND ' . get_children($filter->cat_id) : '';
     $where .= isset($filter->brand_id) && $filter->brand_id > 0 ? " AND brand_id = '" . $filter->brand_id . "'" : '';
@@ -429,7 +429,9 @@ function get_where_sql($filter)
     $where .= isset($filter->in_ids) ? ' AND goods_id ' . db_create_in($filter->in_ids) : '';
     $where .= isset($filter->exclude) ? ' AND goods_id NOT ' . db_create_in($filter->exclude) : '';
     $where .= isset($filter->stock_warning) ? ' AND goods_number <= warn_number' : '';
-
+	$where .= isset($filter->is_on_sale) ? ' AND is_on_sale = 1 ' : '';
+	//是否为虚拟商品
+	$where .= isset($filter->is_virtual) ? ' AND is_virtual = '.$filter->is_virtual.' ' : '';
     return $where;
 }
 
@@ -868,5 +870,51 @@ function suppliers_list_name()
     }
 
     return $suppliers_name;
+}
+
+/**
+ * 厂家列表信息
+ *
+ * @param       string      $conditions
+ * @return      array
+ */
+function factory_list_info($conditions = '')
+{
+    $where = '';
+    if (!empty($conditions))
+    {
+        $where .= 'WHERE ';
+        $where .= $conditions;
+    }
+
+    /* 查询 */
+    $sql = "SELECT *
+            FROM " . $GLOBALS['ecs']->table("factory") . "
+            $where";
+
+    return $GLOBALS['db']->getAll($sql);
+}
+
+/**
+ * 厂家名
+ *
+ * @return  array
+ */
+function factory_list_name()
+{
+    /* 查询 */
+    $factory_list = factory_list_info(' pass_status = 1 ');
+
+    /* 厂家名称 */
+    $factory_name = array();
+    if (count($factory_list) > 0)
+    {
+        foreach ($factory_list as $factory)
+        {
+            $factory_name[$factory['factory_id']] = $factory['factory_name'];
+        }
+    }
+
+    return $factory_name;
 }
 ?>

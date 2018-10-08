@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>店铺回收记录</title>
+    <meta name="keywords" content="店铺回收记录" />
+    <meta name="description" content="店铺回收记录" />
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>店铺回收记录</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="nplace">
+		<ul class="nplace_list on">
+			{if $recover_shop_list}
+			{foreach from=$recover_shop_list item=shop}
+			<a href="agent.php?act=recover_detail&shop_id={$shop.shop_id}">
+				<li>
+					<div class="clearfix recom_t">店铺号：{$shop.shop_code}<span>到期：{$shop.end_time}</span></div>
+				</li>
+			</a>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+</div>
+{if $recover_shop_list}
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+{else}
+<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+{/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

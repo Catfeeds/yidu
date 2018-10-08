@@ -2,7 +2,13 @@
 //  微博登录插件类，如有BUG请联系本人！！ 
 /*===========================================================
 *   name : 支付宝
-
+*   author : `68ecshop'
+*   QQ : 800007396
+*   VERSION : 1.0v
+*   DATE : 2012-2-23
+*   尊重作者,保留版权信息
+*   版权所有 `68ecshop'
+*   使用；不允许对程序代码以任何形式任何目的的再发布。
 **/
 
 
@@ -29,13 +35,13 @@ if (defined('WEBSITE'))
 	$web[$i]['className'] = 'alipay';
 	
 	// 作者信息
-	$web[$i]['author'] = '`hunuo\'';
+	$web[$i]['author'] = '`68ecshop\'';
 	
 	// 作者QQ
-	$web[$i]['qq'] = '';
+	$web[$i]['qq'] = '800007396';
 	
 	// 作者邮箱
-	$web[$i]['email'] = 'hunuo@hunuo.com';
+	$web[$i]['email'] = '68ecshop@68ecshop.com';
 	
 	// 申请网址
 	$web[$i]['website'] = 'http://open.alipay.com/index.htm';

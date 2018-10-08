@@ -3,6 +3,29 @@
 {include file="pageheader.htm"}
 {insert_scripts files="../js/utils.js,listtable.js"}
 
+<div class="form-div">
+  <form action="javascript:search_ad()" name="searchForm">
+    <img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+    <select name="select" value="按广告位名称">
+	<option value="按广告名称">按广告名称</option>
+	<option value="按广告ID">按广告ID</option>
+	</select>
+    关键字<input type="text" name="keyword" size="15" />
+    <input type="submit" value="{$lang.button_search}" class="button" />
+  </form>
+</div>
+<script language="JavaScript">
+    function search_ad()
+    {
+		listTable.filter['select'] = document.forms['searchForm'].elements['select'].value;
+        listTable.filter['keyword'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+        listTable.filter['page'] = 1;
+        
+        listTable.loadList();
+    }
+
+</script>
+
 <form method="post" action="" name="listForm">
 <!-- start ads list -->
 <div class="list-div" id="listDiv">
@@ -10,11 +33,10 @@
 
 <table cellpadding="3" cellspacing="1">
   <tr>
+    <th><a href="javascript:listTable.sort('ad_id'); ">{$lang.ad_id}</a>{$sort_ad_id}</th>
     <th><a href="javascript:listTable.sort('ad_name'); ">{$lang.ad_name}</a>{$sort_ad_name}</th>
-    <th><a href="javascript:listTable.sort('position_id'); ">{$lang.position_id}</a>{$sort_position_id}</th>
-    
     <th>缩略图</th>
-
+    <th><a href="javascript:listTable.sort('position_id'); ">{$lang.position_name}</a>{$sort_position_name}</th>
     <th><a href="javascript:listTable.sort('media_type'); ">{$lang.media_type}</a>{$sort_media_type}</th>
     <th><a href="javascript:listTable.sort('start_date'); ">{$lang.start_date}</a>{$sort_start_date}</th>
     <th><a href="javascript:listTable.sort('end_date'); ">{$lang.end_date}</a>{$sort_end_date}</th>
@@ -24,12 +46,12 @@
   </tr>
   {foreach from=$ads_list item=list}
   <tr>
+   <td class="first-cell">
+    <span>{$list.ad_id}</span>
+    </td>
     <td class="first-cell">
     <span onclick="javascript:listTable.edit(this, 'edit_ad_name', {$list.ad_id})">{$list.ad_name|escape:html}</span>
     </td>
-    <td align="left"><span>{if $list.position_id eq 0}{$lang.outside_posit}{else}{$list.position_name}{/if}</span>
-    </td>
-    
     <td align="center">
     {if $list.media_type eq '0'}
     <div style="margin:4px; position:relative" onmousemove="open_af('{$list.ad_id}', 'block')" onmouseout="open_af('{$list.ad_id}', 'none')">
@@ -46,7 +68,8 @@
     </script>
     {/if}
     </td>
-
+    <td align="left"><span>{if $list.position_id eq 0}{$lang.outside_posit}{else}{$list.position_name}{/if}</span>
+    </td>
     <td align="left"><span>{$list.type}</span></td>
     <td align="center"><span>{$list.start_date}</span></td>
     <td align="center"><span>{$list.end_date}</span></td>

@@ -162,6 +162,16 @@ listTable.loadList = function()
 }
 
 /**
+ * 载入消息会员查询列表
+ */
+listTable.loadList_mess = function()
+{
+  var args = "act="+this.query+"" + this.compileFilter();
+
+  Ajax.call(this.url, args, this.listCallback_mess, "POST", "JSON");
+}
+
+/**
  * 删除列表中的一个记录
  */
 listTable.remove = function(id, cfm, opt)
@@ -232,6 +242,33 @@ listTable.listCallback = function(result, txt)
     try
     {
       document.getElementById('listDiv').innerHTML = result.content;
+
+      if (typeof result.filter == "object")
+      {
+        listTable.filter = result.filter;
+      }
+
+      listTable.pageCount = result.page_count;
+    }
+    catch (e)
+    {
+      alert(e.message);
+    }
+  }
+}
+
+listTable.listCallback_mess = function(result, txt)
+{
+  if (result.error > 0)
+  {
+    alert(result.message);
+  }
+  else
+  {
+    try
+    {
+      document.getElementById('member').innerHTML = result.user_option;
+      document.getElementById('record_count').innerHTML = result.record_count;
 
       if (typeof result.filter == "object")
       {

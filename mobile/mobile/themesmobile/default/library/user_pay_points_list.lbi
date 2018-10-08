@@ -1,0 +1,87 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+<!--消费积分明细-->
+<!--{if $action eq "account_raply" || $action eq "account_log" || $action eq "account_deposit" || $action eq "account_detail" || $action eq "point_detail"} -->
+<script type="text/javascript">
+    {foreach from=$lang.account_js item=item key=key}
+    var {$key} = "{$item}";
+    {/foreach}
+</script>
+<!-- {/if}-->
+<body data-psd-width="840" >
+<div class="rebate">
+    <div class="header" >
+        <div class="back" onclick="history.go(-1)"></div>
+        <h2>我的购物币</h2>
+    </div>
+    <div class="rebate_num">
+        <p>购物币（1购物币=1元）</p>
+        <h1>{$pay_points}</h1>
+    </div>
+</div>
+<div class="content">
+    <div class="inter_num bgc" style="margin: 0;">
+        <!--{if $account_log}-->
+        <ul class="inter_much on">
+            <!--{foreach from=$account_log item=item name=name}-->
+            <li class="clearfix" style="padding: 0.3rem 0.1rem">
+                <div class="tit">
+                    <!-- <h2>平台赠送</h2> -->
+                    <span><em>{$item.change_time}</em>{$item.short_change_desc}</span>
+                </div>
+                <div class="invis_r" >
+                    <span style="line-height: 0.1rem">{$item.pay_points}</span>
+                </div>
+            </li>
+            <!--{/foreach}-->
+        </ul>
+        <!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+        <!-- {else} -->
+        <ul class="inter_much on" style="text-align: center;margin-top: 1.0rem">
+            您没有任何消费积分的变动哦！
+        </ul>
+        <!-- {/if} -->
+    </div>
+    {if $pager}
+    <section class="list-pagination">
+        <div style="" class="pagenav-wrapper" id="J_PageNavWrap">
+            <div class="pagenav-content">
+                <div class="pagenav" id="J_PageNav">
+                    <div class="p-prev p-gray" >
+                        <a href="{$pager.page_prev}">{$lang.page_prev}</a>
+                    </div>
+                    <div class="pagenav-cur" style="vertical-align:bottom">
+                        <div class="pagenav-text" >
+                        <span>
+                        <!--{foreach from=$pager.page_number key=key item=item}-->
+                            <!-- {if $pager.page eq $key} -->{$key}<!-- {/if} -->
+                            <!-- {/foreach} -->
+                        /{$pager.page_count}
+                        </span>
+                            <i></i>
+                        </div>
+                        <select class="pagenav-select"  onchange="location.href=this.options[this.selectedIndex].value;">
+                            <!--{foreach from=$pager.page_number key=key item=item}-->
+                            <option <!-- {if $pager.page eq $key} -->selected="selected"{/if} value="{$item}">第{$key}页</option>
+                            <!-- {/foreach} -->
+                        </select>
+                    </div>
+                    <div class="p-next" > <a href="{$pager.page_next}">{$lang.page_next}</a> </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {/if}
+</div>
+</body>
+</html>
+
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+    //单独页面上的js
+</script>

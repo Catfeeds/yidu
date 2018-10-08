@@ -1,0 +1,392 @@
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 334
+    [order_id] => 753
+    [order_amount] => 0.18
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 628
+    [order_id] => 1009
+    [order_amount] => 0.50
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 628
+    [order_id] => 1009
+    [order_amount] => 0.50
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 627
+    [order_id] => 1008
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 628
+    [order_id] => 1071
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 628
+    [order_id] => 1071
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 628
+    [order_id] => 1071
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 629
+    [order_id] => 1102
+    [order_amount] => 33.00
+    [order_type] => 0
+    [is_paid] => 1
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 638
+    [order_id] => 1201
+    [order_amount] => 120.40
+    [order_type] => 0
+    [is_paid] => 0
+)
+Array
+(
+    [log_id] => 640
+    [order_id] => 1315
+    [order_amount] => 90.00
+    [order_type] => 0
+    [is_paid] => 0
+)

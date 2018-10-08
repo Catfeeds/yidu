@@ -1,0 +1,65 @@
+<!-- $Id: user_account_check.htm 14216 2008-03-10 02:27:21Z testyang $ -->
+{include file="pageheader.htm"}
+<div class="main-div">
+<form method="post" action="user_recharge.php" name="theForm" onsubmit="return validate();">
+<table border="0" width="100%">
+  <tr>
+    <td colspan="2"><strong>购物币充值信息：</strong><hr /></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+    <strong>会员名称：</strong>{$user_name} &nbsp;&nbsp;<strong>购物币：</strong>{$surplus.amount} &nbsp;&nbsp;<strong>操作时间：</strong>{$surplus.add_time}
+    &nbsp;&nbsp;<strong>类型：</strong>{$process_type}
+    {if $surplus.pay_method}&nbsp;&nbsp;<strong>支付方式：</strong>{$surplus.payment}{/if}
+    </td>
+  </tr>
+  <tr>
+    <th width="15%" valign="middle" align="right">管理员备注：</th>
+    <td width="85%">
+      <textarea name="admin_note" cols="55" rows="5">{$surplus.admin_note}</textarea><span class="require-field">*</span>
+    </td>
+  </tr>
+  <tr>
+    <th width="15%" valign="middle" align="right">到款状态：</th>
+    <td>
+      <input type="radio" name="is_paid" value="0" checked="true" />未确认
+      <input type="radio" name="is_paid" value="1" />已完成
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>
+      <input type="hidden" name="act" value="action" />
+      <input type="hidden" name="id" value="{$id}" />
+      <input name="submit" type="submit" value="{$lang.button_submit}" class="button" />
+      <input type="reset" value="{$lang.button_reset}" class="button" />
+    </td>
+  </tr>
+</table>
+</form>
+</div>
+{insert_scripts files="../js/utils.js,validator.js"}
+{literal}
+<script language="JavaScript">
+<!--
+document.forms['theForm'].elements['admin_note'].focus();
+
+/**
+ * 检查表单输入的数据
+ */
+function validate()
+{
+    validator = new Validator("theForm");
+    validator.required("admin_note",  '请填写管理员备注！');
+    return validator.passed();
+}
+
+onload = function()
+{
+    // 开始检查订单
+    startCheckOrder();
+}
+//-->
+</script>
+{/literal}
+{include file="pagefooter.htm"}

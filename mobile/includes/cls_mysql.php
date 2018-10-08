@@ -3,14 +3,14 @@
 /**
  * ECSHOP MYSQL 公用类库
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: cls_mysql.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: cls_mysql.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -266,10 +266,15 @@ class cls_mysql
 
         if (!($query = mysql_query($sql, $this->link_id)) && $type != 'SILENT')
         {
-            $this->error_message[]['message'] = 'MySQL Query Error';
-            $this->error_message[]['sql'] = $sql;
-            $this->error_message[]['error'] = mysql_error($this->link_id);
-            $this->error_message[]['errno'] = mysql_errno($this->link_id);
+            //$this->error_message[]['message'] = 'MySQL Query Error';
+            //$this->error_message[]['sql'] = $sql;
+            //$this->error_message[]['error'] = mysql_error($this->link_id);
+            //$this->error_message[]['errno'] = mysql_errno($this->link_id);
+            
+            $this->error_message[]['消息'] = 'MySQL Query Error';
+            $this->error_message[]['SQL'] = $sql;
+            $this->error_message[]['错误'] = mysql_error($this->link_id);
+            $this->error_message[]['代码'] = mysql_errno($this->link_id);
 
             $this->ErrorMsg();
 
@@ -387,14 +392,41 @@ class cls_mysql
     {
         if ($message)
         {
+        	
+        	throw new Exception ($message);
+        	
             echo "<b>ECSHOP info</b>: $message\n\n<br /><br />";
             //print('<a href="http://faq.comsenz.com/?type=mysql&dberrno=2003&dberror=Can%27t%20connect%20to%20MySQL%20server%20on" target="_blank">http://faq.comsenz.com/</a>');
+        
         }
         else
         {
-            echo "<b>MySQL server error report:";
-            print_r($this->error_message);
-            //echo "<br /><br /><a href='http://faq.comsenz.com/?type=mysql&dberrno=" . $this->error_message[3]['errno'] . "&dberror=" . urlencode($this->error_message[2]['error']) . "' target='_blank'>http://faq.comsenz.com/</a>";
+//             if(MYSQL_ERROR_DISPLAY == 1)
+//             {
+                $message = '<table border="1" style="" align="center">';
+
+                foreach($this->error_message as $error)
+                {
+                    foreach($error as $key => $value)
+                    {
+                        $message = $message . '<tr><td style="padding: 10px;">' . $key . '</td><td style="padding: 10px;">' . $value . '</td></tr>';
+                    }
+                }
+                $message = $message . '</table>';
+
+//         	throw new Exception ($message);
+
+                echo $message;
+
+//             echo "<b>MySQL server error report:";
+
+//             echo "<br /><br /><a href='http://faq.comsenz.com/?type=mysql&dberrno=" . $this->error_message[3]['errno'] . "&dberror=" . urlencode($this->error_message[2]['error']) . "' target='_blank'>http://faq.comsenz.com/</a>";
+
+//             }
+//             else
+//             {
+//                 header('location:error.php');
+//             }
         }
 
         exit;

@@ -1,7 +1,10 @@
 <!-- $Id: template_setup.htm 16144 2009-06-01 09:21:21Z sxc_shop $ -->
 {include file="pageheader.htm"}
-
-<div class="form-div">
+<link href="styles/zTree/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<link href="js/jPicker/css/jPicker-1.1.6.min.css" rel="stylesheet" type="text/css" />
+<link href="js/jPicker/jPicker.css" rel="stylesheet" type="text/css" />
+{insert_scripts files='jquery.ztree.all-3.5.min.js,category_selecter.js,jPicker/jpicker-1.1.6.js'}
+<!-- <div class="form-div">
   <form method="post" action="template.php">
   {$lang.select_template}
   <select name="template_file">
@@ -10,7 +13,7 @@
   <input type="submit" value="{$lang.button_submit}" class="button" />
   <input type="hidden" name="act" value="setup" />
   </form>
-</div>
+</div> -->
 
 <!-- start template options list -->
 <div class="list-div">
@@ -22,35 +25,53 @@
     <th>{$lang.sort_order}</th>
     <th>{$lang.contents}</th>
     <th>{$lang.number}</th>
-    <th>{$lang.display}</th>
+    <!-- <th>{$lang.display}</th> -->
   </tr>
-  {foreach from=$temp_options item=library key=lib_name}
-  <tr>
-    <td class="first-cell">{$library.desc}</td>
-    <td><select name="regions[{$lib_name}]">{if $library.editable eq 1}<option value="">{$lang.not_editable}</option>{else}<option value="">{$lang.select_plz}</option>{html_options values=$temp_regions output=$temp_regions selected=$library.region}{/if}</select></td>
-    <td><input type="text" name="sort_order[{$lib_name}]" value="{$library.sort_order}" size="4" {if $library.editable eq 1} disabled {/if}/></td>
-    <td><input type="hidden" name="map[{$lib_name}]" value="{$library.library}" /></td>
-    <td>{if $library.number_enabled}<input type="text" name="number[{$lib_name}]" value="{$library.number}" size="4" />{else}&nbsp;{/if}</td>
-    <td align="center"><input type="checkbox" name="display[{$lib_name}]" value="1" {if $library.editable eq 1} disabled {/if}{if $library.display eq 1} checked="true" {/if} /></td>
-  </tr>
-  {/foreach}
+  
+<!--   {foreach from=$temp_options item=library key=lib_name}
+ <tr>
+ <td class="first-cell">{$library.desc}</td>
+ <td><select name="regions[{$lib_name}]">{if $library.editable eq 1}<option value="">{$lang.not_editable}</option>{else}<option value="">{$lang.select_plz}</option>{html_options values=$temp_regions output=$temp_regions selected=$library.region}{/if}</select></td>
+ <td><input type="text" name="sort_order[{$lib_name}]" value="{$library.sort_order}" size="4" {if $library.editable eq 1} disabled {/if}/></td>
+ <td><input type="hidden" name="map[{$lib_name}]" value="{$library.library}" /></td>
+ <td>{if $library.number_enabled}<input type="text" name="number[{$lib_name}]" value="{$library.number}" size="4" />{else}&nbsp;{/if}</td>
+ <td align="center"><input type="checkbox" name="display[{$lib_name}]" value="1" {if $library.editable eq 1} disabled {/if}{if $library.display eq 1} checked="true" {/if} /></td>
+ </tr>
+ {/foreach} -->
+   {foreach from=$temp_options item=library key=lib_name}
+<input type="hidden" name="regions[{$lib_name}]" value="" size="4" />
 
+<input type="hidden" name="sort_order[{$lib_name}]" value="{$library.sort_order}" size="4" {if $library.editable eq 1} disabled {/if}/>
+<input type="hidden" name="map[{$lib_name}]" value="{$library.library}" /></td>
+{if $library.number_enabled}<input type="hidden" name="number[{$lib_name}]" value="{$library.number}" size="4" />{else}&nbsp;{/if}
+<input type="hidden" name="display[{$lib_name}]" value="" size="4" />
+
+
+ {/foreach}
+
+  
   <!-- cateogry goods list -->
   <tr>
-    <td colspan="6" style="background-color: #F4FBFB; font-weight: bold" align="left"><a href="javascript:;" onclick="addCatGoods(this)">[+]</a> {$lang.template_libs.cat_goods} </td>
+    <td colspan="6" style="background-color: #F4FBFB; font-weight: bold;" align="left"><!-- <a href="javascript:;" onclick="addCatGoods(this)">[+]</a> {$lang.template_libs.cat_goods} -->楼层内分类下的商品</td>
   </tr>
-  {foreach from=$cate_goods item=library key=lib_name}
-  <tr>
+  {foreach from=$cate_goods item=library key=lib_name name=cat}
+  <tr class="tr_cate_goods">
     <td class="first-cell" align="right"><a href="javascript:;" onclick="removeRow(this)">[-]</a></td>
     <td><select name="regions[cat_goods][]"><option value="">{$lang.select_plz}</option>{html_options values=$temp_regions output=$temp_regions selected=$library.region}</select></td>
     <td><input type="text" name="sort_order[cat_goods][]" value="{$library.sort_order}" size="4" /></td>
-    <td><select name="categories[cat_goods][]"><option value="">{$lang.select_plz}</option>{$library.cats}</select></td>
+    <td>
+    <!-- <select name="categories[cat_goods][]"><option value="">{$lang.select_plz}</option>{$library.cats}</select> -->
+  分类：<input type="text" id="cat_name_{$smarty.foreach.cat.index}" class="cat_name" nowvalue="{$library.cat_id}" value="" >
+  <input type="hidden" id="cat_id_{$smarty.foreach.cat.index}" class="cat_id" name="categories[cat_goods][]" value="{$library.cat_id}">
+  <!-- 简称：<input type="text" id="ext_info[short_name][]" name="ext_info[short_name][]" value="{$library.ext_info.short_name}" style="width: 50px" class="cat_short_name" />
+  颜色：<input type="text" id="ext_info[cat_color][]" name="ext_info[cat_color][]" value="{$library.ext_info.cat_color}" style="width: 60px" class="cat_color" /> -->
+    </td>
     <td><input type="text" name="number[cat_goods][]" value="{$library.number}" size="4"  /></td>
-    <td></td>
+    <!-- <td></td> -->
   </tr>
   {/foreach}
 
-  <tr>
+  <!-- <tr>
     <td colspan="6" style="background-color: #F4FBFB; font-weight: bold" align="left"><a href="javascript:;" onclick="addBrandGoods(this)">[+]</a> {$lang.template_libs.brand_goods} </td>
   </tr>
   {foreach from=$brand_goods item=library key=lib_name}
@@ -63,7 +84,7 @@
     <td></td>
   </tr>
   {/foreach}
-
+  
   <tr>
     <td colspan="6" style="background-color: #F4FBFB; font-weight: bold" align="left"><a href="javascript:;" onclick="addArticles(this)">[+]</a> {$lang.template_libs.articles} </td>
   </tr>
@@ -77,7 +98,7 @@
     <td></td>
   </tr>
   {/foreach}
-
+  
   <tr>
     <td colspan="6" style="background-color: #F4FBFB; font-weight: bold" align="left"><a href="javascript:;" onclick="addAdPosition(this)">[+]</a> {$lang.template_libs.ad_position} </td>
   </tr>
@@ -90,7 +111,7 @@
     <td><input type="text" name="number[ad_position][]" value="{$ad_position.number}" size="4" /></td>
     <td></td>
   </tr>
-  {/foreach}
+  {/foreach} -->
 
   </table>
   <div class="button-div ">
@@ -137,6 +158,7 @@ onload = function()
     startCheckOrder();
 }
 
+
 /**
  * 创建区域选择的下拉列表
  */
@@ -177,6 +199,27 @@ function buildBrandSelect(selName)
 
     return sel;
 }
+
+var cat_list = null;
+
+function bindCatSeletor(cat_list){
+  $(".cat_id").each(function(){
+    var catIdObj = $(this);
+    var catNameObj = $(this).parent().find(".cat_name");
+    var selectId = catNameObj.attr("nowvalue");
+    $.showCategorySelecter(catNameObj, catIdObj, cat_list, selectId);
+  });
+}
+
+$().ready(function(){
+  
+  var url = "goods.php?act=ajax_category";
+  $.get(url, {}, function(data){
+    cat_list = $.parseJSON(data);
+    bindCatSeletor(cat_list);
+  }, "text");
+  
+});
 
 /**
  * 创建选择文章分类的下拉列表
@@ -222,6 +265,9 @@ function buildAdPositionsSelect(selName)
     return sel;
 }
 
+var index = 0;
+
+
 /**
  * 增加一个分类的商品
  */
@@ -231,7 +277,8 @@ function addCatGoods(obj)
 
     var table = obj.parentNode.parentNode.parentNode.parentNode;
 
-    var row  = table.insertRow(rowId + 1);
+    var row  = table.insertRow(rowId + 1 + $(".tr_cate_goods").size());
+    row.className = "tr_cate_goods";
     var cell = row.insertCell(-1);
     cell.innerHTML = '<a href="javascript:;" onclick="removeRow(this)">[-]</a>';
     cell.className = 'first-cell';
@@ -244,12 +291,26 @@ function addCatGoods(obj)
     cell.innerHTML = '<input type="text" name="sort_order[cat_goods][]" value="0" size="4" />';
 
     cell           = row.insertCell(-1);
-    cell.innerHTML = '<select name="categories[cat_goods][]"><option value="">' + selectPlease + '</option>' + selCategories + '</select>';
-
-    cell           = row.insertCell(-1);
+    //cell.innerHTML = '<select name="categories[cat_goods][]"><option value="">' + selectPlease + '</option>' + selCategories + '</select>';
+  cell.innerHTML = '分类：<input type="text" id="cat_name' + index + '" nowvalue="{$goods_cat_name}" value="{$goods_cat_name}" class="cat_name" >'
+          +'<input type="hidden" id="cat_id' + index + '" name="categories[cat_goods][]" value="{$goods_cat_id}" class="cat_id" >';
+    
+  cell.innerHTML += '&nbsp;简称：<input type="text" id="ext_info[short_name][]" name="ext_info[short_name][]" value="" style="width: 50px" class="cat_short_name" >';
+  cell.innerHTML += '&nbsp;颜色：<input type="text" id="cat_color_'+index+'" name="ext_info[cat_color][]" value="" style="width: 60px" class="cat_color" >';
+    
+  
+  cell           = row.insertCell(-1);
     cell.innerHTML = '<input type="text" name="number[cat_goods][]" value="5" size="4" />';
 
     cell           = row.insertCell(-1);
+  
+  $.showCategorySelecter($('#cat_name'+index), $('#cat_id'+index), cat_list, '{$goods_cat_id}');
+  
+  $("#cat_color_"+index).jPicker();
+  
+  index++;
+  
+  
 }
 
 /**
@@ -363,5 +424,10 @@ function removeRow(obj)
 }
 {/literal}
 //-->
+$().ready(function(){
+  var jPickers = $(".cat_color").jPicker();
+  //$(".cat_color").hide();
+});
 </script>
+
 {include file="pagefooter.htm"}

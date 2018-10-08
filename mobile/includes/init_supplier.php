@@ -28,7 +28,7 @@ if (__FILE__ == '')
 /* 取得当前ecshop所在的根目录 */
 define('ROOT_PATH', str_replace('includes/init_supplier.php', '', str_replace('\\', '/', __FILE__)));
 
-if (!file_exists(ROOT_PATH . '../data/install.lock') && !file_exists(ROOT_PATH . '../includes/install.lock')
+if (!file_exists(ROOT_PATH . 'data/install.lock') && !file_exists(ROOT_PATH . 'includes/install.lock')
     && !defined('NO_CHECK_INSTALL'))
 {
     header("Location: ./install/index.php\n");
@@ -42,7 +42,7 @@ if (!file_exists(ROOT_PATH . '../data/install.lock') && !file_exists(ROOT_PATH .
 @ini_set('session.use_trans_sid', 0);
 @ini_set('session.use_cookies',   1);
 @ini_set('session.auto_start',    0);
-@ini_set('display_errors',        0);
+@ini_set('display_errors',        1);
 
 if (DIRECTORY_SEPARATOR == '\\')
 {
@@ -53,7 +53,7 @@ else
     @ini_set('include_path', '.:' . ROOT_PATH);
 }
 
-require(ROOT_PATH . '/../data/config.php');
+require(ROOT_PATH . 'data/config.php');
 
 if (defined('DEBUG_MODE') == false)
 {
@@ -83,6 +83,12 @@ require(ROOT_PATH . 'includes/lib_insert.php');
 require(ROOT_PATH . 'includes/lib_article.php');
 require(ROOT_PATH . 'includes/lib_goods.php');
 require(ROOT_PATH . 'includes/lib_supplier_common.php');
+
+$Loaction = 'mobile/';
+if (!empty($Loaction)) {
+    ecs_header("Location: $Loaction\n");
+    exit;
+}
 
 /* 对用户传入的变量进行转义操作。*/
 if (!get_magic_quotes_gpc())
@@ -176,9 +182,9 @@ if (!defined('INIT_NO_SMARTY'))
     /* 创建 Smarty 对象。*/
     require(ROOT_PATH . 'includes/cls_template.php');
     $smarty = new cls_template;
-    
+
     $smarty->cache_lifetime = $_CFG['cache_time'];
-    $smarty->template_dir   = ROOT_PATH . 'themesmobile/' . $_CFG['template'];
+    $smarty->template_dir   = ROOT_PATH . 'themes/' . $_CFG['template'];
     $smarty->cache_dir      = ROOT_PATH . 'temp/caches';
     $smarty->compile_dir    = ROOT_PATH . 'temp/compiled';
 
@@ -198,11 +204,11 @@ if (!defined('INIT_NO_SMARTY'))
     $smarty->assign('template_dir',$_CFG['template']);
     if (!empty($_CFG['stylename']))
     {
-        $smarty->assign('ecs_css_path', 'themesmobile/' . $_CFG['template'] . '/style_' . $_CFG['stylename'] . '.css');
+        $smarty->assign('ecs_css_path', 'themes/' . $_CFG['template'] . '/style_' . $_CFG['stylename'] . '.css');
     }
     else
     {
-        $smarty->assign('ecs_css_path', 'themesmobile/' . $_CFG['template'] . '/style.css');
+        $smarty->assign('ecs_css_path', 'themes/' . $_CFG['template'] . '/style.css');
     }
 
 }
@@ -296,7 +302,7 @@ if ((DEBUG_MODE & 1) == 1)
 }
 else
 {
-    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING)); 
+    error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
 }
 if ((DEBUG_MODE & 4) == 4)
 {

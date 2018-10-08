@@ -3,14 +3,14 @@
 /**
  * ECSHOP 记录管理员操作日志
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: admin_logs.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: admin_logs.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 define('IN_ECS', true);
@@ -38,6 +38,14 @@ if ($_REQUEST['act'] == 'list')
     $admin_ip  = !empty($_REQUEST['ip'])       ? $_REQUEST['ip']         : '';
     $log_date  = !empty($_REQUEST['log_date']) ? $_REQUEST['log_date']   : '';
 
+	/* 查询管理员列表 */
+    $admin_list = array();
+	$res = $db->query("SELECT DISTINCT au.user_id, au.user_name FROM ".$ecs->table('admin_user')." as au INNER JOIN ".$ecs->table('admin_log')." as al ON au.user_id = al.user_id");
+	while ($row = $db->FetchRow($res))
+    {
+        $admin_list[$row['user_id']] = $row['user_name'];
+    }
+
     /* 查询IP地址列表 */
     $ip_list = array();
     $res = $db->query("SELECT DISTINCT ip_address FROM " .$ecs->table('admin_log'));
@@ -47,6 +55,7 @@ if ($_REQUEST['act'] == 'list')
     }
 
     $smarty->assign('ur_here',   $_LANG['admin_logs']);
+    $smarty->assign('admin_list',   $admin_list);
     $smarty->assign('ip_list',   $ip_list);
     $smarty->assign('full_page', 1);
 
@@ -161,35 +170,59 @@ if ($_REQUEST['act'] == 'batch_drop')
 /* 获取管理员操作记录 */
 function get_admin_logs()
 {
-    $user_id  = !empty($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
-    $admin_ip = !empty($_REQUEST['ip']) ? $_REQUEST['ip']         : '';
+	$result = get_filter();
+    if ($result === false)
+	{	
+		$filter['user_id'] = !empty($_REQUEST['user_id']) ? $_REQUEST['user_id']         : '';
+		$filter['add_time1']    = empty($_REQUEST['add_time1']) ? '' : (strpos($_REQUEST['add_time1'], '-') > 0 ?  local_strtotime($_REQUEST['add_time1']) : $_REQUEST['add_time1']);
+		$filter['add_time2']    = empty($_REQUEST['add_time2']) ? '' : (strpos($_REQUEST['add_time2'], '-') > 0 ?  local_strtotime($_REQUEST['add_time2']) : $_REQUEST['add_time2']);
+		$filter['ip'] = !empty($_REQUEST['ip']) ? $_REQUEST['ip']         : '';
+		$filter['sort_by']      = empty($_REQUEST['sort_by']) ? 'al.log_id' : trim($_REQUEST['sort_by']);
+		$filter['sort_order']   = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
+		
+		//查询条件
+		$where = " WHERE 1 ";
 
-    $filter = array();
-    $filter['sort_by']      = empty($_REQUEST['sort_by']) ? 'al.log_id' : trim($_REQUEST['sort_by']);
-    $filter['sort_order']   = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
+		if (!empty($filter['user_id']))
+		{
+			$where .= " AND al.user_id = '$filter[user_id]' ";
+		}		
+		if ($filter['add_time1'])
+		{
+			$where .= " AND al.log_time>=  '" . $filter['add_time1']."' ";
+		}
+		if ($filter['add_time2'])
+		{
+			$where .= " AND al.log_time<=  '" . $filter['add_time2']."' ";
+		}
+		if (!empty($filter['ip']))
+		{
+			$where .= " AND al.ip_address = '$filter[ip]' ";
+		}
+		
+		/* 获得总记录数据 */
+		$sql = 'SELECT COUNT(*) FROM ' .$GLOBALS['ecs']->table('admin_log'). ' AS al ' . $where;
+	
+		$filter['record_count'] = $GLOBALS['db']->getOne($sql);
+	
+		$filter = page_and_size($filter);
+		
+		set_filter($filter, $sql);
+		
+		/* 获取管理员日志记录 */
+		$list = array();
+		$sql  = 'SELECT al.*, u.user_name FROM ' .$GLOBALS['ecs']->table('admin_log'). ' AS al '.
+				'LEFT JOIN ' .$GLOBALS['ecs']->table('admin_user'). ' AS u ON u.user_id = al.user_id '.
+				$where .' ORDER by '.$filter['sort_by'].' '.$filter['sort_order'];
 
-    //查询条件
-    $where = " WHERE 1 ";
-    if (!empty($user_id))
-    {
-        $where .= " AND al.user_id = '$user_id' ";
-    }
-    elseif (!empty($admin_ip))
-    {
-        $where .= " AND al.ip_address = '$admin_ip' ";
-    }
 
-    /* 获得总记录数据 */
-    $sql = 'SELECT COUNT(*) FROM ' .$GLOBALS['ecs']->table('admin_log'). ' AS al ' . $where;
-    $filter['record_count'] = $GLOBALS['db']->getOne($sql);
-
-    $filter = page_and_size($filter);
-
-    /* 获取管理员日志记录 */
-    $list = array();
-    $sql  = 'SELECT al.*, u.user_name FROM ' .$GLOBALS['ecs']->table('admin_log'). ' AS al '.
-            'LEFT JOIN ' .$GLOBALS['ecs']->table('admin_user'). ' AS u ON u.user_id = al.user_id '.
-            $where .' ORDER by '.$filter['sort_by'].' '.$filter['sort_order'];
+	}
+	else
+	{       
+		$sql    = $result['sql'];
+        $filter = $result['filter'];		
+	}
+	
     $res  = $GLOBALS['db']->selectLimit($sql, $filter['page_size'], $filter['start']);
 
     while ($rows = $GLOBALS['db']->fetchRow($res))

@@ -54,10 +54,11 @@ function get_my_comments($goods_id, $type = 0, $page = 1, $c_tag)
 		$count = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM ".$GLOBALS['ecs']->table('comment')." AS c 
 										 LEFT JOIN ".$GLOBALS['ecs']->table('shaidan')." AS s ON c.rec_id=s.rec_id
 										 WHERE c.id_value = '$goods_id' AND c.status = 1 AND c.comment_rank > 0 $where");
-		$size  = empty($GLOBALS['_CFG']['comments_number'])?10:$GLOBALS['_CFG']['comments_number'];
+		$size  = !empty($GLOBALS['_CFG']['comments_number']) ? $GLOBALS['_CFG']['comments_number'] : 5;
+		
 		$page_count = ($count > 0) ? intval(ceil($count / $size)) : 1;
 	
-		$sql = "SELECT c.*, u.headimg, s.shaidan_id, s.status AS shaidan_status,s.title,s.message FROM ".$GLOBALS['ecs']->table('comment')." AS c 
+		$sql = "SELECT c.*, u.headimg, s.shaidan_id, s.status AS shaidan_status FROM ".$GLOBALS['ecs']->table('comment')." AS c 
 				LEFT JOIN ".$GLOBALS['ecs']->table('users')." AS u ON c.user_id=u.user_id
 				LEFT JOIN ".$GLOBALS['ecs']->table('shaidan')." AS s ON c.rec_id=s.rec_id
 				WHERE c.id_value = '$goods_id' AND c.status = 1 AND c.comment_rank > 0 $where ORDER BY c.add_time DESC";
@@ -70,7 +71,7 @@ function get_my_comments($goods_id, $type = 0, $page = 1, $c_tag)
 			$row['user_rank'] = get_user_rank($row['user_id']);
 			if ($row['shaidan_id'] > 0 && $row['shaidan_status'] == 1)
 			{
-				$row['shaidan_imgs'] = $GLOBALS['db']->getAll("SELECT * FROM ".$GLOBALS['ecs']->table('shaidan_img')." WHERE shaidan_id = '$row[shaidan_id]'");	
+				$row['shaidan_imgs'] = $GLOBALS['db']->getAll("SELECT * FROM ".$GLOBALS['ecs']->table('shaidan_img')." WHERE shaidan_id = '$row[shaidan_id]'");
 				$row['shaidan_imgs_num'] = count($row['shaidan_imgs']);
 			}
 			if ($row['comment_tag'])
@@ -95,25 +96,21 @@ function get_my_comments($goods_id, $type = 0, $page = 1, $c_tag)
 		$arr['count'] = $count;
 		$arr['size'] = $size;
 		$arr['page_count'] = $page_count;
-                $next = $page+1;
-                $prev = $page-1;
-                $arr['page_prev'] =  "ShowMyComments($goods_id,$type,$prev)";
-                $arr['page_next'] =  "ShowMyComments($goods_id,$type,$next)";
-//		for ($i = 1 ; $i <= $page_count ; $i ++)
-//		{
-//			$arr['page_number'][$i] = "ShowMyComments($goods_id,$type,$i)";
-//		}
-//		
+		for ($i = 1 ; $i <= $page_count ; $i ++)
+		{
+			$arr['page_number'][$i] = "ShowMyComments($goods_id,$type,$i)";
+		}
+		
 		return $arr;
 	}
 	else
 	{
 		$count = $GLOBALS['db']->getOne("SELECT COUNT(*) FROM ".$GLOBALS['ecs']->table('shaidan')." AS s 
 										 WHERE s.goods_id = '$goods_id' AND s.status = 1");
-		$size  = 10;
+		$size  = 20;
 		$page_count = ($count > 0) ? intval(ceil($count / $size)) : 1;
 	
-		$sql = "SELECT s.*, u.user_name, c.comment_tag, c.comment_rank, c.comment_id FROM ".$GLOBALS['ecs']->table('shaidan')." AS s 
+		$sql = "SELECT s.*, u.user_name, u.headimg, c.comment_tag, c.comment_rank, c.comment_id FROM ".$GLOBALS['ecs']->table('shaidan')." AS s 
 				LEFT JOIN ".$GLOBALS['ecs']->table('users')." AS u ON s.user_id=u.user_id
 				LEFT JOIN ".$GLOBALS['ecs']->table('comment')." AS c ON c.rec_id=s.rec_id
 				WHERE s.goods_id = '$goods_id' AND s.status = 1 ORDER BY s.add_time DESC";
@@ -172,7 +169,7 @@ function get_user_rank($user_id)
 	if ($user_id <= 0)
 	{
 		$arr['rank_id'] = 0;
-		$arr['rank_name'] = '游客';
+		$arr['rank_name'] = '普通用户';
 	}
 	else
 	{
@@ -219,5 +216,5 @@ function array_sort($arr,$keys,$type='asc')
 		$new_array[$k] = $arr[$k];
 	}
 	return $new_array; 
-}
+} 
 ?>

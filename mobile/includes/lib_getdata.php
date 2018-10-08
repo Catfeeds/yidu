@@ -2,6 +2,7 @@
 /**
  * ECSHOP 自定义数据调用函数包
  * ============================================================================
+ * 作者:68ecshop
  * ============================================================================
 */
 
@@ -125,7 +126,7 @@ function get_article_new( $id = array(0), $getwhat = 'art_id', $num = 0, $isrand
 		$sql .= ' ORDER BY rand()';
 	}
 	elseif( ($isrand == false) && ( $getwhat == 'art_cat' || $getwhat == 'art_id' ) ) {
-		$sql .= ' ORDER BY a.add_time DESC, a.article_id DESC';
+		$sql .= ' ORDER BY a.article_type DESC,a.add_time DESC, a.article_id DESC';
 	}
 	elseif( ($isrand == false) && ( $getwhat == 'goods_cat' || $getwhat == 'goods_id' ) ) {
 		$sql .= ' ORDER BY a.add_time DESC, a.article_id DESC';

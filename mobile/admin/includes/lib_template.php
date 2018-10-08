@@ -3,14 +3,14 @@
 /**
  * ECSHOP 管理中心模版相关公用函数库
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: lib_template.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: lib_template.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -21,24 +21,251 @@ if (!defined('IN_ECS'))
 /* 可以设置内容的模板 */
 $template_files = array(
     'index.dwt',
-    'brand_list.dwt',
+    'article.dwt',
+    'article_cat.dwt',
+    'brand.dwt',
+    'category.dwt',
+    'user_clips.dwt',
+    'compare.dwt',
+    'gallery.dwt',
+    'goods.dwt',
+    'group_buy_goods.dwt',
+    'group_buy_flow.dwt',
+    'group_buy_list.dwt',
+    'user_passport.dwt',
+    'pick_out.dwt',
+    'receive.dwt',
+    'respond.dwt',
+    'search.dwt',
+    'flow.dwt',
+    'snatch.dwt',
+    'user.dwt',
+    'tag_cloud.dwt',
+    'user_transaction.dwt',
     'style.css',
+    'auction_list.dwt',
+    'auction.dwt',
+    'message_board.dwt',
+	'takegoods',
+    'exchange_list.dwt',
 );
 
 /* 每个模板允许设置的库项目 */
 $page_libs = array(
+   'takegoods' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/history.lbi' => 0,
+    ),
+    'article' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/recommend_best.lbi' => 3,
+        '/library/recommend_hot.lbi' => 3,
+        '/library/comments.lbi' => 0,
+        '/library/goods_related.lbi' => 0,
+        '/library/recommend_promotion.lbi' => 3,
+        '/library/history.lbi' => 0,
+    ),
+    'article_cat' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/recommend_best.lbi' => 3,
+        '/library/recommend_hot.lbi' => 3,
+        '/library/recommend_promotion.lbi' => 3,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/vote_list.lbi' => 0,
+        '/library/article_category_tree.lbi' => 0,
+    ),
+    'brand' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/recommend_best.lbi' => 3,
+        '/library/goods_list.lbi' => 0,
+        '/library/pages.lbi' => 0,
+        '/library/recommend_promotion.lbi' => 3,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/vote_list.lbi' => 0,
+    ),
+    'category' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/recommend_best.lbi' => 3,
+        '/library/recommend_hot.lbi' => 3,
+        '/library/goods_list.lbi' => 0,
+        '/library/pages.lbi' => 0,
+        '/library/recommend_promotion.lbi' => 3,
+        '/library/brands.lbi' => 3,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/vote_list.lbi' => 0
+    ),
+    'compare' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+    ),
+    'flow' => array(
+        '/library/ur_here.lbi' => 0,
+    '/library/search_form.lbi' => 0,
+    ),
     'index' => array(
+/*        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,*/
+        '/library/new_articles.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/invoice_query.lbi' => 0,
         '/library/recommend_best.lbi' => 3,
         '/library/recommend_new.lbi' => 3,
         '/library/recommend_hot.lbi' => 3,
-        '/library/recommend_promotion.lbi' => 4,   
+        '/library/recommend_promotion.lbi' => 4,
+        '/library/group_buy.lbi' => 3,
+        '/library/auction.lbi' => 3,
         '/library/brands.lbi' => 3,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/order_query.lbi' => 0,
+        '/library/email_list.lbi' => 0,
+        '/library/vote_list.lbi' => 0
     ),
-	  'brand_list' => array(
+    'goods' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/goods_attrlinked.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/goods_fittings.lbi' => 0,
+        '/library/goods_gallery.lbi' => 0,
+        '/library/goods_tags.lbi' => 0,
+        '/library/comments.lbi' => 0,
+        '/library/bought_goods.lbi' => 0,
+        '/library/bought_note_guide.lbi' => 0,
+        '/library/goods_related.lbi' => 0,
+        '/library/goods_article.lbi' => 0,
+        '/library/relatetag.lbi' => 0,
     ),
-    	/* 微分销v2.0文章添加项 */
-	    'v_user_news' => array(
-        '/library/v_cat_articles.lbi' => 0,
+    'search_result' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/search_result.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/search_advanced.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/pages.lbi' => 0,
+    ),
+    'tag_cloud' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/recommend_best.lbi' => 3,
+        '/library/recommend_new.lbi' => 3,
+        '/library/recommend_hot.lbi' => 3,
+        '/library/recommend_promotion.lbi' => 3,
+    ),
+    'group_buy_goods' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/history.lbi' => 0,
+    ),
+    'group_buy_list' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+    ),
+    'search' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+    ),
+    'snatch' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+    ),
+    'auction_list' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/history.lbi' => 0,
+    ),
+    'auction' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+    ),
+    'message_board' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/search_form.lbi' => 0,
+        '/library/member.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/promotion_info.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/top10.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/message_list.lbi' => 10,
+    ),
+    'exchange_list' => array(
+        '/library/ur_here.lbi' => 0,
+        '/library/cart.lbi' => 0,
+        '/library/category_tree.lbi' => 0,
+        '/library/history.lbi' => 0,
+        '/library/pages.lbi' => 0,
+        '/library/exchange_hot.lbi' => 5,
+        '/library/exchange_list.lbi' => 0,
     ),
 );
 
@@ -87,9 +314,9 @@ function get_template_info($template_name, $template_style='')
     {
         foreach ($ext AS $val)
         {
-            if (file_exists('../themesmobile/' . $template_name . "/images/screenshot.$val"))
+            if (file_exists('../themes/' . $template_name . "/images/screenshot.$val"))
             {
-                $info['screenshot'] = '../themesmobile/' . $template_name . "/images/screenshot.$val";
+                $info['screenshot'] = '../themes/' . $template_name . "/images/screenshot.$val";
 
                 break;
             }
@@ -99,19 +326,19 @@ function get_template_info($template_name, $template_style='')
     {
         foreach ($ext AS $val)
         {
-            if (file_exists('../themesmobile/' . $template_name . "/images/screenshot_$template_style.$val"))
+            if (file_exists('../themes/' . $template_name . "/images/screenshot_$template_style.$val"))
             {
-                $info['screenshot'] = '../themesmobile/' . $template_name . "/images/screenshot_$template_style.$val";
+                $info['screenshot'] = '../themes/' . $template_name . "/images/screenshot_$template_style.$val";
 
                 break;
             }
         }
     }
 
-    $css_path = '../themesmobile/' . $template_name . '/style.css';
+    $css_path = '../themes/' . $template_name . '/style.css';
     if ($template_style != '')
     {
-        $css_path = '../themesmobile/' . $template_name . "/style_$template_style.css";
+        $css_path = '../themes/' . $template_name . "/style_$template_style.css";
     }
     if (file_exists($css_path) && !empty($template_name))
     {
@@ -163,7 +390,7 @@ function get_template_region($tmp_name, $tmp_file, $lib=true)
 {
     global $dyna_libs;
 
-    $file = '../themesmobile/' . $tmp_name . '/' . $tmp_file;
+    $file = '../themes/' . $tmp_name . '/' . $tmp_file;
 
     /* 将模版文件的内容读入内存 */
     $content = file_get_contents($file);
@@ -238,8 +465,8 @@ function move_plugin_library($tmp_name, &$msg)
     $sql = 'SELECT code, library FROM ' . $GLOBALS['ecs']->table('plugins') . " WHERE library > ''";
     $rec = $GLOBALS['db']->query($sql);
     $return_value = true;
-    $target_dir = ROOT_PATH . 'themesmobile/' . $tmp_name;
-    $source_dir = ROOT_PATH . 'themesmobile/' . $GLOBALS['_CFG']['template'];
+    $target_dir = ROOT_PATH . 'themes/' . $tmp_name;
+    $source_dir = ROOT_PATH . 'themes/' . $GLOBALS['_CFG']['template'];
     while ($row = $GLOBALS['db']->fetchRow($rec))
     {
         //先移动，移动失败试则拷贝
@@ -294,7 +521,8 @@ function get_editable_libs($curr_template, $curr_page_libs)
     global $_CFG;
     $vals = array();
     $edit_libs = array();
-    if ($xml_content = @file_get_contents(ROOT_PATH . 'themesmobile/' . $_CFG['template'] . '/libs.xml'))
+
+    if ($xml_content = @file_get_contents(ROOT_PATH . 'themes/' . $_CFG['template'] . '/libs.xml'))
     {
         $p = xml_parser_create();                                                   //把xml解析到数组
         xml_parse_into_struct($p,$xml_content,$vals,$index);
@@ -311,7 +539,7 @@ function get_editable_libs($curr_template, $curr_page_libs)
                 }
             }
 
-        }	
+        }
 
         while ($vals[++$i]['tag'] != 'FILE' || !isset($vals[$i]['attributes']))     //读出可编辑区库文件名称，放到一个数组中
         {
@@ -320,7 +548,6 @@ function get_editable_libs($curr_template, $curr_page_libs)
                 $edit_libs[] = $vals[$i]['value'];
             }
         }
-		
     }
 
     return $edit_libs;

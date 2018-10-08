@@ -3,14 +3,14 @@
 /**
  * ECSHOP 程序说明
  * ===========================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com；
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ==========================================================
- * $Author: derek $
- * $Id: affiliate.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: affiliate.php 17217 2011-01-19 06:29:08Z liubo $
  */
 
 define('IN_ECS', true);
@@ -28,9 +28,14 @@ if ($_REQUEST['act'] == 'list')
     {
         $smarty->assign('full_page', 1);
     }
-$config['on'] = 1;
-        $config['config']['separate_by'] = 0;
-    $smarty->assign('ur_here', $_LANG['distrib_set']);  /*微分销*/
+    
+    // $config['item'][2] = array('level_point'=>"10%", 'level_money'=>"10%");
+    // $config['item'][0] = array('level_point'=>"30%", 'level_money'=>"30%");
+    // $config['item'][1] = array('level_point'=>"5%", 'level_money'=>"5%");
+    // unset($config['item'][2]);
+    // put_affiliate($config);
+
+    $smarty->assign('ur_here', $_LANG['affiliate']);
     $smarty->assign('config', $config);
     $smarty->display('affiliate.htm');
 }
@@ -45,9 +50,9 @@ elseif ($_REQUEST['act'] == 'query')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'add')
 {
-    if (count($config['item']) < 3)
+    if (count($config['item']) < 5)
     {
-        //下线不能超过3层
+        //下线不能超过5层
         $_POST['level_point'] = (float)$_POST['level_point'];
         $_POST['level_money'] = (float)$_POST['level_money'];
         $maxpoint = $maxmoney = 100;
@@ -210,14 +215,13 @@ function get_affiliate()
 {
     $config = unserialize($GLOBALS['_CFG']['affiliate']);
     empty($config) && $config = array();
-
     return $config;
 }
 
 function put_affiliate($config)
 {
     $temp = serialize($config);
-    $sql = "UPDATE " . $GLOBALS['ecs']->table('ecsmart_shop_config',1) .
+    $sql = "UPDATE " . $GLOBALS['ecs']->table('shop_config') .
            "SET  value = '$temp'" .
            "WHERE code = 'affiliate'";
     $GLOBALS['db']->query($sql);

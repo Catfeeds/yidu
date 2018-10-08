@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link rel="stylesheet" href="themesmobile/default/css/iosSelect.css">
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>添加活动</title>
+    <meta name="keywords" content="添加活动" />
+    <meta name="description" content="添加活动" />
+</head>
+<body data-psd-width="840" style="background: #fff;">	
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>添加活动</h2>
+    <!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<form class="adty pa3" action="shop.php" method="post">
+	 	<div class="put clearfix">
+	 		<span>*活 动 名 称</span>
+	 		<input type="text" name="activity_name" id="activity_name">
+	 	</div>
+	 	<div class="put clearfix">
+	 		<span>*优 惠 方 式</span>
+	 		<div class="put_r">
+	 			<ul class="sale_sty clearfix">
+	 				<li class="zp">赠品</li>
+	 				<li class="xjjm">现金减免</li>
+	 				<li class="jgzk">价格折扣</li>
+	 			</ul>
+                <input type="hidden" id="act_type" name="act_type" value="">
+	 		</div>
+	 	</div>
+        <div class="put clearfix">
+            <span>*优惠数值</span>
+            <input type="text" name="act_type_ext" id="act_type_ext" value="0">
+        </div>
+        <div class="put clearfix">
+            <em style="color:red;">当优惠方式为“赠品”时，请输入允许买家选择赠品的最大数量，数量为0表示不限数量；当优惠方式为“现金减免”时，请输入现金减免的金额；当优惠方式为“价格折扣”时，请输入折扣（1－99），如：打9折，就输入90。</em>
+        </div>
+        <div class="put clearfix">
+            <span>*优 惠 商 品</span>
+            <input type="text" name="goods_list" id="goods_list" value="">
+        </div>
+        <div class="put clearfix">
+            <span style="width: 28%; height: .1rem;"></span>
+            <div class="put_r ">
+                <ul class="yidu "></ul>
+            </div>
+        </div>
+        <!-- <div class="put2 clearfix">
+            <span>*优 惠 范 围</span>
+            <div class="putr2">
+                <h2>选择商品</h2>
+                <ul class="mygod">
+                    <li>选择商品</li>
+                    <li>以下商品</li>
+                    <li>以下商品</li>
+                </ul>
+            </div>
+        </div> -->
+	 	<div class="put clearfix">
+            <span>*优 惠 介 绍</span>
+            <textarea name="activity_desc" id="activity_desc"></textarea>
+        </div>
+        <div class="put clearfix">
+            <span style="width: 28%; height: .1rem;"></span>
+            <div class="put_r ">
+                <ul class="yidu2 ">
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="put2 clearfix">
+            <span>*优 惠 商 品</span>
+            <div class="putr3 " >
+                <h2>选择商品</h2>
+                <ul class="mygod2">
+                    <li>选择商品</li>
+                    <li>以下商品</li>
+                    <li>以下商品</li>
+                </ul>
+            </div>
+        </div> -->
+        <div class="put clearfix">
+            <span>*金 额 下 限</span>
+            <input type="text" name="min_amount" id="min_amount" value="0">
+        </div>
+        <div class="put clearfix">
+            <span>*金 额 上 限</span>
+            <input type="text" name="max_amount" id="max_amount" value="0">
+        </div>
+	 	<div class="put clearfix">
+            <span>*优惠开始时间</span>
+            <input type="text" name="start_time" id="start_time" value="{$activity.start_time}">
+        </div>
+        <div class="put clearfix">
+            <span>*优惠结束时间</span>
+            <input type="text" name="end_time" id="end_time" value="{$activity.end_time}">
+        </div>
+	    <div class="fbtn pa3" style="position:static;margin-bottom:20px;">
+            <input type="hidden" name="act" value="insert_activity">
+            <input type="submit" value="提交" class="submit" style="width:7.2rem;">
+        </div>
+	</form>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/iscroll.js"></script>
+<script src="themesmobile/default/js/iosSelect.js"></script>
+<script src="themesmobile/default/js/zepto.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<!-- <script type="text/javascript" src="themesmobile/default/js/DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="themesmobile/default/js/DatePicker/extraDate.js"></script> -->
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+$(function(){
+    $('.putr2 h2').click(function(){
+        $(this).next('ul').slideToggle();
+    })
+    $('.putr3 h2').click(function(){
+        $(this).next('ul').slideToggle();
+    })
+    $('.mygod li').click(function(){
+        $('.mygod').slideUp();
+        $(this).text()
+        $('.yidu').append('<li>'+ $(this).text() +'</li>');
+    })
+    $('.mygod2 li').click(function(){
+        $('.mygod2').slideUp();
+        $(this).text()
+        $('.yidu2').append('<li>'+ $(this).text() +'</li>');
+    })
+    $('.sale_sty li').click(function(){
+        $(this).addClass('on')
+        $(this).siblings().removeClass('on')
+    })
+    var selectDateDom = $('.selectDate');
+    var showDateDom = $('.showDate');
+    // 初始化时间
+    var now = new Date();
+    var nowYear = now.getFullYear();
+    var nowMonth = now.getMonth() + 1;
+    var nowDate = now.getDate();
+    showDateDom.attr('data-year', nowYear);
+    showDateDom.attr('data-month', nowMonth);
+    showDateDom.attr('data-date', nowDate);
+    // 数据初始化
+    function formatYear (nowYear) {
+        var arr = [];
+        for (var i = nowYear - 1; i <= nowYear + 6; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '年'
+            });
+        }
+        return arr;
+    }
+    function formatMonth () {
+        var arr = [];
+        for (var i = 1; i <= 12; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '月'
+            });
+        }
+        return arr;
+    }
+    function formatDate (count) {
+        var arr = [];
+        for (var i = 1; i <= count; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '日'
+            });
+        }
+        return arr;
+    }
+    var yearData = function(callback) {
+        // setTimeout(function() {
+            callback(formatYear(nowYear))
+        // },10)
+    }
+    var monthData = function (year, callback) {
+        // setTimeout(function() {
+            callback(formatMonth());
+        // }, 10);
+    };
+    var dateData = function (year, month, callback) {
+        // setTimeout(function() {
+            if (/^1|3|5|7|8|10|12$/.test(month)) {
+                callback(formatDate(31));
+            }
+            else if (/^4|6|9|11$/.test(month)) {
+                callback(formatDate(30));
+            }
+            else if (/^2$/.test(month)) {
+                if (year % 4 === 0 && year % 100 !==0 || year % 400 === 0) {
+                    callback(formatDate(29));
+                }
+                else {
+                    callback(formatDate(28));
+                }
+            }
+            else {
+                throw new Error('month is illegal');
+            }
+        // }, 10);
+        // ajax请求可以这样写
+        /*
+        $.ajax({
+            type: 'get',
+            url: '/example',
+            success: function(data) {
+                callback(data);
+            }
+        });
+        */
+    };
+    selectDateDom.bind('click', function () {
+        var oneLevelId = showDateDom.attr('data-year');
+        var twoLevelId = showDateDom.attr('data-month');
+        var threeLevelId = showDateDom.attr('data-date');
+        var iosSelect = new IosSelect(3, 
+            [yearData, monthData, dateData],
+            {
+                title: '选择日期',
+                itemHeight: 35,
+                relation: [1, 1],
+                oneLevelId: oneLevelId,
+                twoLevelId: twoLevelId,
+                threeLevelId: threeLevelId,
+                showLoading: true,
+                callback: function (selectOneObj, selectTwoObj, selectThreeObj) {
+                    showDateDom.attr('data-year', selectOneObj.id);
+                    showDateDom.attr('data-month', selectTwoObj.id);
+                    showDateDom.attr('data-date', selectThreeObj.id);
+                    showDateDom.html(selectOneObj.value + ' ' + selectTwoObj.value + ' ' + selectThreeObj.value);
+                }
+        });
+    });
+    var selectDateDom2 = $('.selectDate2');
+    var showDateDom2 = $('.showDate2');
+    // 初始化时间
+    var now = new Date();
+    var nowYear = now.getFullYear();
+    var nowMonth = now.getMonth() + 1;
+    var nowDate = now.getDate();
+    showDateDom2.attr('data-year', nowYear);
+    showDateDom2.attr('data-month', nowMonth);
+    showDateDom2.attr('data-date', nowDate);
+    // 数据初始化
+    function formatYear (nowYear) {
+        var arr = [];
+        for (var i = nowYear - 1; i <= nowYear + 6; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '年'
+            });
+        }
+        return arr;
+    }
+    function formatMonth () {
+        var arr = [];
+        for (var i = 1; i <= 12; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '月'
+            });
+        }
+        return arr;
+    }
+    function formatDate (count) {
+        var arr = [];
+        for (var i = 1; i <= count; i++) {
+            arr.push({
+                id: i + '',
+                value: i + '日'
+            });
+        }
+        return arr;
+    }
+    var yearData = function(callback) {
+        // setTimeout(function() {
+            callback(formatYear(nowYear))
+        // },10)
+    }
+    var monthData = function (year, callback) {
+        // setTimeout(function() {
+            callback(formatMonth());
+        // }, 10);
+    };
+    var dateData = function (year, month, callback) {
+        // setTimeout(function() {
+            if (/^1|3|5|7|8|10|12$/.test(month)) {
+                callback(formatDate(31));
+            }
+            else if (/^4|6|9|11$/.test(month)) {
+                callback(formatDate(30));
+            }
+            else if (/^2$/.test(month)) {
+                if (year % 4 === 0 && year % 100 !==0 || year % 400 === 0) {
+                    callback(formatDate(29));
+                }
+                else {
+                    callback(formatDate(28));
+                }
+            }
+            else {
+                throw new Error('month is illegal');
+            }
+        // }, 10);
+        // ajax请求可以这样写
+        /*
+        $.ajax({
+            type: 'get',
+            url: '/example',
+            success: function(data) {
+                callback(data);
+            }
+        });
+        */
+    };
+    selectDateDom2.bind('click', function () {
+        var oneLevelId = showDateDom2.attr('data-year');
+        var twoLevelId = showDateDom2.attr('data-month');
+        var threeLevelId = showDateDom2.attr('data-date');
+        var iosSelect = new IosSelect(3, 
+            [yearData, monthData, dateData],
+            {
+                title: '选择日期',
+                itemHeight: 35,
+                relation: [1, 1],
+                oneLevelId: oneLevelId,
+                twoLevelId: twoLevelId,
+                threeLevelId: threeLevelId,
+                showLoading: true,
+                callback: function (selectOneObj, selectTwoObj, selectThreeObj) {
+                    showDateDom2.attr('data-year', selectOneObj.id);
+                    showDateDom2.attr('data-month', selectTwoObj.id);
+                    showDateDom2.attr('data-date', selectThreeObj.id);
+                    showDateDom2.html(selectOneObj.value + ' ' + selectTwoObj.value + ' ' + selectThreeObj.value);
+                }
+        });
+    });
+
+    $('.zp').click(function(event) {
+        $('#act_type').val(0);
+    });
+    $('.xjjm').click(function(event) {
+        $('#act_type').val(1);
+    });
+    $('.jgzk').click(function(event) {
+        $('#act_type').val(2);
+    });
+
+    $('.submit').click(function(event) {
+        if ($('#activity_name').val().length == 0) {
+            alert('请填写活动名称');
+            return false;
+        }
+        if ($('#act_type').val().length == 0) {
+            alert('请选择优惠方式');
+            return false;
+        }
+        if ($('#act_type_ext').val().length == 0) {
+            alert('请填写优惠数值');
+            return false;
+        }
+        if ($('#start_time').val().length == 0) {
+            alert('请填写优惠开始时间');
+            return false;
+        }
+        if ($('#end_time').val().length == 0) {
+            alert('请填写优惠结束时间');
+            return false;
+        }
+    });
+});
+
+</script>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>提现记录</title>
+    <meta name="keywords" content="提现记录" />
+    <meta name="description" content="提现记录" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>提现</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="cash">
+		<div class="cash_t">
+			<p>现金余额（元）</p>
+			<h1>￥{$money_total}</h1>
+		</div>
+		<ul>
+			<li>
+				<p>可用现金</p>
+				<h3>￥{$user_money} <i>元</i></h3>
+			</li>
+			<li>
+				<p>冻结现金</p>
+				<h3>￥{$frozen_money} <i>元</i></h3>
+			</li>
+		</ul>
+	</div>
+	<div class="cash_tx bgc mt">
+		<table>
+			<tr>
+				<th>申领日期</th>
+				<th>提现金额<br>（元）</th>
+				<th>手续费（元）</th>
+				<th>状态</th>
+			</tr>
+			{if $account_log}
+			{foreach from=$account_log item=log name=log}
+			<tr>
+				<td>{$log.add_time}</td>
+				<td>{$log.amount}</td>
+				<td>0</td>
+				<td>{if $log.is_paid eq 1}已完成{else}未确认{/if}</td>
+			</tr>
+			{/foreach}
+			{/if}
+		</table>
+	</div>
+	<div class="fbtn pa3"><a href="user.php?act=account_raply">提现</a></div>
+</div>
+{if $account_log}
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+{else}
+<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+{/if}
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>

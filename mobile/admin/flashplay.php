@@ -3,14 +3,14 @@
 /**
  * ECSHOP 程序说明
  * ===========================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ==========================================================
- * $Author: derek $
- * $Id: flashplay.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: flashplay.php 17217 2011-01-19 06:29:08Z liubo $
  */
 
 define('IN_ECS', true);
@@ -43,7 +43,7 @@ if ($_REQUEST['act']== 'list')
     /* 标签初始化 */
     $group_list = array(
         'sys' => array('text' => $_LANG['system_set'], 'url' => ''),
-        'cus' => array('text' => $_LANG['custom_set'], 'url' => 'flashplay.php?act=custom_list')
+        //'cus' => array('text' => $_LANG['custom_set'], 'url' => 'flashplay.php?act=custom_list')
                        );
 
     assign_query_info();
@@ -137,11 +137,7 @@ elseif ($_REQUEST['act'] == 'add')
         }
         elseif (!empty($_POST['img_src']))
         {
-            if(!get_file_suffix($_POST['img_src'], $allow_suffix))
-            {
-                sys_msg($_LANG['invalid_type']);
-            }
-            $src = $_POST['img_src'];
+            $src = filter_var($_POST['img_src'],FILTER_SANITIZE_STRING);
 
             if(strstr($src, 'http') && !strstr($src, $_SERVER['SERVER_NAME']))
             {
@@ -246,11 +242,8 @@ elseif ($_REQUEST['act'] == 'edit')
         }
         else if (!empty($_POST['img_src']))
         {
-            $src =$_POST['img_src'];
-            if(!get_file_suffix($_POST['img_src'], $allow_suffix))
-            {
-                sys_msg($_LANG['invalid_type']);
-            }
+            $src =filter_var($_POST['img_src'],FILTER_SANITIZE_STRING);
+
             if(strstr($src, 'http') && !strstr($src, $_SERVER['SERVER_NAME']))
             {
                 $src = get_url_image($src);
@@ -291,10 +284,10 @@ elseif ($_REQUEST['act'] == 'edit')
 elseif ($_REQUEST['act'] == 'install')
 {
     check_authz_json('flash_manage');
-    $flash_theme = trim($_GET['flashtpl']);
+    $flash_theme = filter_var(trim($_GET['flashtpl']),FILTER_SANITIZE_STRING);
     if ($_CFG['flash_theme'] != $flash_theme)
     {
-        $sql = "UPDATE " .$GLOBALS['ecs']->table('ecsmart_shop_config',1). " SET value = '$flash_theme' WHERE code = 'flash_theme'";
+        $sql = "UPDATE " .$GLOBALS['ecs']->table('shop_config'). " SET value = '$flash_theme' WHERE code = 'flash_theme'";
         if ($db->query($sql, 'SILENT'))
         {
             clear_all_files(); //清除模板编译文件
@@ -565,7 +558,7 @@ elseif ($_REQUEST['act'] == 'custom_status')
         clear_all_files();
 
         /* 标签初始化 */
-        $sql = "SELECT  value FROM " . $ecs->table("ecsmart_shop_config") . " WHERE id =337";
+        $sql = "SELECT  value FROM " . $ecs->table("shop_config") . " WHERE id =337";
         $shop_config = $db->getRow($sql);
         $group_list = array(
             'sys' => array('text' => $_LANG['system_set'], 'url' => ($shop_config['value'] == 'cus') ? 'javascript:system_set();void(0);' : 'flashplay.php?act=list'),
@@ -805,7 +798,7 @@ function get_url_image($url)
 function get_width_height()
 {
     $curr_template = $GLOBALS['_CFG']['template'];
-    $path = ROOT_PATH . 'themesmobile/' . $curr_template . '/library/';
+    $path = ROOT_PATH . 'themes/' . $curr_template . '/library/';
     $template_dir = @opendir($path);
 
     $width_height = array();
@@ -875,14 +868,14 @@ function set_flash_data($tplname, &$msg)
                                 'url' =>'http://www.ecshop.com'
                             );
         $flashdata[] = array(
-                                'src' => 'data/afficheimg/20081027wdwd.jpg',
-                                'text' => 'wdwd',
-                                'url' =>'http://www.wdwd.com'
+                                'src' => 'data/afficheimg/20081027xuorxj.jpg',
+                                'text' => 'maifou',
+                                'url' =>'http://www.maifou.net'
                             );
         $flashdata[] = array(
-                                'src' => 'data/afficheimg/20081027xuorxj.jpg',
+                                'src' => 'data/afficheimg/20081027wdwd.jpg',
                                 'text' => 'ECShop',
-                                'url' =>'http://help.ecshop.com/index.php?doc-view-108.htm'
+                                'url' =>'http://www.wdwd.com'
                             );
     }
     switch($tplname)
@@ -1041,7 +1034,7 @@ function ad_list()
         $GLOBALS['db']->query($sql);
 
         /* 用户自定义广告开启 */
-        $sql = "UPDATE " . $GLOBALS['ecs']->table("ecsmart_shop_config",1) . " SET value = 'cus' WHERE id =337";
+        $sql = "UPDATE " . $GLOBALS['ecs']->table("shop_config") . " SET value = 'cus' WHERE id =337";
         $GLOBALS['db']->query($sql);
     }
     else
@@ -1054,12 +1047,12 @@ function ad_list()
             $ad_status_1 = $GLOBALS['db']->getOne($sql);
             if (empty($ad_status_1))
             {
-                $sql = "UPDATE " . $GLOBALS['ecs']->table("ecsmart_shop_config",1) . " SET value = 'sys' WHERE id =337";
+                $sql = "UPDATE " . $GLOBALS['ecs']->table("shop_config") . " SET value = 'sys' WHERE id =337";
                 $GLOBALS['db']->query($sql);
             }
             else
             {
-                $sql = "UPDATE " . $GLOBALS['ecs']->table("ecsmart_shop_config",1) . " SET value = 'cus' WHERE id =337";
+                $sql = "UPDATE " . $GLOBALS['ecs']->table("shop_config") . " SET value = 'cus' WHERE id =337";
                 $GLOBALS['db']->query($sql);
             }
         }
@@ -1070,7 +1063,7 @@ function ad_list()
             $sql = "UPDATE " . $GLOBALS['ecs']->table("ad_custom") . " SET ad_status = 0 WHERE ad_id = $ad_id";
             $GLOBALS['db']->query($sql);
 
-            $sql = "UPDATE " . $GLOBALS['ecs']->table("ecsmart_shop_config",1) . " SET value = 'sys' WHERE id =337";
+            $sql = "UPDATE " . $GLOBALS['ecs']->table("shop_config") . " SET value = 'sys' WHERE id =337";
             $GLOBALS['db']->query($sql);
         }
     }

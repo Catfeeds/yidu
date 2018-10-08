@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="themesmobile/default/css/iosSelect.css">
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>发货</title>
+    <meta name="keywords" content="发货" />
+    <meta name="description" content="发货" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>发货</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<form action="shop.php?act=to_shipping" method="post">
+		<div class="data bgc mt pa3">
+			<div class="put clearfix">
+				<span>快递单号</span>
+				<input type="text" name="invoice_no">
+			</div>
+			<div class="put clearfix" style="display: none;">
+				<span>操作备注</span>
+				<textarea name="action_note"></textarea>
+			</div>
+		</div>
+		<div class="chuan bgc mt fahuo">
+			<input type="hidden" name="order_id" value="{$order_id}">
+			<input type="submit" class="submit" value="提交">
+		</div>
+	</form>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/zepto.js"></script>
+<script src="themesmobile/default/js/iscroll.js"></script>
+<script src="themesmobile/default/js/areaData_v2.js"></script>
+<script src="themesmobile/default/js/iosSelect.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		$("input[type='submit']").click(function(event) {
+			var invoice_no = $("input[name='invoice_no']").val();
+			if (!invoice_no) {
+				alert('请输入快递单号');
+				return false;
+			}
+		});
+	});
+</script>

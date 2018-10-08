@@ -3,14 +3,14 @@
 /**
  * ECSHOP  云服务接口
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2010 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: cloud.php 17063 2011-07-25 06:35:46Z derek $
+ * $Author: liubo $
+ * $Id: cloud.php 17063 2011-07-25 06:35:46Z liubo $
 */
 
 define('IN_ECS', true);
@@ -23,7 +23,7 @@ require(ROOT_PATH . 'includes/shopex_json.php');
 
 $data['api_ver'] = '1.0';
 $data['version'] = VERSION;
-$data['patch'] = file_get_contents(ROOT_PATH.ADMIN_PATH_M."/patch_num");
+$data['patch'] = file_get_contents(ROOT_PATH.ADMIN_PATH."/patch_num");
 $data['ecs_lang'] = $_CFG['lang'];
 $data['release'] = RELEASE;
 $data['charset'] = strtoupper(EC_CHARSET);
@@ -33,7 +33,7 @@ $data['certi'] = $_CFG['certi'];
 $data['php_ver'] = PHP_VERSION;
 $data['mysql_ver'] = $db->version();
 $data['shop_url'] = urlencode($ecs->url());
-$data['admin_url'] = urlencode($ecs->url().ADMIN_PATH_M);
+$data['admin_url'] = urlencode($ecs->url().ADMIN_PATH);
 $data['sess_id'] = $GLOBALS['sess']->get_session_id();
 $data['stamp'] = mktime();
 $data['ent_id'] = $_CFG['ent_id'];

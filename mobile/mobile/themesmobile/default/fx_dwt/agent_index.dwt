@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>业主管理</title>
+    <meta name="keywords" content="业主管理" />
+    <meta name="description" content="业主管理" />
+    
+</head>
+<body data-psd-width="840">
+<div class="header" >
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>业主管理</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="agent clearfix pa3">
+		<div class="agent_l clearfix">
+			<div class="pic"><img src="{$headimgurl}"></div>
+			<div class="agent_name ">
+				<h2>{$user_info.username}</h2>
+				<!-- <p>编号：{$user_info.agent_code}</p> -->
+				<p>{$user_info.agent_code}</p>
+			</div>
+		</div>
+		<div class="agent_con">
+			<h3>账务信息</h3>
+			<p>现金余额</p>
+			<span>{$user_info.user_money}</span>
+		</div>
+		<div class="agent_r clearfix">
+		 	<a href="user.php?act=account_raply">提现</a>
+		 	<p>可用现金</p>
+		 	<span>{$user_info.user_money}</span>
+		</div>
+	</div>
+	<div class="agent2 bgc">
+		<ul class="clearfix">
+			<li><a href="user.php?act=agent_shop_list">
+				<p>未转出</p>
+				<span>（{$wait_chuzu}）</span>
+			</a></li>
+			<li><a href="user.php?act=agent_shop_list&chuzu_status=1">
+				<p>待激活</p>
+				<span>（{$wait_jh}）</span>
+			</a></li>
+			<li><a href="user.php?act=agent_shop_list&chuzu_status=2">
+				<p>已激活</p>
+				<span>（{$has_chuzu}）</span>
+			</a></li>
+			<li><a href="user.php?act=agent_shop_list&chuzu_status=3">
+				<p>已过期</p>
+				<span>（{$has_guoqi}）</span>
+			</a></li>
+			<li><a href="agent.php?act=renter_list">
+				<p>店铺会员</p>
+				<span>（{$shop_member_num}）</span>
+			</a></li>
+			<li><a href="agent.php?act=weianzhi_list">
+				<p>未安置会员</p>
+				<span>（{$weianzhi_member_num}）</span>
+			</a></li>
+		</ul>
+	</div>
+	<div class="admin">
+		<h2>店铺管理</h2>
+		<ul>
+			<li><a href="user.php?act=agent_shop_list">店铺转出记录管理</a></li>
+			<li><a href="agent.php?act=recover_shop">店铺回收记录</a></li>
+			<li><a href="agent.php?act=renter_list">店铺会员</a></li>
+			<li><a href="agent.php?act=weianzhi_list">店铺未安置会员管理</a></li>
+		</ul>
+	</div>
+	<div class="admin">
+		<h2>厂家管理</h2>
+		<ul>
+			<li><a href="agent.php?act=factory_apply_list">厂家引荐</a></li>
+			<li><a href="agent.php?act=factory_goods_list">厂家商品明细</a></li>
+		</ul>
+	</div>
+	<div class="admin">
+		<h2>店铺收益</h2>
+		<ul>
+			<li><a href="agent.php?act=separate_log">推荐购物返利记录</a></li>
+			<li><a href="agent.php?act=rebate_log">租金返利记录</a></li>
+			<li><a href="agent.php?act=factory_reward_log">引荐厂家销售返利记录</a></li>
+			<li><a href="agent.php?act=tx_log">提现</a></li>
+			<!-- <li><a href="">现金对账单</a></li> -->
+		</ul>
+	</div>
+</div>
+
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+
+	$('.zf_sty ul li').click(function(){
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+	})
+</script>

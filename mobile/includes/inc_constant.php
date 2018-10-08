@@ -3,14 +3,14 @@
 /**
  * ECSHOP 常量
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: inc_constant.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: inc_constant.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -47,6 +47,10 @@ define('ERR_INVALID_PASSWORD',      5); // 密码错误
 define('ERR_INVALID_EMAIL',         6); // email错误
 define('ERR_USERNAME_NOT_ALLOW',    7); // 用户名不允许注册
 define('ERR_EMAIL_NOT_ALLOW',       8); // EMAIL不允许注册
+define('ERR_MOBILE_PHONE_EXISTS',	9); // 手机号码已经存在
+define('ERR_INVALID_MOBILE_PHONE',	10); // 手机号码错误
+define('ERR_MOBILE_PHONE_NOT_ALLOW',11); // 手机号码不允许注册
+define('ERR_INVALID_REGISTER_TYPE',	12); // 无效的注册类型
 
 /* 加入购物车失败的错误代码 */
 define('ERR_NOT_EXISTS',            1); // 商品不存在
@@ -62,6 +66,9 @@ define('CART_GROUP_BUY_GOODS',      1); // 团购商品
 define('CART_AUCTION_GOODS',        2); // 拍卖商品
 define('CART_SNATCH_GOODS',         3); // 夺宝奇兵
 define('CART_EXCHANGE_GOODS',       4); // 积分商城
+define('CART_PRE_SALE_GOODS',	    6); // 预售商品
+define('CART_VIRTUAL_GROUP_GOODS',  7); // 虚拟团购
+
 
 /* 订单状态 */
 define('OS_UNCONFIRMED',            0); // 未确认
@@ -94,7 +101,6 @@ define('PS_PAYED',                  2); // 已付款
 define('CS_AWAIT_PAY',              100); // 待付款：货到付款且已发货且未付款，非货到付款且未付款
 define('CS_AWAIT_SHIP',             101); // 待发货：货到付款且未发货，非货到付款且已付款且未发货
 define('CS_FINISHED',               102); // 已完成：已确认、已付款、已发货
-define('CS_AWAIT_RECEIPT',          105); // 待收货：已发货，未确认收货的订单
 
 /* 缺货处理 */
 define('OOS_WAIT',                  0); // 等待货物备齐后再发
@@ -115,7 +121,7 @@ define('SEND_BY_USER',              0); // 按用户发放
 define('SEND_BY_GOODS',             1); // 按商品发放
 define('SEND_BY_ORDER',             2); // 按订单发放
 define('SEND_BY_PRINT',             3); // 线下发放
-define('SEND_BY_REGISTER',    5); // 按注册用户发放
+define('SEND_BY_REGISTER',    5); // 按注册用户发放      代码增加  BY  www.68ecshop.com
 define('SEND_BY_ONLINE',             4); // 线上发放
 
 /* 广告的类型 */
@@ -138,6 +144,7 @@ define('M_BUSINESS',                5); // 商家
 define('M_COMMENT',                 6); // 评论
 
 /* 团购活动状态 */
+define('GROUP_BUY_CODE',			'group_by'); // 团购的代码标识
 define('GBS_PRE_START',             0); // 未开始
 define('GBS_UNDER_WAY',             1); // 进行中
 define('GBS_FINISHED',              2); // 已结束
@@ -167,7 +174,7 @@ define('GAT_PACKAGE',               4); // 超值礼包
 define('GAT_PRE_SALE',              5); // 预售活动
 
 /* 帐号变动类型 */
-define('ACT_SAVING',                0);     // 帐户充值
+define('ACT_SAVING',                0);     // 帐户冲值
 define('ACT_DRAWING',               1);     // 帐户提款
 define('ACT_ADJUSTING',             2);     // 调节帐户
 define('ACT_STOCK_RIGHT',           3);     // 股权变更
@@ -248,14 +255,24 @@ define('SEND_USER', 1);
 define('SEND_RANK', 2);
 
 /*访问来源*/
-define('WEB_FROM', 'mobile');
+define('WEB_FROM', 'pc');
 define('APP_FROM', 'app');
+/*佣金日志中的事件*/
+define('REBATE_LOG_ORDER', 1);//佣金涉及到的订单
+define('REBATE_LOG_LIST', 2);//佣金表状态
+
+/* 生成静态页面的配置 */
+define('PREFIX_CATEGORY', 'shangpin');   //保存 商品页、商品列表页的子目录前缀，不需要写 -
+define('PREFIX_ARTICLECAT', 'wenzhang'); //保存 文章页、文章列表页的子目录前缀，不需要写 -
+define('PREFIX_TOPIC', 'zhuanti');
 
 /* license接口 */
 define('LICENSE_VERSION', '1.0');
 
 /* 配送方式 */
-define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express|yto|zto');
+// define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express|yto|zto');
+// 增加配送方式
+define('SHIP_LIST', 'cac|city_express|ems|flat|fpd|post_express|post_mail|presswork|sf_express|sto_express|yto|zto|yd_express|bestex|ttkd|zjs|qfkd|deppon');
 
 
 /* 在线客服聊天 */
@@ -270,4 +287,20 @@ define('CHAT_OF_SERVER_PORT', '9090');// 服务器端口号
 define('CHAT_OF_HTTP_BIND_PORT', '7070');// 服务器Http-Bind的端口号
 define('CHAT_OF_ADMIN_USERNAME', 'admin');// OpenFire登录管理员用户名
 define('CHAT_OF_ADMIN_PASSWORD', 'openfire@pwd');// OpenFire登录管理员密码，此密码与登录OpenFire管理界面保持一致
+
+//验证记录
+define('ERR_VALIDATE_KEY_NOT_EXIST', 0);// 验证信息不存在
+define('ERR_VALIDATE_EXPIRED_TIME', 1);// 验证码已过期
+define('ERR_VALIDATE_CODE_NOT_MATCH', 2);// 验证码错误
+
+//验证类型
+define('VT_EMAIL_REGISTER', 'email_register');// 邮箱注册
+define('VT_MOBILE_REGISTER', 'mobile_register');// 手机注册
+define('VT_EMAIL_FIND_PWD', 'email_find_password');// 邮箱找回密码
+define('VT_MOBILE_FIND_PWD', 'mobile_find_password');// 手机号找回密码
+define('VT_EMAIL_VALIDATE', 'email_validate');// 邮箱验证
+define('VT_MOBILE_VALIDATE', 'mobile_validate');// 手机验证
+
+
+
 ?>

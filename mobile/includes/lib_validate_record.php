@@ -18,13 +18,13 @@ function save_validate_record ($key, $code, $type, $last_send_time, $expired_tim
 {
 	$record = array(
 		// 验证代码
-		"record_code" => $code,
+		"record_code" => $code, 
 		// 业务类型
-		"record_type" => $type,
+		"record_type" => $type, 
 		// 业务类型
-		"last_send_time" => $last_send_time,
+		"last_send_time" => $last_send_time, 
 		// 过期时间
-		"expired_time" => $expired_time,
+		"expired_time" => $expired_time, 
 		// 扩展信息
 		"ext_info" => serialize($ext_info)
 	);
@@ -69,18 +69,8 @@ function check_validate_record_exist ($key)
 }
 
 /**
- * 从数据库中删除过期的验证记录
- */
-function delete_validate_record ()
-{
-	$current_time = time();
-	$sql = "delete from " . $GLOBALS['ecs']->table('validate_record') . " where expired_time < '$current_time'";
-	return $GLOBALS['db']->query($sql);
-}
-
-/**
  * 根据键删除验证记录
- * 
+ *
  * @param string $key        	
  */
 function remove_validate_record ($key)
@@ -90,8 +80,20 @@ function remove_validate_record ($key)
 }
 
 /**
+ * 移除过期的验证记录
+ *
+ * @param string $key        	
+ */
+function remove_expired_validate_record ()
+{
+	$current_time = time();
+	$sql = "delete from " . $GLOBALS['ecs']->table('validate_record') . " where expired_time < '$current_time'";
+	return $GLOBALS['db']->query($sql);
+}
+
+/**
  * 基本验证
- * 
+ *
  * @param string $key        	
  * @param string $value        	
  * @return int 0-验证信息不存在，1-验证码已过期, 2-验证码错误
@@ -120,12 +122,15 @@ function validate_code ($key, $code)
 
 /**
  * 从数据库中获取验证记录信息，会将ext_info数组解析与结果合并
- * 
+ *
  * @param string $key        	
  * @return boolean|array:
  */
 function get_validate_record ($key)
 {
+	// 移除过期的验证记录
+	remove_expired_validate_record();
+	
 	$sql = "select * from " . $GLOBALS['ecs']->table('validate_record') . " where record_key = '$key'";
 	$row = $GLOBALS['db']->getRow($sql);
 	
@@ -138,15 +143,15 @@ function get_validate_record ($key)
 	
 	$record = array(
 		// 验证代码
-		"record_key" => $row['record_key'],
+		"record_key" => $row['record_key'], 
 		// 验证代码
-		"record_code" => $row['record_code'],
+		"record_code" => $row['record_code'], 
 		// 业务类型
-		"record_type" => $row['record_type'],
+		"record_type" => $row['record_type'], 
 		// 开始时间
-		"last_send_time" => $row['last_send_time'],
+		"last_send_time" => $row['last_send_time'], 
 		// 过期时间
-		"expired_time" => $row['expired_time'],
+		"expired_time" => $row['expired_time'], 
 		// 创建时间
 		"create_time" => $row['create_time']
 	);

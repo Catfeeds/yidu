@@ -10,16 +10,16 @@ $(window).load(function(){
 //	}
 //	xzImg();
 	//对齐线
-	if($(".inner").length>0){
-		var lineHeight = $(".inner").get(0).getBoundingClientRect().top;
-		var Height = lineHeight + 350;
-		$(".bg").css("height",Height+"px");
-		$(window).resize(function(){
-			lineHeight = $(".inner").get(0).getBoundingClientRect().top;
-			Height = lineHeight + 350;
-			$(".bg").css("height",Height+"px");
-		})
-	}
+	// if($(".inner").length>0){
+	// 	var lineHeight = $(".inner").get(0).getBoundingClientRect().top;
+	// 	var Height = lineHeight + 350;
+	// 	$(".bg").css("height",Height+"px");
+	// 	$(window).resize(function(){
+	// 		lineHeight = $(".inner").get(0).getBoundingClientRect().top;
+	// 		Height = lineHeight + 350;
+	// 		$(".bg").css("height",Height+"px");
+	// 	})
+	// }
 	//对齐线
 	
 	$(".spinner").hide();

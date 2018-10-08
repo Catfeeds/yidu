@@ -3,14 +3,14 @@
 /**
  * ECSHOP 广告管理程序
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: ads.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: ads.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 define('IN_ECS', true);
@@ -18,8 +18,8 @@ define('IN_ECS', true);
 require(dirname(__FILE__) . '/includes/init.php');
 include_once(ROOT_PATH . 'includes/cls_image.php');
 $image = new cls_image($_CFG['bgcolor']);
-$exc   = new exchange($ecs->table("ecsmart_ad"), $db, 'ad_id', 'ad_name');
-$allow_suffix = array('gif', 'jpg', 'png', 'jpeg', 'bmp','swf');
+$exc   = new exchange($ecs->table("ad"), $db, 'ad_id', 'ad_name');
+
 /* act操作项的初始化 */
 if (empty($_REQUEST['act']))
 {
@@ -130,7 +130,7 @@ elseif ($_REQUEST['act'] == 'insert')
     $end_time   = local_strtotime($_POST['end_time']);
 
     /* 查看广告名称是否有重复 */
-    $sql = "SELECT COUNT(*) FROM " .$ecs->table('ecsmart_ad'). " WHERE ad_name = '$ad_name'";
+    $sql = "SELECT COUNT(*) FROM " .$ecs->table('ad'). " WHERE ad_name = '$ad_name'";
     if ($db->getOne($sql) > 0)
     {
         $link[] = array('text' => $_LANG['go_back'], 'href' => 'javascript:history.back(-1)');
@@ -233,7 +233,7 @@ elseif ($_REQUEST['act'] == 'insert')
     }
 
     /* 插入数据 */
-    $sql = "INSERT INTO ".$ecs->table('ecsmart_ad'). " (position_id,media_type,ad_name,ad_link,ad_code,start_time,end_time,link_man,link_email,link_phone,click_count,enabled)
+    $sql = "INSERT INTO ".$ecs->table('ad'). " (position_id,media_type,ad_name,ad_link,ad_code,start_time,end_time,link_man,link_email,link_phone,click_count,enabled)
     VALUES ('$_POST[position_id]',
             '$_POST[media_type]',
             '$ad_name',
@@ -255,8 +255,8 @@ elseif ($_REQUEST['act'] == 'insert')
 
     /* 提示信息 */
 
-    $link[0]['text'] = $_LANG['show_ads_template'];
-    $link[0]['href'] = 'template.php?act=setup';
+    /*$link[0]['text'] = $_LANG['show_ads_template'];
+    $link[0]['href'] = 'template.php?act=setup';*/
 
     $link[1]['text'] = $_LANG['back_ads_list'];
     $link[1]['href'] = 'ads.php?act=list';
@@ -275,7 +275,7 @@ elseif ($_REQUEST['act'] == 'edit')
     admin_priv('ad_manage');
 
     /* 获取广告数据 */
-    $sql = "SELECT * FROM " .$ecs->table('ecsmart_ad'). " WHERE ad_id='".intval($_REQUEST['id'])."'";
+    $sql = "SELECT * FROM " .$ecs->table('ad'). " WHERE ad_id='".intval($_REQUEST['id'])."'";
     $ads_arr = $db->getRow($sql);
 
     $ads_arr['ad_name'] = htmlspecialchars($ads_arr['ad_name']);
@@ -442,7 +442,7 @@ elseif ($_REQUEST['act'] == 'update')
 
     $ad_code = str_replace('../' . DATA_DIR . '/afficheimg/', '', $ad_code);
     /* 更新信息 */
-    $sql = "UPDATE " .$ecs->table('ecsmart_ad'). " SET ".
+    $sql = "UPDATE " .$ecs->table('ad'). " SET ".
             "position_id = '$_POST[position_id]', ".
             "ad_name     = '$_POST[ad_name]', ".
             "ad_link     = '$ad_link', ".
@@ -558,17 +558,25 @@ function get_adslist()
     $pid = !empty($_REQUEST['pid']) ? intval($_REQUEST['pid']) : 0;
 
     $filter = array();
-    $filter['sort_by']    = empty($_REQUEST['sort_by']) ? 'ad.ad_name' : trim($_REQUEST['sort_by']);
+    $filter['sort_by']    = empty($_REQUEST['sort_by']) ? 'ad_name' : trim($_REQUEST['sort_by']);
     $filter['sort_order'] = empty($_REQUEST['sort_order']) ? 'DESC' : trim($_REQUEST['sort_order']);
-
+    $filter['select']	  = $_REQUEST['select'];
+    $filter['keyword']	  = $_REQUEST['keyword'];
     $where = 'WHERE 1 ';
     if ($pid > 0)
     {
         $where .= " AND ad.position_id = '$pid' ";
     }
-
+    if(!empty($filter['keyword']) && $filter['select'] == "按广告名称")
+    {
+	$where.= "AND ad.ad_name like '%".$filter['keyword']."%'";
+    }
+    if(!empty($filter['keyword']) && $filter['select'] == "按广告ID")
+    {
+	$where.="AND ad.ad_id like '%". $filter['keyword'] ."%'";
+    }
     /* 获得总记录数据 */
-    $sql = 'SELECT COUNT(*) FROM ' .$GLOBALS['ecs']->table('ecsmart_ad'). ' AS ad ' . $where;
+    $sql = 'SELECT COUNT(*) FROM ' .$GLOBALS['ecs']->table('ad'). ' AS ad ' . $where;
     $filter['record_count'] = $GLOBALS['db']->getOne($sql);
 
     $filter = page_and_size($filter);
@@ -576,11 +584,11 @@ function get_adslist()
     /* 获得广告数据 */
     $arr = array();
     $sql = 'SELECT ad.*, COUNT(o.order_id) AS ad_stats, p.position_name '.
-            'FROM ' .$GLOBALS['ecs']->table('ecsmart_ad'). 'AS ad ' .
-            'LEFT JOIN ' . $GLOBALS['ecs']->table('ecsmart_ad_position'). ' AS p ON p.position_id = ad.position_id '.
+            'FROM ' .$GLOBALS['ecs']->table('ad'). 'AS ad ' .
+            'LEFT JOIN ' . $GLOBALS['ecs']->table('ad_position'). ' AS p ON p.position_id = ad.position_id '.
             'LEFT JOIN ' . $GLOBALS['ecs']->table('order_info'). " AS o ON o.from_ad = ad.ad_id $where " .
             'GROUP BY ad.ad_id '.
-            'ORDER by '.$filter['sort_by'].' '.$filter['sort_order'];
+            'ORDER by ad.'.$filter['sort_by'].' '.$filter['sort_order'];
 
     $res = $GLOBALS['db']->selectLimit($sql, $filter['page_size'], $filter['start']);
 

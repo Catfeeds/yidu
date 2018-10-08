@@ -3,14 +3,14 @@
 /**
  * ECSHOP 管理中心语言项编辑(前台语言项)
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: edit_languages.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: edit_languages.php 17217 2011-01-19 06:29:08Z liubo $
  */
 
 define('IN_ECS', true);
@@ -98,7 +98,7 @@ if ($_REQUEST['act'] == 'list')
 elseif ($_REQUEST['act'] == 'edit')
 {
     /* 语言项的路径 */
-    $lang_file = isset($_POST['file_path']) ? trim($_POST['file_path']) : '';
+    $lang_file = isset($_POST['file_path']) ? filter_var(trim($_POST['file_path']),FILTER_SANITIZE_STRING) : '';
 
     /* 替换前的语言项 */
     $src_items = !empty($_POST['item']) ? stripslashes_deep($_POST['item']) : '';
@@ -117,7 +117,7 @@ elseif ($_REQUEST['act'] == 'edit')
         else
         {
             $_POST['item_content'][$i] = str_replace('\\\\n', '\\n', $_POST['item_content'][$i]);
-            $dst_items[$i] = $_POST['item_id'][$i] .' = '. '\'' .$_POST['item_content'][$i]. '\';';
+            $dst_items[$i] = $_POST['item_id'][$i] .' = '. '"' .$_POST['item_content'][$i]. '";';
         }
     }
 

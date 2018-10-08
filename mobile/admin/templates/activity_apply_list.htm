@@ -1,0 +1,139 @@
+{if $full_page}
+<!-- $Id: users_list.htm 17053 2010-03-15 06:50:26Z sxc_shop $ -->
+{include file="pageheader.htm"} {insert_scripts files="../js/utils.js,listtable.js,placeholder.js"}
+<div class="form-div">
+	<form action="javascript:searchUser()" name="searchForm">
+		<img src="images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH" />
+		<span style="position:relative"><input type="text" name="keyword" placeholder="活动名称/优惠介绍/优惠商品" /></span>
+		<input type="submit" class="button" value="{$lang.button_search}" />
+	</form>
+</div>
+<form method="POST" action="" name="listForm" onsubmit="return confirm_bath()">
+	<div class="list-div" id="listDiv">
+		{/if}
+		<!--用户列表部分-->
+		<table cellpadding="3" cellspacing="1">
+			<tr>
+				<th>
+					<input onclick='listTable.selectAll(this, "checkboxes")' type="checkbox">
+					编号
+				</th>
+				<th>活动名称</th>
+				<th>优惠介绍</th>
+				<th>优惠商品</th>
+				<th>优惠类型</th>
+				<th>优惠开始时间</th>
+				<th>优惠结束时间</th>
+				<th>优惠下限</th>
+				<th>优惠上限</th>
+				<th>优惠数值</th>
+				<th>所属店铺</th>
+				<th>申请时间</th>
+				<th>审核状态</th>
+				<th>操作</th>
+			</tr>
+			{foreach from=$activity_apply_list item=activity}
+			<tr>
+				<td>
+					<input type="checkbox" name="checkboxes[]" value="{$activity.apply_id}" />
+					{$activity.apply_id}
+				</td>
+				<td align="center">{$activity.activity_name}</td>
+				<td align="center">{$activity.activity_desc}</td>
+				<td align="center">{$activity.goods_list}</td>
+				<td align="center">{$activity.act_type}</td>
+				<td align="center">{$activity.start_time}</td>
+				<td align="center">{$activity.end_time}</td>
+				<td align="center">{$activity.min_amount}</td>
+				<td align="center">{$activity.max_amount}</td>
+				<td align="center">{$activity.act_type_ext}</td>
+				<td align="center">{$activity.supplier_name}</td>
+				<td align="center">{$activity.add_time}</td>
+				<td align="center">
+					{if $activity.pass_status eq 1}
+					审核通过
+					{elseif $activity.pass_status eq 2}
+					审核不通过
+					{else}
+					待审核
+					{/if}
+				</td>
+				<td align="center">
+					{if $activity.pass_status eq 0}
+					<a href="javascript:confirm_redirect('请确定手动添加了该优惠活动后再通过审核', 'activity_apply.php?act=pass&apply_id={$activity.apply_id}')" title="通过审核" style="text-decoration: underline;">通过审核</a>
+					&nbsp;
+					<a href="javascript:confirm_redirect('确定不通过吗？', 'activity_apply.php?act=unpass&apply_id={$activity.apply_id}')" title="不通过" style="text-decoration: underline;">不通过</a>
+					{/if}
+					{if $activity.pass_status eq 1}
+					<!-- <a href="javascript:confirm_redirect('确定不通过吗？', 'activity_apply.php?act=unpass&apply_id={$activity.apply_id}')" title="不通过" style="text-decoration: underline;">不通过</a> -->
+					{/if}
+					{if $activity.pass_status eq 2}
+					<!-- <a href="javascript:confirm_redirect('请确定添加优惠活动后再通过审核', 'activity_apply.php?act=pass&apply_id={$activity.apply_id}')" title="通过审核" style="text-decoration: underline;">通过审核</a> -->
+					{/if}
+					<a href="javascript:confirm_redirect('您确定要删除该条记录吗？', 'activity_apply.php?act=remove&apply_id={$activity.apply_id}')" title="删除" style="text-decoration: underline;">删除</a>
+				</td>
+			</tr>
+			{foreachelse}
+			<tr>
+				<td class="no-records" colspan="14">没有找到任何记录</td>
+			</tr>
+			{/foreach}
+			<tr>
+				<td colspan="2">
+					<input type="hidden" name="act" value="batch_remove" />
+					<input type="submit" id="btnSubmit" value="删除" disabled="true" class="button" />
+				</td>
+				<td align="right" nowrap="true" colspan="14">{include file="page.htm"}</td>
+			</tr>
+		</table>
+		{if $full_page}
+	</div>
+	<!-- end users list -->
+</form>
+<script type="text/javascript" language="JavaScript">
+<!--
+listTable.recordCount = {$record_count};
+listTable.pageCount = {$page_count};
+
+{foreach from=$filter item=item key=key}
+listTable.filter.{$key} = '{$item}';
+{/foreach}
+
+{literal}
+onload = function()
+{
+    document.forms['searchForm'].elements['keyword'].focus();
+    // 开始检查订单
+    startCheckOrder();
+}
+
+/**
+ * 搜索用户
+ */
+function searchUser()
+{
+    listTable.filter['keywords'] = Utils.trim(document.forms['searchForm'].elements['keyword'].value);
+    listTable.filter['page'] = 1;
+    listTable.loadList();
+}
+
+function confirm_bath()
+{
+  userItems = document.getElementsByName('checkboxes[]');
+
+  cfm = '您确定要删除所有选中的记录吗？';
+
+  for (i=0; userItems[i]; i++)
+  {
+    if (userItems[i].checked && userItems[i].notice == 1)
+    {
+      cfm = '{$lang.list_still_accounts}' + '您确定要删除所有选中的记录吗？';
+      break;
+    }
+  }
+
+  return confirm(cfm);
+}
+//-->
+</script>
+{/literal} {include file="pagefooter.htm"} {/if}

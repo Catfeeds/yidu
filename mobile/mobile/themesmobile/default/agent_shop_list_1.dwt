@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>业主店铺管理</title>
+    <meta name="keywords" content="业主店铺管理" />
+    <meta name="description" content="业主店铺管理" />
+</head>
+<body data-psd-width="840" >
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>业主店铺管理</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+<div class="sps bgc sps4">
+		<ul class="sps_list clearfix">
+			<li><a href="user.php?act=agent_shop_list&chuzu_status=0">未转出({$wait_chuzu})</a></li>
+			<li class="on"><a href="user.php?act=agent_shop_list&chuzu_status=1">待激活({$wait_jh})</a></li>
+			<li><a href="user.php?act=agent_shop_list&chuzu_status=2">已激活({$has_chuzu})</a></li>
+			<li><a href="user.php?act=agent_shop_list&chuzu_status=3">已过期({$has_guoqi})</a></li>
+		</ul>
+	</div>
+	<div class="nplace">
+		<ul class="nplace_list on">
+			{if $shop_list}
+			{foreach from=$shop_list item=shop}
+			<li>
+				<div class="clearfix recom_t">店铺号：{$shop.shop_code}<span>转出：{$shop.chuzu_time}</span></div>
+				<div class="recom_b">
+					<p>店主姓名: <span>{$shop.contacts_name}</span></p>
+					<p>店主手机：<span>{$shop.contacts_phone}</span></p>
+				</div>
+				<div class="zout cx clearfix"><a href="#">撤销转出</a></div>
+			</li>
+			{/foreach}
+			{/if}
+		</ul>
+	</div>
+</div>
+{if $shop_list}
+<!-- #BeginLibraryItem "/library/pages.lbi" --><!-- #EndLibraryItem -->
+{else}
+<p style="text-align: center; color: #666; font-size: 14px">暂时没有记录</p>
+{/if}
+<div class="zz">
+	<div class="zz_box">
+		<div class="zz_t clearfix"><h2>撤销店铺转出</h2> <em class="close"></em></div>
+		<div class="zz_b">
+			<p>撤销店铺转出后，店铺账号将被收回，确认撤销？</p>
+			<div class="zz_btn clearfix">
+				<a class="nbtn fl" href="#">取消</a>
+				<a class="btn fr" href="user.php?act=agent_cx_shop&shop_id={$shop.shop_id}">确定</a>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	$(function(){
+		var cx_url = $('.cx a').attr('href');
+
+		$('.cx a').click(function(){
+			$('.zz').show();
+			return false;
+		});
+		$('.zz .close').click(function(){
+			$('.zz').hide();
+			return false;
+		});
+		$('.zz .zz_btn a.nbtn').click(function(){
+			$('.zz').hide();
+			return false;
+		});
+		$('.zz .zz_btn a.btn').click(function(){
+			$('.zz').hide();
+		});
+	});
+</script>

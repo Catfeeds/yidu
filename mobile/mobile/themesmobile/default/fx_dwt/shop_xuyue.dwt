@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>店铺续约</title>
+    <meta name="keywords" content="店铺续约" />
+    <meta name="description" content="店铺续约" />
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>店铺租约</h2>
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="renew">
+		<div class="renew_t clearfix bgc pa3"><h2>店铺租约</h2></div>
+		<ul class="bgc pa3">
+			<li class="clearfix">
+				<div class="renew_l">12</div>
+				<div class="tit">
+					<h2>12个月自动续订</h2>
+					<p>{$shop_renter_cost_12}元</p>
+					<em class="shop_cost" style="display: none;">{$shop_renter_cost_12}</em>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="renew_l">9</div>
+				<div class="tit">
+					<h2>9个月自动续订</h2>
+					<p>{$shop_renter_cost_9}元</p>
+					<em class="shop_cost" style="display: none;">{$shop_renter_cost_9}</em>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="renew_l">6</div>
+				<div class="tit">
+					<h2>6个月自动续订</h2>
+					<p>{$shop_renter_cost_6}元</p>
+					<em class="shop_cost" style="display: none;">{$shop_renter_cost_6}</em>
+				</div>
+			</li>
+			<li class="clearfix">
+				<div class="renew_l">3</div>
+				<div class="tit">
+					<h2>3个月自动续订</h2>
+					<p>{$shop_renter_cost_3}元</p>
+					<em class="shop_cost" style="display: none;">{$shop_renter_cost_3}</em>
+				</div>
+			</li>
+		</ul>
+		<div class="clearfix sf pa3">
+			<p class="fr">实付金额：<span>￥<em id="xuyue_cost">0</em></span></p>
+		</div>
+	</div>
+	<div class="wzf pa3">
+		<form action="shop.php?act=xuyue_pay" method="post" id="pay_form">
+			<input type="hidden" name="pay_code" id="pay_code" value="">
+			<input type="hidden" name="month_num" id="month_num" value="">
+			<input type="hidden" name="shop_id" id="month_num" value="{$shop_info.shop_id}">
+			<input type="hidden" name="shop_code" id="month_num" value="{$shop_info.shop_code}">
+			<ul>
+				{if $iswei}
+				{foreach from=$payment item=list}
+				{if $list.pay_code eq "weixin"  || $list.pay_code eq "balance" || $list.pay_code eq "cod"}
+				<!-- <dl>
+					<dt><i><input type="radio" name="payment_id" class="f_checkbox_t" value="{$list.pay_id}" /></i><em>{$list.pay_name}&nbsp;&nbsp;</em></dt>
+				</dl> -->
+				<li><a href="javascript:void(0)" data-content="{$list.pay_code}" class="pay_action">{$list.pay_name}</a></li>
+				{/if}
+				{/foreach}
+				{else}
+					{if $app}
+						{foreach from=$payment item=list}
+						{if  $list.pay_code eq "weixin"  || $list.pay_code eq "alipay" || $list.pay_code eq "balance" || $list.pay_code eq "cod"}
+						<!-- <dl>
+							<dt><i><input type="radio" class="f_checkbox_t" name="payment_id" value="{$list.pay_id}" /></i><em>{$list.pay_name}&nbsp;&nbsp;</em></em></dt>
+						</dl> -->
+						<li><a href="javascript:void(0)" data-content="{$list.pay_code}" class="pay_action">{$list.pay_name}</a></li>
+						{/if}
+						{/foreach}
+					{else}
+						{foreach from=$payment item=list}
+						{if  $list.pay_code eq "alipay" || $list.pay_code eq "balance" || $list.pay_code eq "cod"}
+						<!-- <dl>
+							<dt><i><input type="radio" class="f_checkbox_t" name="payment_id" value="{$list.pay_id}" /></i><em>{$list.pay_name}&nbsp;&nbsp;</em></em></dt>
+						</dl> -->
+						<li><a href="javascript:void(0)" data-content="{$list.pay_code}" class="pay_action">{$list.pay_name}</a></li>
+						{/if}
+						{/foreach}
+					{/if}
+				{/if}
+			</ul>
+		</form>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+$(function(){
+	$('.renew ul li').click(function(){
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+		var month_num = $(this).children('.renew_l').text();
+		$('#month_num').val(month_num);
+
+		var xuyue_cost = parseInt($(this).children('.tit').children('.shop_cost').text());
+		$('#xuyue_cost').text(xuyue_cost);
+	});
+
+	$('.pay_action').click(function(event) {
+		var pay_code = $(this).attr('data-content');
+		$('#pay_code').val(pay_code);
+		$('#pay_form').submit();
+	});
+});
+</script>

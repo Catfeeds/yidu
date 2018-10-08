@@ -13,14 +13,14 @@
  *  define('ROOT_PATH',                     '网站根目录')
  *
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: cls_image.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: cls_image.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 if (!defined('IN_ECS'))
@@ -36,6 +36,7 @@ class cls_image
     var $data_dir    = DATA_DIR;
     var $bgcolor     = '';
     var $type_maping = array(1 => 'image/gif', 2 => 'image/jpeg', 3 => 'image/png');
+    var $create_pic_name = '';
 
     function __construct($bgcolor='')
     {
@@ -109,7 +110,7 @@ class cls_image
         }
 
         /* 允许上传的文件类型 */
-        $allow_file_types = '|GIF|JPG|JEPG|PNG|BMP|SWF|';
+        $allow_file_types = '|GIF|JPG|JEPG|JPEG|PNG|BMP|SWF|';
         if (!check_file_type($upload['tmp_name'], $img_name, $allow_file_types))
         {
             $this->error_msg = $GLOBALS['_LANG']['invalid_upload_image_type'];
@@ -209,14 +210,14 @@ class cls_image
 
         if ($org_info[0] / $thumb_width > $org_info[1] / $thumb_height)
         {
-            $lessen_width  = $thumb_width;
-            $lessen_height  = $thumb_width / $scale_org;
+            $lessen_width = $thumb_height * $scale_org;
+            $lessen_height = $thumb_height;
         }
         else
         {
             /* 原始图片比较高，则以高度为准 */
-            $lessen_width  = $thumb_height * $scale_org;
-            $lessen_height = $thumb_height;
+            $lessen_width = $thumb_width;
+            $lessen_height = $thumb_width / $scale_org;
         }
 
         $dst_x = ($thumb_width  - $lessen_width)  / 2;
@@ -235,7 +236,7 @@ class cls_image
         /* 创建当月目录 */
         if (empty($path))
         {
-            $dir = ROOT_PATH_WAP . $this->images_dir . '/' . date('Ym').'/';
+            $dir = ROOT_PATH . $this->images_dir . '/' . date('Ym').'/';
         }
         else
         {
@@ -256,24 +257,30 @@ class cls_image
         }
 
         /* 如果文件名为空，生成不重名随机文件名 */
-        $filename = $this->unique_name($dir);
+        if(empty($this->create_pic_name)){
+        	$filename = $this->unique_name($dir);
+        }else{
+        	$filename = $this->create_pic_name;
+        }
 
         /* 生成文件 */
+	/* wei2 修改 start by www.68ecshop.com */
         if (function_exists('imagejpeg'))
         {
             $filename .= '.jpg';
-            imagejpeg($img_thumb, $dir . $filename);
+            imagejpeg($img_thumb, $dir . $filename, 95);
         }
         elseif (function_exists('imagegif'))
         {
             $filename .= '.gif';
-            imagegif($img_thumb, $dir . $filename);
+            imagegif($img_thumb, $dir . $filename, 95);
         }
         elseif (function_exists('imagepng'))
         {
             $filename .= '.png';
-            imagepng($img_thumb, $dir . $filename);
+            imagepng($img_thumb, $dir . $filename, 95);
         }
+ 	/* wei2 修改 end by www.68ecshop.com */
         else
         {
             $this->error_msg = $GLOBALS['_LANG']['creating_failure'];
@@ -288,7 +295,7 @@ class cls_image
         //确认文件是否生成
         if (file_exists($dir . $filename))
         {
-            return str_replace(ROOT_PATH_WAP, '', $dir) . $filename;
+            return str_replace(ROOT_PATH, '', $dir) . $filename;
         }
         else
         {

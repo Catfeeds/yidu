@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="themesmobile/default/css/iosSelect.css">
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>开店申请资料填写</title>
+    <meta name="keywords" content="开店申请资料填写" />
+    <meta name="description" content="开店申请资料填写" />
+    <style>
+    	.addressmone em {
+    	    display: block;
+    	    float: right;
+    	    width: 75%;
+    	    text-align: left;
+    	}
+    	.addressmone input {
+    	    display: block;
+    	    float: left;
+    	    width: 98%;
+    	    background: #fff;
+    	    border: 1px solid #ccc;
+    	    /*font-size: 14px;*/
+    	    color: #333;
+    	    line-height: 35px;
+    	    text-indent: 10px;
+    	    -webkit-appearance: none;
+    	    -webkit-box-flex: 1;
+    	    -webkit-flex: 1;
+    	    flex: 1;
+    	    border-radius: 0;
+    	    -webkit-rtl-ordering: logical;
+    	    -webkit-user-select: text;
+    	}
+    	.addressmone select {
+    	    display: inline-block;
+    	    background: #fff;
+    	    width: 30%;
+    	    height: 35px;
+    	    /*font-size: 12px;*/
+    	    color: #333;
+    	    line-height: 35px;
+    	    border: 1px solid #ccc;
+    	    margin-right: 2%;
+    	    margin-top: 1%;
+    	    text-indent: 10px;
+    	    -webkit-appearance: none;
+    	    border-radius: 0;
+    	    background-repeat: no-repeat;
+    	    background-image: url(../images/down.png);
+    	    background-position: center right;
+    	    background-size: 23px 7px;
+    	    -webkit-box-flex: 1;
+    	    -webkit-flex: 1;
+    	    flex: 1;
+    	}
+        .data .put input{
+            font-size: 0.36rem;
+        }
+        .data .put textarea{
+            font-size: 0.34rem;
+        }
+        .rzen input{
+            font-size: 0.34rem;
+        }
+    </style>
+</head>
+<body data-psd-width="840">
+<div class="header">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>开店申请资料填写</h2>
+</div>
+<div class="content">
+	<form action="user.php?act=openshop_insert" method="post" enctype="multipart/form-data">
+		<div class="data bgc mt pa3">
+			<div class="put clearfix">
+				<span>申请人</span>
+				<input type="text" name="shop_name" id="shop_name">
+			</div>
+			<div class="put clearfix">
+				<span>联系电话</span>
+				<input type="text" name="phone" id="phone">
+			</div>
+			<!-- <div class="put clearfix">
+				<span>所在地区</span>
+				<div class="gr fr clearfix">
+			 		<div class="form-item item-line fr row_r" id="select_contact">
+						<div class="pc-box">
+						    <input type="hidden" name="contact_province_code" data-id="0001" id="contact_province_code" value="" data-province-name="">
+						    <input type="hidden" name="contact_city_code" placeholder="天河路600号" id="contact_city_code" value="" data-city-name=""><span data-city-code="510100" data-province-code="510000" data-district-code="510105" id="show_contact"> 广州</span>
+						</div>
+					</div>
+			 	</div>
+			</div> -->
+       		<div class="put clearfix addressmone">
+       			<span>所在地区</span>
+         		<em>
+         			<input name='country' value='1' type="hidden">
+    				<select name="province" id="selProvinces" onchange="region.changed(this, 2, 'selCities')" class="province_select" >
+                     	<option value="0">选择{$name_of_region[1]}</option>
+                      	<!-- {foreach from=$province_list item=province} -->
+                      	<option value="{$province.region_id}" {if $consignee.province eq $province.region_id}selected{/if}>{$province.region_name}</option>
+                      	<!-- {/foreach} -->
+                   	</select>
+
+	             	<select name="city" id="selCities" onchange="region.changed(this, 3, 'selDistricts')">
+                   		<option value="0">选择{$name_of_region[2]}</option>
+                      	<!-- {foreach from=$city_list item=city} -->
+                      	<option value="{$city.region_id}" {if $consignee.city eq $city.region_id}selected{/if}>{$city.region_name}</option>
+                      	<!-- {/foreach} -->
+                    </select>
+
+                    <select name="district" id="selDistricts" onchange="region.changed(this, 4, 'selXiangcun')" {if !$district_list}style="display:none"{/if}>
+                      	<option value="0">选择{$name_of_region[3]}</option>
+                      	<!-- {foreach from=$district_list item=district} -->
+                      	<option value="{$district.region_id}" {if $consignee.district eq $district.region_id}selected{/if}>{$district.region_name}</option>
+                      	<!-- {/foreach} -->
+                    </select>
+            	</em>
+        	</div>
+			<div class="put clearfix">
+				<span>详细地址</span>
+				<textarea name="address" id="address"></textarea>
+			</div>
+		</div>
+		<div class="rzen bgc mt pa3">
+			<p>实名认证</p>
+			<div class="put">
+				<input type="text" placeholder="请填写身份证号码" name="id_card_no" id="id_card_no">
+			</div>
+		</div>
+		<div class="chuan bgc mt ">
+			<div class="zheng">
+				<div class="tran"><input type="file" name="idcard_front" class="preview_zheng" id="idcard_front" onchange="imgPreview(this, 'preview_zheng')"></div>
+				<p>上传身份证正面</p>
+                <img id="preview_zheng" src="" style="display:none; height: 2.94rem;" />
+			</div>
+			<div class="fan">
+				<div class="tran"><input type="file" name="idcard_reverse" class="preview_fan" id="idcard_reverse" onchange="imgPreview(this, 'preview_fan')"></div>
+				<p>上传身份证背面</p>
+                <img id="preview_fan" src="" style="display:none; height: 2.94rem;" />
+			</div>
+			<div class="cond">
+				<h2>身份证照片要求：</h2>
+				<p>申请人持有的本人<span>有效</span>二代身份证；</p>
+				<p>拍摄时确保身份证 <span>边框完整，</span> <span>字体清晰</span>，<span>亮度均匀</span>；</p>
+				<div class="pic"><img src="themesmobile/default/images/img13.png"></div>
+			</div>
+			<input type="submit" class="submit" value="提交资料" name="">
+		</div>
+	</form>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<!-- <script src="themesmobile/default/js/fastclick.js"></script> -->
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/zepto.js"></script>
+<script src="themesmobile/default/js/iscroll.js"></script>
+<script src="themesmobile/default/js/areaData_v2.js"></script>
+<script src="themesmobile/default/js/iosSelect.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+{insert_scripts files='jquery.json.js,transport.js'}
+{insert_scripts files='common.js,utils.js','shopping_flow.js'}
+{insert_scripts files='region.js,shopping_flow.js'}
+<script>
+	//单独页面上的js
+	$(function(){
+		var selectContactDom = $('#select_contact');
+	    var showContactDom = $('#show_contact');
+	    var contactProvinceCodeDom = $('#contact_province_code');
+	    var contactCityCodeDom = $('#contact_city_code');
+	    selectContactDom.bind('click', function () {
+	        var sccode = showContactDom.attr('data-city-code');
+	        var scname = showContactDom.attr('data-city-name');
+
+	        var oneLevelId = showContactDom.attr('data-province-code');
+	        var twoLevelId = showContactDom.attr('data-city-code');
+	        var threeLevelId = showContactDom.attr('data-district-code');
+	        var iosSelect = new IosSelect(3,
+	            [iosProvinces, iosCitys, iosCountys],
+	            {
+	                title: '地址选择',
+	                itemHeight: 35,
+	                relation: [1, 1, 0, 0],
+	                oneLevelId: oneLevelId,
+	                twoLevelId: twoLevelId,
+	                threeLevelId: threeLevelId,
+	                callback: function (selectOneObj, selectTwoObj, selectThreeObj) {
+	                    contactProvinceCodeDom.val(selectOneObj.id);
+	                    contactProvinceCodeDom.attr('data-province-name', selectOneObj.value);
+	                    contactCityCodeDom.val(selectTwoObj.id);
+	                    contactCityCodeDom.attr('data-city-name', selectTwoObj.value);
+
+	                    showContactDom.attr('data-province-code', selectOneObj.id);
+	                    showContactDom.attr('data-city-code', selectTwoObj.id);
+	                    showContactDom.attr('data-district-code', selectThreeObj.id);
+	                    showContactDom.html(selectOneObj.value + ' ' + selectTwoObj.value + ' ' + selectThreeObj.value);
+	                }
+	        });
+	    });
+
+	    $("input[type='submit']").click(function(event) {
+	    	if (!$('#shop_name').val()) {
+	    		alert('请填写申请人');
+	    		return false;
+	    	}
+	    	if (!$('#phone').val()) {
+	    		alert('请填写联系电话');
+	    		return false;
+	    	}
+	    	if (!$("#phone").val().match(/^(\d{11})$/)) {
+	    		alert("手机号码格式不正确");
+	    		return false;
+	    	}
+	    	if (!$('#selProvinces').val() || !$('#selCities').val() || !$('#selDistricts').val()) {
+	    		alert('请选择省市区');
+	    		return false;
+	    	}
+	    	if (!$('#address').val()) {
+	    		alert('请填写详细地址');
+	    		return false;
+	    	}
+	    	if (!$('#id_card_no').val()) {
+	    		alert('请填写身份证号码');
+	    		return false;
+	    	}
+	    	if (!$('#idcard_front').val()) {
+	    		alert('请上传身份证正面照');
+	    		return false;
+	    	}
+	    	if (!$('#idcard_reverse').val()) {
+	    		alert('请上传身份证反面照');
+	    		return false;
+	    	}
+	    });
+	});
+
+    function imgPreview(fileDom, preview){
+        var self = $(fileDom);
+        //判断是否支持FileReader
+        if (window.FileReader) {
+            var reader = new FileReader();
+        } else {
+            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+        }
+
+        //获取文件
+        var file = fileDom.files[0];
+        var imageType = /^image\//;
+        //是否是图片
+        if (!imageType.test(file.type)) {
+            alert("请选择图片！");
+            return;
+        }
+        //读取完成
+        reader.onload = function(e) {
+            //获取图片dom
+            var img = $('#'+preview);
+            //图片路径设置为读取的图片
+            img.attr('src', e.target.result).show();
+            self.parent('.tran').hide()
+            self.parent('.tran').siblings('p').hide();
+            self.parent('.tran').parent('div').css('padding-top', 0);
+            $('#'+preview).attr("onclick","wj('"+preview+"');");
+
+        };
+        reader.readAsDataURL(file);
+    }
+    function wj(id) {
+
+        $('.'+id).click();
+    }
+</script>

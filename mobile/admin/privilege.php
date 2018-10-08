@@ -3,14 +3,14 @@
 /**
  * ECSHOP 管理员信息以及权限管理程序
  * ============================================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * * 版权所有 2005-2012 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ============================================================================
- * $Author: derek $
- * $Id: privilege.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: privilege.php 17217 2011-01-19 06:29:08Z liubo $
 */
 
 define('IN_ECS', true);
@@ -67,6 +67,7 @@ if ($_REQUEST['act'] == 'login')
 /*------------------------------------------------------ */
 elseif ($_REQUEST['act'] == 'signin')
 {
+    // var_dump((intval($_CFG['captcha']) & CAPTCHA_ADMIN));exit;
     if (!empty($_SESSION['captcha_word']) && (intval($_CFG['captcha']) & CAPTCHA_ADMIN))
     {
         include_once(ROOT_PATH . 'includes/cls_captcha.php');
@@ -114,6 +115,9 @@ elseif ($_REQUEST['act'] == 'signin')
         // 登录成功
         set_admin_session($row['user_id'], $row['user_name'], $row['action_list'], $row['last_login']);
         $_SESSION['suppliers_id'] = $row['suppliers_id'];
+		//dqy add start 2012-12-10
+		$_SESSION['user_name'] =$row['user_name'];
+		//dqy add end 2012-12-10
 		if(empty($row['ec_salt']))
 	    {
 			$ec_salt=rand(1,9999);
@@ -205,10 +209,7 @@ elseif ($_REQUEST['act'] == 'add')
 elseif ($_REQUEST['act'] == 'insert')
 {
     admin_priv('admin_manage');
-    if($_POST['token']!=$_CFG['token'])
-    {
-         sys_msg('add_error', 1);
-    }
+
     /* 判断管理员是否已经存在 */
     if (!empty($_POST['user_name']))
     {
@@ -233,7 +234,7 @@ elseif ($_REQUEST['act'] == 'insert')
 
     /* 获取添加日期及密码 */
     $add_time = gmtime();
-    
+
     $password  = md5($_POST['password']);
     $role_id = '';
     $action_list = '';
@@ -334,10 +335,6 @@ elseif ($_REQUEST['act'] == 'update' || $_REQUEST['act'] == 'update_self')
     $admin_email = !empty($_REQUEST['email'])     ? trim($_REQUEST['email'])     : '';
     $ec_salt=rand(1,9999);
     $password = !empty($_POST['new_password']) ? ", password = '".md5(md5($_POST['new_password']).$ec_salt)."'"    : '';
-    if($_POST['token']!=$_CFG['token'])
-    {
-         sys_msg('update_error', 1);
-    }
     if ($_REQUEST['act'] == 'update')
     {
         /* 查看是否有权限编辑其他管理员的信息 */
@@ -381,7 +378,7 @@ elseif ($_REQUEST['act'] == 'update' || $_REQUEST['act'] == 'update_self')
     if (!empty($_POST['new_password']))
     {
         /* 查询旧密码并与输入的旧密码比较是否相同 */
-        $sql = "SELECT password FROM ".$ecs->table('admin_user')." WHERE user_id = '$admin_id'";
+        /*$sql = "SELECT password FROM ".$ecs->table('admin_user')." WHERE user_id = '$admin_id'";
         $old_password = $db->getOne($sql);
 		$sql ="SELECT ec_salt FROM ".$ecs->table('admin_user')." WHERE user_id = '$admin_id'";
         $old_ec_salt= $db->getOne($sql);
@@ -397,7 +394,7 @@ elseif ($_REQUEST['act'] == 'update' || $_REQUEST['act'] == 'update_self')
         {
            $link[] = array('text' => $_LANG['go_back'], 'href'=>'javascript:history.back(-1)');
            sys_msg($_LANG['pwd_error'], 0, $link);
-        }
+        }*/
 
         /* 比较新密码和确认密码是否相同 */
         if ($_POST['new_password'] <> $_POST['pwd_confirm'])
@@ -631,10 +628,7 @@ elseif ($_REQUEST['act'] == 'allot')
 elseif ($_REQUEST['act'] == 'update_allot')
 {
     admin_priv('admin_manage');
-    if($_POST['token']!=$_CFG['token'])
-    {
-         sys_msg('update_allot_error', 1);
-    }
+
     /* 取得当前管理员用户名 */
     $admin_name = $db->getOne("SELECT user_name FROM " .$ecs->table('admin_user'). " WHERE user_id = '$_POST[id]'");
 
@@ -731,8 +725,11 @@ function clear_cart()
     $valid_sess = $GLOBALS['db']->getCol($sql);
 
     // 删除cart中无效的数据
+
+	$time_valid = gmtime() - 86400*7;
     $sql = "DELETE FROM " . $GLOBALS['ecs']->table('cart') .
-            " WHERE session_id NOT " . db_create_in($valid_sess);
+            " WHERE  add_time < '". $time_valid ."' AND  session_id NOT " . db_create_in($valid_sess);
+
     $GLOBALS['db']->query($sql);
 }
 
@@ -747,3 +744,4 @@ function get_role_list()
 }
 
 ?>
+

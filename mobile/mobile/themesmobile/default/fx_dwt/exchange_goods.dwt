@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+    <link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>抽奖中心</title>
+    <script src="themesmobile/default/js/jquery.js"></script>
+    <script type="text/javascript" src="themesmobile/default/js/jquery.more.js"></script>
+</head>
+<style type="text/css">
+    .more_loader_spinner{
+        text-align: center;
+    }
+    .more_loader_spinner img{
+        width: 25px
+    }
+    #J_ItemList ul {
+        width: 50%;
+        float: left;
+    }
+    #J_ItemList .more_loader_spinner .jiazai{
+        clear: both;
+    }
+    .pick .pick_con ul li{
+        width: 1.58rem;
+        margin-left: 0rem;
+        margin-right: 0.3rem;
+        margin-top: 0.1rem;
+        word-break:break-all; 
+    }
+
+</style>
+<body data-psd-width="840">
+<div id="page1">
+    <div class="header">
+        <a class="back" href="index.php"></a>
+        <h2>抽奖中心</h2>
+        <div class="share" onclick="tiaozhuan()"><a href=""></a></div>
+        <div class="list"></div>
+        <!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+    </div>
+    <form action="exchange.php?act=buy" method="post" name="ECS_FORMBUY" id="ECS_FORMBUY" >
+        <div class="content">
+            <div class="acivi clearfix">
+                <div class="pic acivi_l"><img src="themesmobile/default/images/img6.png"></div>
+                <div class="acivi_r">
+                    <a class="gui1" href="###">抽奖规则</a>
+                    <div  class="times">
+                        <div class="time_t">
+                            <h2>今日开奖号</h2>
+                            <div class="num clearfix">{if $exchange_lucky} <span>{$exchange_lucky}</span>{else}<span style="width: 1.46rem">未开奖</span>{/if}</div>
+                        </div>
+                        <div class="time_b">
+                            <h2>下期开奖时间</h2>
+                            <div class="num clearfix"><span>{$s1}</span><span>年</span><span>{$s2}</span><span>月</span><span>{$s3}</span><span>日</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="acivi2 pa3 clearfix">
+                <a href="#sss">立即参加</a>
+                <a href="#J_ItemList">更多奖品</a>
+            </div>
+            <div class="acivi3 pa3">
+                <div class="acivi3_box">
+                    <div class="swiper-container ting_t fl">
+                        <div class="swiper-wrapper">
+                            {foreach from=$user_info item=kk}
+                            <div class="swiper-slide swiper-no-swiping ac"><h2>{$kk[stage]}期</h2></div>
+                            {foreach from=$kk[arr] item=r}
+                            <div class="swiper-slide swiper-no-swiping"><div class="nahp clearfix">{$r[user_name]} <span>手机号码：{$r[mobile_phone]}</span></div></div>
+                            {/foreach}
+                            {/foreach}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sss">
+                <div class="acivi4" id="dom">
+                    <div class="jqu"><h2>热门奖区</h2></div>
+                    <div class="banner2_box bgc">
+                        <div class="bannerx ">
+                            <div class="swiper-wrapper">
+                                {foreach from=$hot item=goods}
+                                <div class="swiper-slide">
+                                    <a onclick="dd({$goods.goods_id})">
+                                        <div class="pic"><img src="./../{$goods.goods_thumb}"></div>
+                                        <p>{$goods.goods_name|truncate:18}</p>
+                                        <span>¥{$goods.exchange_integral}</span>
+                                    </a>
+                                </div>
+                                {/foreach}
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="acivi5 mt bgc">
+                <div class="jqu"><h2>抽奖奖品</h2></div>
+                <script type="text/javascript">
+                    var url = 'exchange.php?act=ajax_list';
+                    $(function(){
+                        $('#J_ItemList').more({
+                            'address': url,
+                            'data':{'sort':'{$sort}','order':'DESC'},
+                        });
+                    });
+                </script>
+                <div id="J_ItemList" class="jiang_box pa3 ">
+                    <ul class="single_item info jiang clearfix">
+
+
+                    </ul>
+                    <a href="javascript:;" class="get_more" style="text-align:center; display:block;"> </a>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+        <div class="zz" >
+            <div class="rule">
+                <div class="rule_t">
+                    <h2>抽奖规则</h2>
+                    <em class="rule_x"></em>
+                </div>
+                <div class="rule_con">
+                    <p>
+                        1、购物前先参加抽彩活动，中奖几率高达1/28,参加只需产品价格5% <br>
+                        2、手机短信通知会员抽奖序号（1~28）<br>
+                        3、中奖依据当日上海股市收盘指数末3码除28的余数+1<br>
+                        4、幸运中奖者，中奖产品在七日内送达，现金则冲抵产品税金<br>
+                        5、未中奖者，参加易乐透的金额自动转为购物币，可至易度店选购等值商品（购物币可以累积使用）<br>
+                        6、提交订单后，请在10分钟内付款，过期后系统会自动取消该订单<br>
+                        7、抽奖的最后结果和苹果公司无关
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="zz3">
+            <div class="pick">
+                <div class="pick_t clearfix">
+                    <div id="goods">
+
+                    </div>
+                    <div class="close3"></div>
+                </div>
+                <!-- {* 开始循环所有可选属性 *} -->
+                <div id="guige1">
+
+                </div>
+
+                <!-- 规格长度  -->
+                <input type="hidden" value="" id="specification_length"></input>
+
+                <!-- 价格  -->
+                <input type="hidden" value="" id="pp"></input>
+                <!-- 数量  -->
+                <input type="hidden" value="" id="nn"></input>
+
+                <div id="str3">
+
+                </div>
+            </div>
+        </div>
+</div>
+<!-- <div class="zz4">
+  <div class="thi">
+    <div class="thi_t">
+      <span></span>
+      <span></span>
+    </div>
+    <div class="tit"><img src="themesmobile/default/images/icon60.png"></div>
+    <div class="pic"><img src="themesmobile/default/images/icon61.png"></div>
+    <div style="height: 1rem"></div>
+    <a class="part" href="">参加抽奖</a>
+  </div>
+</div> -->
+<div id="page2" style="display: none">
+    <div class="header">
+        <div class="back" onclick="fanhui()"></div>
+        <h2>充值抽奖</h2>
+    </div>
+    <div class="content">
+        <div class="luck">
+            <p>抽奖充值金额（元） </p>
+            <h2 id="cz"></h2>
+        </div>
+        <div class="zf_sty bgc mt pa3">
+            <ul>
+            {if $is_weixin eq 1}
+                <li class="clearfix on" onclick="payment(7)">微信</li>
+                <input type="hidden" id="payment" name="payment" value="7"></input>
+            {else}
+                <li class="clearfix on" onclick="payment(1)">支付宝</li>
+                <input type="hidden" id="payment" name="payment" value="1"></input>
+            {/if}
+                <!--<li class="clearfix" onclick="payment(3)">银行卡</li>-->
+
+            </ul>
+        </div>
+        <!-- 支付 -->
+        
+        <div class="fbtn pa3"><a onclick="tj()">立即充值</a></div>
+    </div>
+</div>
+<!-- 商品id -->
+<input type="hidden" name="goods_id" id="ii" value="" />
+
+
+
+
+</form>
+</body>
+</html>
+
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+    //单独页面上的js
+    $('.danx label').click(function(){
+        $(this).toggleClass('on')
+    })
+    $('.us2_t span').click(function(){
+        var num=$(this).index();
+        $(this).siblings().removeClass('on');
+        $(this).addClass('on');
+        $('.us_b ul').removeClass('on');
+        $('.us_b ul').eq(num).addClass('on');
+    })
+    var mybanner = new Swiper('.bannerx',{
+        pagination : '.swiper-pagination',
+        paginationClickable :true,
+        touchRatio : 0.5,
+        autoplay : 5000,
+        autoplayDisableOnInteraction : false,
+        slidesPerView: 3,
+    });
+    var focusSwiper2 = new Swiper('.ting_t',{
+        loop: true,
+        direction: 'vertical',
+        autoplay: 3000,
+        autoHeight: true,
+        noSwiping : true,
+        slidesPerView: 7,
+    })
+    focusSwiper2.detachEvents();
+    $('.gui1').click(function(){
+        $('.zz').show();
+    })
+    $('.zz .rule_x').click(function(){
+        $('.zz').hide();
+    })
+    $('.cj a').click(function(){
+        $('.zz3').fadeIn();
+        $('.zz4').fadeIn();
+    });
+    $('.thi span').click(function(){
+        $('.zz4').fadeOut();
+    });
+    $('.close3').click(function(){
+        $('.zz3').fadeOut();
+
+    });
+    $('.pick_con ul li').click(function(){
+        $(this).addClass('on');
+        $(this).siblings().removeClass('on');
+    })
+</script>
+<script type="text/javascript">
+    function changeAtt(t, goods_id) {
+        $("#spec_value_" + goods_id).attr('checked','checked');
+
+        for (var i = 0; i<t.parentNode.childNodes.length;i++) {
+
+            if (t.parentNode.childNodes[i].className == 'cattsel on') {
+                t.parentNode.childNodes[i].className = '';
+
+            }
+        }
+        t.className = "cattsel on";
+
+        //返回已选属性
+        var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+        $.ajax({
+            url:'exchange.php?act=attr',
+            data:{'attr': attr},
+            timeout:8000,
+            type:'post',
+            datatype:'text',
+            success:function(msg){
+                $('#xuan').html(msg)
+
+            }
+        });
+
+        var len = $('.cattsel').length;
+        if (len*1 == $('#specification_length').val()*1) {
+            // alert(attr);
+            //改变抽奖价格
+            $.ajax({
+                url:'exchange.php?act=price',
+                data:{'attr': attr},
+                timeout:8000,
+                type:'post',
+                datatype:'text',
+                success:function(msg){
+                    var kk2 = msg*1 + $('#pp').val()*1;
+                    var kk = kk2.toFixed(1);
+                    $('#price').html(kk);
+                    var kk3 = $('#number').val() * kk;
+                    var kk1 = kk3.toFixed(1);
+                    $('#price1').html(kk1)
+                    $('#cz').html(kk1)
+
+                }
+            });
+        }
+    }
+
+    function getSelectedAttributes(formBuy)
+    {
+        var spec_arr = new Array();
+        var j = 0;
+
+        for (i = 0; i < formBuy.elements.length; i ++ )
+        {
+            var prefix = formBuy.elements[i].name.substr(0, 5);
+
+            if (prefix == 'spec_' && formBuy.elements[i].type == 'radio'  && formBuy.elements[i].checked )
+            {
+                spec_arr[j] = formBuy.elements[i].value;
+                j++ ;
+            }
+        }
+        return spec_arr;
+    }
+
+
+
+</script>
+
+<script language="javascript" type="text/javascript">
+    function goods_cut(){
+        var num_val=document.getElementById('number');
+        var new_num=num_val.value;
+        var Num = parseInt(new_num);
+        if(Num>1){
+            Num=Num-1;
+            num_val.value=Num;
+            var kk1 = $('#price').html()*Num;
+            var kk = kk1.toFixed(1);
+            $('#price1').html(kk);
+            $('#cz').html(kk);
+            $('#num').html(Num)
+        }
+
+    }
+    function goods_add(){
+        var num_val=document.getElementById('number');
+        var new_num=num_val.value;
+        var Num = parseInt(new_num);
+        if (Num < $('#nn').val()*1) {
+            Num=Num+1;
+            num_val.value=Num;
+            var kk1 = $('#price').html()*Num;
+            var kk = kk1.toFixed(1);
+            $('#price1').html(kk)
+            $('#cz').html(kk);
+            $('#num').html(Num)
+        }
+
+    }
+
+    function uu(id){
+
+        if (id <1 || isNaN(id) || id > $('#nn').val()*1) {
+            alert('请正确填写数量')
+            $('#number').val('1')
+        }else{
+            var kk1 = $('#price').html()*id;
+            var kk = kk1.toFixed(1);
+            $('#price1').html(kk)
+            $('#cz').html(kk);
+            $('#num').html(id)
+        }
+    }
+
+    function submit_btn(){
+        var len = $('.cattsel').length;
+        if (len*1 == $('#specification_length').val()*1) {
+            $('#page1').hide();
+            $('#page2').show();
+        }else{
+            alert('请选择商品规格');
+            return false;
+        }
+    }
+
+    function fanhui(){
+        $('#page2').hide();
+        $('#page1').show();
+    }
+    function payment(id){
+        $('#payment').val(id);
+    }
+    function tj(){
+        var a = $('#payment').val();
+        if (a == '') {
+            alert('请选择支付方式')
+        }else{
+            ECS_FORMBUY.submit();
+        }
+    }
+
+</script>
+
+
+
+<script>
+    //单独页面上的js
+
+    $('.zf_sty ul li').click(function(){
+        $(this).siblings().removeClass('on');
+        $(this).addClass('on');
+    })
+</script>
+<script type="text/javascript">
+
+    function dd(id) {
+        $.ajax({
+            url:'exchange.php?act=vv',
+            data:{'id': id},
+            type:'post',
+            datatype:'json',
+            success:function(msg){
+                data=eval("("+msg+")");
+                $('#goods').html(data.goods);
+                $('#guige1').html(data.guige1);
+                $('#specification_length').val(data.specification_length);
+                $('#str3').html(data.str3);
+                $('#pp').val(data.pp);
+                $('#cz').html(data.pp);
+                $('#nn').val(data.nn);
+                $('#ii').val(data.ii);
+                $('.zz3').fadeIn();
+
+            }
+        });
+    }
+
+    function tiaozhuan(){
+        window.location.href="share_goods.php";
+    }
+
+
+</script>

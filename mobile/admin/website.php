@@ -156,6 +156,12 @@ elseif($_REQUEST['act']  == 'query_install' || $_REQUEST['act'] == 'update_websi
 	//$app_secret = getChar('app_secret');
 	
 	$rank_name = getChar('rank_name');
+	/* 检查是否存在重名的会员等级 */
+	$exc = new exchange($ecs->table("user_rank"), $db, 'rank_id', 'rank_name');
+	if (!$exc->is_only('rank_name',$rank_name))
+	{
+		sys_msg(sprintf('用户等级名称已存在！', $rank_name), 1);
+	}
 	$rank_id  = getInt('rank_id');
 	$query = $_REQUEST['act']  == 'query_install';
 	$olb_rank_name = getChar('olb_rank_name');
@@ -239,12 +245,14 @@ elseif($_REQUEST['act'] == 'init')
 
 function getInt($name , $def = 0)
 {
-	return empty($_REQUEST[$name]) ? $def : intval($_REQUEST[$name]);
+	$name_data = filter_var($_REQUEST[$name],FILTER_SANITIZE_STRING);
+	return empty($name_data) ? $def : intval($name_data);
 }
 
 function getChar($name , $def = '')
 {
-	return empty($_REQUEST[$name]) ? $def : htmlspecialchars(trim($_REQUEST[$name]));
+	$name_data = filter_var($_REQUEST[$name],FILTER_SANITIZE_STRING);
+	return empty($name_data) ? $def : htmlspecialchars(trim($name_data));
 }
 
 function getWebsiteList()

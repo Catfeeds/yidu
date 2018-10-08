@@ -26,7 +26,14 @@ form {
 input, textarea, select {
   font: 12px "courier new";
 }
-
+select{
+	font-family : Trebuchet MS;
+	 margin: 5px;
+	  border: solid 1px #ddd;
+  padding: 4px;
+  line-height: 20px;
+  *padding:4px;
+}
 a:visited {
   color: #335B64;
   text-decoration: none;

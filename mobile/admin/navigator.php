@@ -3,14 +3,14 @@
 /**
  * ECSHOP 程序说明
  * ===========================================================
- * * 版权所有 2008-2015 广州市互诺计算机科技有限公司，并保留所有权利。
- * 网站地址: http://www.hunuo.com;
+ * 版权所有 2005-2011 上海商派网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.ecshop.com；
  * ----------------------------------------------------------
  * 这不是一个自由软件！您只能在不用于商业目的的前提下对程序代码进行修改和
  * 使用；不允许对程序代码以任何形式任何目的的再发布。
  * ==========================================================
- * $Author: derek $
- * $Id: navigator.php 17217 2011-01-19 06:29:08Z derek $
+ * $Author: liubo $
+ * $Id: navigator.php 17217 2011-01-19 06:29:08Z liubo $
  */
 
 define('IN_ECS', true);
@@ -361,17 +361,21 @@ function get_sysnav()
 {
     global $_LANG;
     $sysmain = array(
-        array($_LANG['view_cart'],'flow.php'),
-        array($_LANG['pick_out'],'pick_out.php'),
-        array($_LANG['group_buy_goods'],'group_buy.php'),
-        array($_LANG['snatch'],'snatch.php'),
-        array($_LANG['tag_cloud'],'tag_cloud.php'),
+        array($_LANG['view_cart'],'flow.php'),     
         array($_LANG['user_center'],'user.php'),
-        array($_LANG['wholesale'], 'wholesale.php'),
         array($_LANG['activity'], 'activity.php'),
-        array($_LANG['myship'], 'myship.php'),
-        array($_LANG['message_board'], 'message.php'),
-        array($_LANG['quotation'], 'quotation.php'),
+		array($_LANG['pro_sale'], 'pro_sale.php'),
+	    array($_LANG['auction'], 'auction.php'),
+	   	array($_LANG['package'],'package.php'),
+		array($_LANG['pro_search'],'pro_search.php'),
+        array($_LANG['exchange'], 'exchange.php'),
+		
+        array($_LANG['kuaidi'], 'kuaidi.php'),
+	    array($_LANG['scan'], 'scan.php'),
+		
+		array($_LANG['article_list'], 'article_list.php'),
+		array($_LANG['stores'],'stores.php'),
+        
         );
 
     $sysmain[] = array('-','-');

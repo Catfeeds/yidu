@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>{include file='library/weixinfenxiang.lbi'}
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" />
+	<link href="themesmobile/default/css/swiper-3.4.1.min.css" type="text/css" rel="stylesheet" />
+	<link href="themesmobile/default/css/style.css" type="text/css" rel="stylesheet" />
+    <title>我的店铺</title>
+    <meta name="keywords" content="我的店铺" />
+    <meta name="description" content="我的店铺" />
+</head>
+<body data-psd-width="840">
+<div class="header f0">
+	<div class="back" onclick="history.go(-1)"></div>
+	<h2>我的店铺</h2>
+	<!-- <div class="share"><a href=""></a></div> -->
+	<!-- #BeginLibraryItem "/library/top_nav.lbi" --><!-- #EndLibraryItem -->
+</div>
+<div class="content">
+	<div class="shopinf clearfix pa3">
+		<div class="shopinf_l fl">
+			<h2>{$shop_name}</h2>
+			<p>店铺号：{$shop_code}</p>
+		</div>
+		<div class="shopinf_r fr">
+			<a class="a2" href="user.php?act=shop_zuyue">租约</a>
+			<a class="a1" href="user.php">个人中心</em></a>
+			<a class="a2" href="javascript:alert('http://'+window.location.host+'/supplier/privilege.php?act=login')">查看后台地址</a>
+		</div>
+	</div>
+	<!-- //2018 wenjun start  -->
+	<!-- {if $exchange_goods} -->
+	<div class="tprize clearfix bgc mt " >
+		<a href="goods.php?id={$exchange_goods.goods_id}&ex=1&supplier_id={$supplier_id}">
+			<div class="pic fl"><img style="height: 100%" src="./../{if $exchange_goods.goods_thumb}{$exchange_goods.goods_thumb}{else}$exchange_goods.goods_img{/if}"></div>
+			<div class="tit fl" style="margin-left: 0.25rem;max-width: 4.85rem">
+				<h2>今日乐透奖品</h2>
+				<p><span style="margin-right: 0rem">商品名：{$exchange_goods.goods_name}</span></p>
+				<p><span style="margin-right: 0rem">价格：{$exchange_goods.exchange_integral}元</span></p>
+			</div>
+		</a>
+	</div>
+	<!-- {/if} -->
+	<!-- wenjun end  -->
+	<div class="manage bgc mt">
+		<ul class="clearfix">
+			<li><a href="shop.php?act=order_list">
+				<div class="pic"><img src="themesmobile/default/images/icon45.png" alt=""></div>
+				<p>订单管理</p>
+			</a></li>
+			<li><a href="shop.php?act=comment_list">
+				<div class="pic"><img src="themesmobile/default/images/icon46.png" alt=""></div>
+				<p>评价处理</p>
+			</a></li>
+			<li><a href="shop.php?act=fans_list">
+				<div class="pic"><img src="themesmobile/default/images/icon47.png" alt=""></div>
+				<p>消费会员</p>
+			</a></li>
+			<!-- <li><a href="shop.php?act=goods_apply_list">
+				<div class="pic"><img src="themesmobile/default/images/icon48.png" alt=""></div>
+				<p>我的商品</p>
+			</a></li> -->
+			<li><a href="shop.php?act=shop_activity">
+				<div class="pic"><img src="themesmobile/default/images/icon49.png" alt=""></div>
+				<p>我的活动</p>
+			</a></li>
+			<li><a href="shop.php?act=goods_list&goods_type=1">
+				<div class="pic"><img src="themesmobile/default/images/icon50.png" alt=""></div>
+				<p>商品管理</p>
+			</a></li>
+			<li style="border-bottom: 1px solid #d9d9d9"><a href="shop.php?act=sales_log">
+				<div class="pic"><img src="themesmobile/default/images/icon51.png" alt=""></div>
+				<p>销售额</p>
+			</a></li>
+			<li><a href="user.php?act=account_raply">
+				<div class="pic"><img src="themesmobile/default/images/icon52.png" alt=""></div>
+				<p>提现</p>
+			</a></li>
+			<li><a href="user.php?act=account_detail">
+				<div class="pic"><img src="themesmobile/default/images/icon53.png" alt=""></div>
+				<p>现金对账单</p>
+			</a></li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>
+<script src="themesmobile/default/js/jquery.js"></script>
+<script src="themesmobile/default/js/rem.js"></script>
+<script src="themesmobile/default/js/fastclick.js"></script>
+<script src="themesmobile/default/js/swiper-3.4.1.jquery.min.js"></script>
+<script src="themesmobile/default/js/js.js"></script>
+<script>
+	//单独页面上的js
+	$('.danx label').click(function(){
+		$(this).toggleClass('on')
+	})
+	$('.us2_t span').click(function(){
+		var num=$(this).index();
+		$(this).siblings().removeClass('on');
+		$(this).addClass('on');
+		$('.us_b ul').removeClass('on');
+		$('.us_b ul').eq(num).addClass('on');
+	})
+</script>

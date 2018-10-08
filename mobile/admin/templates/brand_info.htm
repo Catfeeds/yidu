@@ -14,7 +14,7 @@
   <tr>
     <td class="label"><a href="javascript:showNotice('warn_brandlogo');" title="{$lang.form_notice}">
         <img src="images/notice.gif" width="16" height="16" border="0" alt="{$lang.form_notice}"></a>{$lang.brand_logo}</td>
-    <td><input type="file" name="brand_logo" id="logo" size="45">{if $brand.brand_logo neq ""}<input type="button" value="{$lang.drop_brand_logo}" onclick="if (confirm('{$lang.confirm_drop_logo}'))location.href='brand.php?act=drop_logo&id={$brand.brand_id}'">{/if}
+    <td><input type="file" name="brand_logo" id="logo" size="45">{if $brand.brand_logo neq ""}<input type="button" value="{$lang.drop_brand_logo}" onclick="if (confirm('{$lang.confirm_drop_logo}'))location.href='brand.php?act=drop_logo&id={$brand.brand_id}'">{/if}&nbsp;<span style="color:red;">最佳尺寸为：200px*110px</span>
     <br /><span class="notice-span" {if $help_open}style="display:block" {else} style="display:none" {/if} id="warn_brandlogo">
     {if $brand.brand_logo eq ''}
     {$lang.up_brandlogo}
@@ -25,24 +25,8 @@
     </td>
   </tr>
   <tr>
-
-    <td class="label">{$lang.brand_img}</td>
-
-    <td><input type="file" name="brand_img" id="img" size="45">{if $brand.brand_img neq ""}<input type="button" value="{$lang.drop_brand_logo}" onclick="if (confirm('{$lang.confirm_drop_logo}'))location.href='brand.php?act=drop_img&id={$brand.brand_id}'">{/if}
-
-  <p>
-    <span style=" color:#F30;">*&nbsp;注:&nbsp;上传品牌大图，在品牌详情页展示</span>
-    </p>
-    </td>
-
-  </tr>
-
-  <tr>
-
     <td class="label">{$lang.brand_desc}</td>
-
-    <td><textarea  name="brand_desc" cols="60" rows="4"  >{$brand.wap_brand_desc}</textarea></td>
-
+    <td><textarea  name="brand_desc" cols="60" rows="4"  >{$brand.brand_desc}</textarea></td>
   </tr>
   <tr>
     <td class="label">{$lang.sort_order}</td>
