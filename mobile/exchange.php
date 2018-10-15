@@ -70,6 +70,7 @@ if($_REQUEST['act'] == 'ajax_list'){
     $json   = new JSON;
 
     $goodslist = get_exchange_goods_list( $limit );
+    //
 // print_r($goodslist);exit;
     foreach($goodslist as $key=>$val){
         $GLOBALS['smarty']->assign('goods',$val);
@@ -935,9 +936,14 @@ function ajax_exchange_get_goods($children, $min, $max, $ext, $limit, $sort,$goo
     }
 
     /* 获得商品列表 */
-    $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, eg.exchange_integral,eg.exchange_number, ' .
+    // $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, eg.exchange_integral,eg.exchange_number, ' .
+    //     'g.goods_type, g.goods_brief, g.goods_thumb , g.goods_img, eg.is_hot ' .
+    //     'FROM ' . $GLOBALS['ecs']->table('exchange_goods') . ' AS eg, ' .$GLOBALS['ecs']->table('goods') . ' AS g ' .
+    //     "WHERE eg.goods_id = g.goods_id AND $where $ext ORDER BY $sort $order";
+    $sql = 'SELECT g.goods_id, g.goods_name, g.goods_name_style, eg.exchange_integral,count(o.id) as exchange_number, ' .
         'g.goods_type, g.goods_brief, g.goods_thumb , g.goods_img, eg.is_hot ' .
         'FROM ' . $GLOBALS['ecs']->table('exchange_goods') . ' AS eg, ' .$GLOBALS['ecs']->table('goods') . ' AS g ' .
+        "LEFT JOIN ".$GLOBALS['ecs']->table('order_info')." AS o ON o.extension_id=eg.goods_id AND o.pay_status=2 AND o.order_status=1 AND o.extension_num='' ".
         "WHERE eg.goods_id = g.goods_id AND $where $ext ORDER BY $sort $order";
     $sql .= " $limit";
     // print_r($sql);exit;
