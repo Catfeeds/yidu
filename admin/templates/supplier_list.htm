@@ -44,7 +44,7 @@
                 <th>状态</th>
                 <th>申请时间</th>
                 <th>后台登录账号</th>
-                <th>后台登录密码</th>
+                <!-- <th>后台登录密码</th> -->
                 <th>{$lang.handler}</th>
             </tr>
             {foreach from=$supplier_list item=supplier}
@@ -60,7 +60,7 @@
                 <td align="center">{$supplier.status_name}</td>
                 <td align="center">{$supplier.add_time}</td>
                 <td align="center">{$supplier.supplier_user_name}</td>
-                <td align="center">{$supplier.pwd}</td>
+                <!-- <td align="center">{$supplier.pwd}</td> -->
                 <td align="center">
                     <a href="supplier.php?act=edit&id={$supplier.supplier_id}&status={$status}" title="{$lang.view}">{$lang.view}</a>
                     {if $supplier.status > 0 && $supplier.open > 0}

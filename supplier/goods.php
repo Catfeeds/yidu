@@ -3660,7 +3660,7 @@ elseif ($_REQUEST['act'] == 'toggle_best')
 
 
 
-    if ($exc->edit("is_best = '$is_best', last_update=" .gmtime(), $goods_id))
+    if ($exc->edit("supplier_is_best = '$is_best', last_update=" .gmtime(), $goods_id))
 
     {
 
@@ -3694,7 +3694,7 @@ elseif ($_REQUEST['act'] == 'toggle_new')
 
 
 
-    if ($exc->edit("is_new = '$is_new', last_update=" .gmtime(), $goods_id))
+    if ($exc->edit("supplier_is_new = '$is_new', last_update=" .gmtime(), $goods_id))
 
     {
 
@@ -3728,7 +3728,7 @@ elseif ($_REQUEST['act'] == 'toggle_hot')
 
 
 
-    if ($exc->edit("is_hot = '$is_hot', last_update=" .gmtime(), $goods_id))
+    if ($exc->edit("supplier_is_hot = '$is_hot', last_update=" .gmtime(), $goods_id))
 
     {
 
